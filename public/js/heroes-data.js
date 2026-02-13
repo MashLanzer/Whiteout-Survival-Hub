@@ -159,6 +159,15 @@ const heroesData = [
         stats: { atk: 99, def: 75, hp: 82 }
     },
     {
+        name: "Ahmose", tier: "S", gen: 4, type: "Infantería", mode: ["pvp", "arena"],
+        desc: "Experto en mitigación de daño y contraataques. Protege a sus aliados con un escudo místico.",
+        skills: "Barrera Divina, Contraataque Solar",
+        bestFor: "Liderar defensas en Rallies, Arena",
+        story: "Un antiguo soberano despertado para proteger el mundo del hielo eterno.",
+        tips: "Su habilidad pasiva reduce el daño recibido por toda su fila.",
+        stats: { atk: 88, def: 98, hp: 95 }
+    },
+    {
         name: "Lynn", tier: "S", gen: 4, type: "Tiradores", mode: ["arena", "pvp"],
         desc: "Limpia efectos de control y potencia el daño crítico.",
         skills: "Limpieza de Control, Melodía de Batalla",
@@ -275,13 +284,13 @@ const heroesData = [
         stats: { atk: 85, def: 88, hp: 92 }
     },
     {
-        name: "Xura", tier: "S+", gen: 9, type: "Tiradores", mode: ["arena", "pvp"],
-        desc: "Asesina de sombras con ejecución letal a bajos HP.",
-        skills: "Sombra del Viento, Ejecución",
+        name: "Xura", tier: "S+", gen: 8, type: "Lanceros", mode: ["arena", "pvp"],
+        desc: "Velocidad de ataque inigualable y sangrado masivo. Comanda el sigilo y el veneno.",
+        skills: "Sombra del Viento, Ejecución Letal",
         bestFor: "Arena Top, Rematar enemigos",
-        story: "Conocida como 'Windbreaker', maestra del sigilo y el veneno.",
-        tips: "Su skill 'Ejecución' elimina objetivos al instante si tienen poco HP.",
-        stats: { atk: 99, def: 72, hp: 80 }
+        story: "Conocida como 'Windbreaker', maestra del sigilo que ahora lidera las fuerzas de élite.",
+        tips: "Su velocidad de ataque le permite aplicar efectos de sangrado mucho más rápido que otros héroes.",
+        stats: { atk: 99, def: 78, hp: 82 }
     },
 
     // GENERACIÓN 10

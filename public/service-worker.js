@@ -2,7 +2,7 @@
 // SERVICE WORKER - WHITEOUT SURVIVAL HUB PWA
 // ============================================
 
-const CACHE_VERSION = 'wos-hub-v1.0.6';
+const CACHE_VERSION = 'wos-hub-v1.1.2';
 const CACHE_NAME = `whiteout-survival-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -26,7 +26,14 @@ const urlsToCache = [
     'js/events-api.js',
     'js/advanced-calculators.js',
     'js/global-search.js',
-    'js/heroes-data.js'
+    'js/heroes-data.js',
+    'guides/hero-guide.html',
+    'guides/building-priority.html',
+    'guides/bear-hunt-tips.html',
+    'guides/recursos-f2p.html',
+    'guides/svs-strategy.html',
+    'guides/arena-pvp.html',
+    'guides/tips-generales.html'
 ];
 
 // Install event - cache files
@@ -55,6 +62,11 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event
 self.addEventListener('fetch', (event) => {
+    // IGNORAR PETICIONES NO-HTTP (extensiones de chrome, esquemas raros)
+    if (!event.request.url || !event.request.url.startsWith('http')) {
+        return;
+    }
+
     if (event.request.method !== 'GET') return;
 
     // ESTRATEGIA: NETWORK FIRST para HTML (Navigación)

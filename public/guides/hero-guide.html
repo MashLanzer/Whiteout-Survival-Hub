@@ -19,157 +19,336 @@
             --gen-highlight: #ffcc00;
         }
 
-        /* Hero Database Layout */
-        .hero-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            position: sticky;
-            top: 70px;
-            z-index: 100;
-            backdrop-filter: blur(15px);
+        /* Guide Layout Improvements */
+        .hero-academy-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .filter-group {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .hero-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1.5rem;
+        .academy-controls {
+            background: rgba(13, 18, 28, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: -40px auto 3rem;
             position: relative;
-            transition: 0.3s;
+            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            min-width: 140px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
             cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: black;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        /* Hero Grid */
+        .academy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding-bottom: 5rem;
+        }
+
+        /* Premium Guide Card */
+        .academy-card {
+            background: #161b28;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .academy-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-image-box {
+            position: relative;
+            height: 350px;
             overflow: hidden;
         }
 
-        .hero-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--gen-highlight);
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
         }
 
-        .hero-gen {
+        .academy-card:hover .card-image-box img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 0.7rem;
-            font-weight: 900;
-            background: rgba(255, 204, 0, 0.1);
-            color: var(--gen-highlight);
-            padding: 3px 10px;
-            border-radius: 50px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1.5rem 1rem;
+            background: linear-gradient(to top, #161b28 20%, transparent);
         }
 
-        .hero-class {
+        .card-badges {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 700;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .a-badge {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .a-badge.gen {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .a-badge.tier-s-plus {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+        }
+
+        .a-badge.tier-s {
+            background: linear-gradient(135deg, #0099ff, #00d2ff);
+        }
+
+        .a-badge.tier-a {
+            background: linear-gradient(135deg, #ff8c00, #ffae00);
+        }
+
+        .card-info {
+            padding: 0 1.5rem 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-type {
+            font-size: 0.7rem;
+            color: var(--primary);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             margin-bottom: 0.5rem;
         }
 
-        .hero-name {
-            font-size: 1.4rem;
+        .card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             font-weight: 900;
             color: white;
             margin-bottom: 1rem;
         }
 
-        /* Detail Modal */
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-stats-mini {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+        }
+
+        .mini-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .mini-stat i {
+            width: 14px;
+            height: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .academy-controls {
+                padding: 1.5rem;
+                margin-top: -30px;
+            }
+
+            .filter-section {
+                gap: 1rem;
+            }
+
+            .filter-label {
+                min-width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 5px;
+            }
+
+            .academy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal Ultra-Z-Index & Visibility Fix */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(0, 0, 0, 0.9);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 999999;
+            /* Max possible */
             backdrop-filter: blur(10px);
-            padding: 2rem;
+            padding: 20px;
         }
 
         .hero-modal {
-            background: var(--bg-dark);
-            width: 100%;
+            background: #121826;
+            width: 95%;
             max-width: 900px;
-            max-height: 90vh;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            overflow-y: auto;
+            max-height: 85vh;
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            /* Ver muelle de carga */
             position: relative;
-            animation: modalScale 0.3s ease-out;
-            padding: 0;
+            z-index: 1000000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.3);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
         }
 
-        @keyframes modalScale {
+        @keyframes modalFadeIn {
             from {
-                transform: scale(0.9);
                 opacity: 0;
+                transform: translateY(30px);
             }
 
             to {
-                transform: scale(1);
                 opacity: 1;
+                transform: translateY(0);
             }
-        }
-
-        .modal-header {
-            background: linear-gradient(to right, rgba(0, 242, 255, 0.1), transparent);
-            padding: 3rem 2rem;
-            border-bottom: 1px solid var(--border);
-            position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 20px;
+            right: 20px;
             color: white;
             cursor: pointer;
-            z-index: 1010;
+            z-index: 10;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            flex-grow: 1;
         }
 
         .modal-content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            padding: 2rem;
         }
 
         .stat-bar-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .stat-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
+            margin-bottom: 5px;
             font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .stat-bar-bg {
-            height: 6px;
+            height: 8px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
@@ -177,32 +356,22 @@
         .stat-bar-fill {
             height: 100%;
             border-radius: 10px;
-            box-shadow: 0 0 10px currentColor;
+            transition: width 0.8s ease;
         }
 
         .synergy-list {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .synergy-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .synergy-hero-mini {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 12px;
         }
 
         @media (max-width: 768px) {
@@ -210,8 +379,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .hero-controls {
-                top: 60px;
+            .hero-modal {
+                max-height: 95vh;
             }
         }
     </style>
@@ -228,294 +397,251 @@
     </nav>
 
     <header class="guide-header"
-        style="background: linear-gradient(to bottom, rgba(10, 14, 23, 0.8), var(--bg-dark)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop');">
+        style="background: linear-gradient(to bottom, rgba(10, 14, 23, 0.9), var(--bg-dark)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop');">
         <span class="category-badge" style="background: var(--hero-lancer); color: #000;">Hero Academy</span>
         <h1>🎓 Academia de Héroes: Gen 1-10</h1>
-        <p class="guide-subtitle">La enciclopedia definitiva de combate y sinergias</p>
+        <p class="guide-subtitle">La enciclopedia estratégica de Whiteout Survival</p>
         <div class="meta-info">
-            <span><i data-lucide="shield"></i> 30 Héroes</span>
+            <span><i data-lucide="shield"></i> <span id="hero-count">0</span> Héroes</span>
+            <span><i data-lucide="award"></i> Tier List Real</span>
             <span><i data-lucide="zap"></i> Stats Máximos</span>
-            <span><i data-lucide="users"></i> Sinergias</span>
         </div>
     </header>
 
-    <article class="guide-article">
-        <div class="hero-controls">
-            <div class="filter-group">
-                <span style="font-size: 0.8rem; font-weight: 800; color: var(--text-gray);">FILTRAR POR GEN:</span>
-                <div class="filter-chip active" onclick="filterGen('all')">Todos</div>
-                <div class="filter-chip" onclick="filterGen('1-2')">Early (1-2)</div>
-                <div class="filter-chip" onclick="filterGen('3-5')">Mid (3-5)</div>
-                <div class="filter-chip" onclick="filterGen('6-10')">Elite (6-10)</div>
+    <main class="hero-academy-container">
+        <div class="academy-controls">
+            <div class="filter-section">
+                <div class="filter-label">Filtrar Generación</div>
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterGen('all', this)">Todas</button>
+                    <button class="filter-btn" onclick="filterGen('1-2', this)">Generation 1-2</button>
+                    <button class="filter-btn" onclick="filterGen('3-5', this)">Generation 3-5</button>
+                    <button class="filter-btn" onclick="filterGen('6-10', this)">Generation 6-10</button>
+                </div>
             </div>
-            <div class="filter-group">
-                <span style="font-size: 0.8rem; font-weight: 800; color: var(--text-gray);">CLASE:</span>
-                <div class="filter-chip" onclick="filterClass('Infantería')">🛡️ Infantería</div>
-                <div class="filter-chip" onclick="filterClass('Lancero')">🔱 Lancero</div>
-                <div class="filter-chip" onclick="filterClass('Tirador')">🏹 Tirador</div>
+            <div class="filter-section">
+                <div class="filter-label">Filtrar Clase</div>
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterClass('all', this)"><i data-lucide="layout"></i>
+                        Todas</button>
+                    <button class="filter-btn" onclick="filterClass('Infantería', this)"><i data-lucide="shield"></i>
+                        Infantería</button>
+                    <button class="filter-btn" onclick="filterClass('Lanceros', this)"><i data-lucide="zap"></i>
+                        Lanceros</button>
+                    <button class="filter-btn" onclick="filterClass('Tiradores', this)"><i data-lucide="crosshair"></i>
+                        Tiradores</button>
+                </div>
             </div>
         </div>
 
-        <div class="hero-grid" id="main-hero-grid">
-            <!-- Hero Card: Kasia -->
-            <div class="hero-card" onclick="openHero('Kasia')" data-gen="Elite" data-class="Lancero">
-                <span class="hero-gen">ELITE</span>
-                <div class="hero-class" style="color: var(--hero-lancer);"><i data-lucide="zap"></i> Lancero</div>
-                <div class="hero-name">Kasia</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">Control de masas y daño masivo a bestias con su
-                    oso Kasia.</p>
-                <div class="stat-badge-list" style="margin-top: 1rem;">
-                    <span class="stat-badge"
-                        style="background: rgba(0, 242, 255, 0.1); color: var(--hero-lancer);">Bestia Meta</span>
-                </div>
-            </div>
-
-            <!-- Hero Card: Jeronimo -->
-            <div class="hero-card" onclick="openHero('Jeronimo')" data-gen="1" data-class="Infantería">
-                <span class="hero-gen">GEN 1</span>
-                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
-                </div>
-                <div class="hero-name">Jeronimo</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">El tanque legendario. NUNCA sale del meta
-                    absoluto.</p>
-                <div class="stat-badge-list" style="margin-top: 1rem;">
-                    <span class="stat-badge"
-                        style="background: rgba(255, 62, 62, 0.1); color: var(--hero-infantry);">PvP God</span>
-                </div>
-            </div>
-
-            <!-- Hero Card: Flint -->
-            <div class="hero-card" onclick="openHero('Flint')" data-gen="2" data-class="Infantería">
-                <span class="hero-gen">GEN 2</span>
-                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
-                </div>
-                <div class="hero-name">Flint</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">Buff masivo de ataque para toda la marcha
-                    (+25%).</p>
-            </div>
-
-            <!-- Hero Card: Ahmose -->
-            <div class="hero-card" onclick="openHero('Ahmose')" data-gen="4" data-class="Infantería">
-                <span class="hero-gen">GEN 4</span>
-                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
-                </div>
-                <div class="hero-name">Ahmose</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">Experto en mitigación de daño y contraataques.
-                </p>
-            </div>
-
-            <!-- Hero Card: Sonya -->
-            <div class="hero-card" onclick="openHero('Sonya')" data-gen="6" data-class="Tirador">
-                <span class="hero-gen">GEN 6</span>
-                <div class="hero-class" style="color: var(--hero-marksman);"><i data-lucide="target"></i> Tirador</div>
-                <div class="hero-name">Sonya</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">Daño crítico devastador y reducción de defensa
-                    enemiga.</p>
-            </div>
-
-            <!-- Hero Card: Xura -->
-            <div class="hero-card" onclick="openHero('Xura')" data-gen="8" data-class="Lancero">
-                <span class="hero-gen">GEN 8</span>
-                <div class="hero-class" style="color: var(--hero-lancer);"><i data-lucide="zap"></i> Lancero</div>
-                <div class="hero-name">Xura</div>
-                <p style="font-size: 0.85rem; color: var(--text-gray);">Velocidad de ataque inigualable y sangrado
-                    masivo.</p>
-            </div>
-
-            <!-- More heroes would be added here -->
+        <div id="academy-grid" class="academy-grid">
+            <!-- Dinamically loaded -->
         </div>
-    </article>
+    </main>
 
-    <!-- Modal System -->
+    <!-- Modal remains the same as previous functional version but styled better -->
     <div class="modal-overlay" id="heroModal">
         <div class="hero-modal">
             <div class="close-modal" onclick="closeHero()"><i data-lucide="x-circle" size="32"></i></div>
-
             <div class="modal-header" id="modalHeader">
-                <span class="hero-gen" id="modalGen">GEN 1</span>
-                <div class="hero-class" id="modalClass" style="color: var(--hero-infantry);"></div>
-                <div class="hero-name" id="modalName" style="font-size: 2.5rem;">Jeronimo</div>
-                <p id="modalQuote" style="font-style: italic; opacity: 0.8;"></p>
+                <span class="a-badge gen" id="modalGen"></span>
+                <div class="card-type" id="modalClass"></div>
+                <div class="card-name" id="modalName" style="font-size: 3rem; text-align: left; margin: 0;"></div>
+                <p id="modalQuote" style="font-style: italic; opacity: 0.8; margin-top: 10px;"></p>
             </div>
-
-            <!-- Scrollable Content Corridor -->
-            <div style="padding: 2rem; max-height: 60vh; overflow-y: auto;">
+            <div class="modal-body">
                 <div class="modal-content-grid">
-                    <!-- Column 1: Core Stats & Lore -->
                     <div>
                         <h4
                             style="margin-bottom: 1.5rem; color: var(--gen-highlight); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-                            <i data-lucide="bar-chart-3"></i> Estadísticas Base</h4>
-
+                            📊 Stats Máximos</h4>
                         <div class="stat-bar-group">
-                            <div class="stat-row"><span>Ataque</span><span id="statAtk">9,800</span></div>
+                            <div class="stat-row"><span>Ataque</span><span id="statAtk"></span></div>
                             <div class="stat-bar-bg">
-                                <div class="stat-bar-fill" id="barAtk"
-                                    style="width: 85%; background: var(--hero-infantry);"></div>
+                                <div class="stat-bar-fill" id="barAtk"></div>
                             </div>
                         </div>
-
                         <div class="stat-bar-group">
-                            <div class="stat-row"><span>Defensa</span><span id="statDef">12,500</span></div>
+                            <div class="stat-row"><span>Defensa</span><span id="statDef"></span></div>
                             <div class="stat-bar-bg">
-                                <div class="stat-bar-fill" id="barDef"
-                                    style="width: 95%; background: var(--hero-infantry);"></div>
+                                <div class="stat-bar-fill" id="barDef"></div>
                             </div>
                         </div>
-
                         <div class="stat-bar-group">
-                            <div class="stat-row"><span>Salud (HP)</span><span id="statHp">15,200</span></div>
+                            <div class="stat-row"><span>Salud</span><span id="statHp"></span></div>
                             <div class="stat-bar-bg">
-                                <div class="stat-bar-fill" id="barHp" style="width: 90%; background: #00ff88;"></div>
+                                <div class="stat-bar-fill" id="barHp"></div>
                             </div>
                         </div>
-
-                        <div style="margin-top: 2rem;">
-                            <h4 style="margin-bottom: 1rem;"><i data-lucide="book-open"></i> Historia Original</h4>
+                        <div style="margin-top: 1.5rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="book-open"></i> Historia</h4>
                             <p id="modalLore" style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;"></p>
                         </div>
-
-                        <div style="margin-top: 2rem;">
-                            <h4 style="margin-bottom: 1rem;"><i data-lucide="wand-2"></i> Habilidades</h4>
-                            <p id="modalSkills"
-                                style="font-size: 0.9rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 12px;">
-                            </p>
-                        </div>
                     </div>
-
-                    <!-- Column 2: Strategy & Synergies -->
                     <div>
                         <h4
                             style="margin-bottom: 1.5rem; color: var(--gen-highlight); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-                            <i data-lucide="link"></i> Sinergias y Lineups</h4>
-                        <div class="synergy-list" id="modalSynergies"></div>
-
-                        <div style="margin-top: 2rem;">
-                            <h4 style="margin-bottom: 1rem;"><i data-lucide="target"></i> Uso Óptimo e Ideas</h4>
-                            <p id="modalOptimum" style="font-size: 0.9rem; color: white; font-weight: 600;"></p>
-                        </div>
-
+                            🔗 Sinergias y Tips</h4>
+                        <div id="modalSynergies" class="synergy-list"></div>
                         <div style="margin-top: 1.5rem;">
-                            <h4 style="margin-bottom: 1rem;"><i data-lucide="lightbulb"></i> Estrategia y Consejos</h4>
-                            <p id="modalStrategyText"
-                                style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;"></p>
-                        </div>
-
-                        <div style="margin-top: 2rem;">
-                            <h4 style="margin-bottom: 1rem;"><i data-lucide="layout"></i> Modos Recomendados</h4>
-                            <div id="modalModes" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="target"></i> Estrategia</h4>
+                            <p id="modalStrategy" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-gray);">
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div style="padding: 1.5rem; border-top: 1px solid var(--border); text-align: right;">
                 <button class="btn primary" onclick="closeHero()">Cerrar Expediente</button>
             </div>
         </div>
     </div>
 
+    <script src="../js/heroes-data.js"></script>
     <script>
-        const heroData = {
-            'Kasia': {
-                gen: 'ELITE', class: 'Lancero', quote: '"Kasia y yo cuidamos el uno del otro."',
-                atk: '10,850', def: '11,200', hp: '14,500',
-                barAtk: '88%', barDef: '82%', barHp: '85%',
-                lore: 'Prodigio de la ecología que puede hablar con los animales. Su oso Kasia es su única familia y su protector más feroz en el páramo.',
-                skills: 'Beast Slayer, Impacto Sísmico, Compañero Oso',
-                optimum: 'Bear Hunt, Aturdimiento masivo en Arena.',
-                strategyText: 'Su "Impacto Sísmico" puede aturdir a varios enemigos a la vez, lo que la hace brutal en Arena contra formaciones compactas.',
-                modes: ['PVE', 'BEAR', 'ARENA'],
-                synergies: [
-                    { name: 'Bahiti', reason: 'Combo Daño Bestia' },
-                    { name: 'Jeronimo', reason: 'Sustain con Tanque' },
-                    { name: 'Molly', reason: 'Control de Masas' }
-                ]
-            },
-            'Jeronimo': {
-                gen: '1', class: 'Infantería', quote: '"Un muro que el tiempo no puede derribar."',
-                atk: '9,820', def: '12,450', hp: '16,000',
-                barAtk: '75%', barDef: '95%', barHp: '98%',
-                lore: 'Un veterano de mil batallas cuyo escudo ha salvado innumerables vidas durante la gran helada.',
-                skills: 'Shield Wall, Iron Will, Guardian Strike',
-                optimum: 'Defensa de ciudades y primera línea en Rallies.',
-                strategyText: 'Es mejor cuando se combina con sanadores como Molly para extender su longevidad en batallas de larga duración.',
-                modes: ['PVP', 'DEFENSE', 'ARENA'],
-                synergies: [
-                    { name: 'Molly', reason: 'Doble Sustain + CC' },
-                    { name: 'Alonso', reason: 'Protección para Sniper' }
-                ]
-            },
-            'Flint': {
-                gen: '2', class: 'Infantería', quote: '"El fuego lidera el camino."',
-                atk: '11,200', def: '11,800', hp: '15,500',
-                barAtk: '90%', barDef: '85%', barHp: '90%',
-                lore: 'Líder nato que utiliza la pirotecnia para inspirar y destruir en el campo de batalla.',
-                skills: 'Solar Flare, Fire Burst, Phoenix Soul',
-                optimum: 'Bear Hunt y Ataque PvP agresivo.',
-                strategyText: 'Su buff de ataque es global para la marcha, lo que lo hace el mejor compañero para cualquier DPS de Gen 2 o 3.',
-                modes: ['PVP', 'BEAR', 'EXPEDITION'],
-                synergies: [
-                    { name: 'Alonso', reason: 'Combo de Burst Daño' },
-                    { name: 'Philly', reason: 'Balance de Stats Gen 2' }
-                ]
-            }
-            // Additional hero data would be added here
-        };
+        let genFilter = 'all';
+        let classFilter = 'all';
 
-        function openHero(name) {
-            const data = heroData[name];
-            if (!data) return;
+        function renderAcademy() {
+            const grid = document.getElementById('academy-grid');
+            grid.innerHTML = '';
 
-            document.getElementById('modalName').innerText = name;
-            document.getElementById('modalGen').innerText = 'GEN ' + data.gen;
-            document.getElementById('modalClass').innerText = data.class;
-            document.getElementById('modalQuote').innerText = data.quote;
+            const filtered = heroesData.filter(h => {
+                let mGen = true;
+                if (genFilter === '1-2') mGen = h.gen <= 2;
+                else if (genFilter === '3-5') mGen = h.gen >= 3 && h.gen <= 5;
+                else if (genFilter === '6-10') mGen = h.gen >= 6;
 
-            document.getElementById('statAtk').innerText = data.atk;
-            document.getElementById('statDef').innerText = data.def;
-            document.getElementById('statHp').innerText = data.hp;
-            document.getElementById('barAtk').style.width = data.barAtk;
-            document.getElementById('barDef').style.width = data.barDef;
-            document.getElementById('barHp').style.width = data.barHp;
-
-            document.getElementById('modalLore').innerText = data.lore;
-            document.getElementById('modalSkills').innerText = data.skills;
-            document.getElementById('modalOptimum').innerText = data.optimum;
-            document.getElementById('modalStrategyText').innerText = data.strategyText;
-
-            // Status bar colors based on class
-            const color = data.class === 'Infantería' ? 'var(--hero-infantry)' :
-                data.class === 'Lancero' ? 'var(--hero-lancer)' : 'var(--hero-marksman)';
-
-            document.getElementById('modalClass').style.color = color;
-            document.getElementById('barAtk').style.background = color;
-            document.getElementById('barDef').style.background = color;
-
-            // Render Modes
-            const modesContainer = document.getElementById('modalModes');
-            modesContainer.innerHTML = '';
-            data.modes.forEach(mode => {
-                modesContainer.innerHTML += `<span class="priority-tag max" style="font-size:0.7rem;">${mode}</span>`;
+                let mClass = classFilter === 'all' || h.type === classFilter;
+                return mGen && mClass;
             });
 
-            // Render Synergies
-            const synergyContainer = document.getElementById('modalSynergies');
-            synergyContainer.innerHTML = '';
-            data.synergies.forEach(syn => {
-                synergyContainer.innerHTML += `
-                    <div class="synergy-item">
-                        <div class="synergy-hero-mini" style="border: 2px solid var(--gen-highlight)">${syn.name[0]}</div>
-                        <div>
-                            <div style="font-weight: 800; font-size: 0.9rem;">${syn.name}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-gray);">${syn.reason}</div>
+            document.getElementById('hero-count').textContent = filtered.length;
+
+            filtered.forEach(hero => {
+                const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
+                const localImage = `../images/${imageName}.webp?v=2.0`;
+                const tier = hero.tier.toLowerCase().replace('+', 'plus');
+                const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=300&background=1a2233&color=ffffff&bold=true`;
+
+                const card = document.createElement('div');
+                card.className = 'academy-card';
+                card.onclick = () => openHero(hero.name);
+                card.innerHTML = `
+                    <div class="card-image-box">
+                        <img src="${localImage}" alt="${hero.name}" onerror="this.src='${placeholder}'">
+                        <div class="card-badges">
+                            <span class="a-badge tier-${tier}">${hero.tier}</span>
+                            <span class="a-badge gen">Gen ${hero.gen}</span>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-type">${hero.type}</div>
+                        <div class="card-name">${hero.name}</div>
+                        <p class="card-desc">${hero.desc}</p>
+                        <div class="card-stats-mini">
+                            <div class="mini-stat"><i data-lucide="zap"></i> ${hero.stats.atk}</div>
+                            <div class="mini-stat"><i data-lucide="shield"></i> ${hero.stats.def}</div>
+                            <div class="mini-stat"><i data-lucide="heart"></i> ${hero.stats.hp}</div>
                         </div>
                     </div>
                 `;
+                grid.appendChild(card);
             });
+            lucide.createIcons();
+        }
 
-            document.getElementById('heroModal').style.display = 'flex';
+        function filterGen(val, el) {
+            genFilter = val;
+            updateBtns('.filter-section:first-child .filter-btn', el);
+            renderAcademy();
+        }
+
+        function filterClass(val, el) {
+            classFilter = val;
+            updateBtns('.filter-section:nth-child(2) .filter-btn', el);
+            renderAcademy();
+        }
+
+        function updateBtns(selector, activeEl) {
+            document.querySelectorAll(selector).forEach(b => b.classList.remove('active'));
+            activeEl.classList.add('active');
+        }
+
+        function openHero(name) {
+            console.log("Opening hero:", name);
+            const hero = heroesData.find(h => h.name.toLowerCase() === name.toLowerCase());
+
+            if (!hero) {
+                console.error("Hero not found:", name);
+                return;
+            }
+
+            // Abrir el modal ANTES de procesar nada para evitar bloqueos visuales
+            const modal = document.getElementById('heroModal');
+            modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+
+            try {
+                // Información básica con fallbacks
+                document.getElementById('modalName').innerText = hero.name || "Héroe Desconocido";
+                document.getElementById('modalGen').innerText = 'GENERACIÓN ' + (hero.gen || "?");
+                document.getElementById('modalClass').innerText = hero.type || "Clase Especial";
+                document.getElementById('modalQuote').innerText = hero.desc || "Sin descripción disponible.";
+
+                // Stats con fallbacks (evita que se rompa si hero.stats no existe)
+                const stats = hero.stats || { atk: 10, def: 10, hp: 10 };
+                document.getElementById('statAtk').innerText = (stats.atk * 10).toLocaleString();
+                document.getElementById('statDef').innerText = (stats.def * 12).toLocaleString();
+                document.getElementById('statHp').innerText = (stats.hp * 15).toLocaleString();
+
+                document.getElementById('barAtk').style.width = (stats.atk || 10) + '%';
+                document.getElementById('barDef').style.width = (stats.def || 10) + '%';
+                document.getElementById('barHp').style.width = (stats.hp || 10) + '%';
+
+                // Colores según clase
+                const colors = { 'Infantería': '#ff6e6e', 'Lanceros': '#00f2ff', 'Tiradores': '#00ff88' };
+                const color = colors[hero.type] || '#00d2ff';
+                document.getElementById('barAtk').style.backgroundColor = color;
+                document.getElementById('barDef').style.backgroundColor = color;
+                document.getElementById('barHp').style.backgroundColor = color;
+
+                // Tips e Historia
+                document.getElementById('modalStrategy').innerText = hero.tips || "Estrategia en desarrollo...";
+                document.getElementById('modalLore').innerText = hero.story || "La historia de este héroe aún no ha sido registrada.";
+
+                // Sinergias (Seguro contra undefined y vacíos)
+                const synergyGrid = document.getElementById('modalSynergies');
+                synergyGrid.innerHTML = '';
+
+                if (hero.synergy && typeof hero.synergy === 'string') {
+                    hero.synergy.split(',').forEach(s => {
+                        const sName = s.trim();
+                        if (sName) {
+                            synergyGrid.innerHTML += `
+                                <div class="synergy-item">
+                                    <div class="synergy-hero-mini" style="background: ${color}">${sName[0].toUpperCase()}</div>
+                                    <div>
+                                        <div style="font-weight: 800;">${sName}</div>
+                                        <div style="font-size: 0.7rem;">Sinergia Óptima</div>
+                                    </div>
+                                </div>`;
+                        }
+                    });
+                } else {
+                    synergyGrid.innerHTML = '<p style="font-size: 0.8rem; color: var(--text-gray);">Datos de sinergia en investigación...</p>';
+                }
+
+                // Habilidades clave
+                const skillsEl = document.getElementById('modalSkills');
+                if (skillsEl) {
+                    skillsEl.innerText = hero.skills || "Habilidades estándar de clase.";
+                }
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Error al llenar el modal:", err);
+            }
         }
 
         function closeHero() {
@@ -523,17 +649,12 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Close on backdrop click
-        window.onclick = function (event) {
-            if (event.target == document.getElementById('heroModal')) {
-                closeHero();
-            }
-        }
+        window.onclick = e => { if (e.target.id === 'heroModal') closeHero(); };
 
-        function filterGen(genRange) { console.log("Filtering Gen:", genRange); }
-        function filterClass(className) { console.log("Filtering Class:", className); }
-
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAcademy();
+            lucide.createIcons();
+        });
     </script>
 </body>
 
