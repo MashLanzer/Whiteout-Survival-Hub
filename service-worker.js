@@ -2,7 +2,7 @@
 // SERVICE WORKER - WHITEOUT SURVIVAL HUB PWA
 // ============================================
 
-const CACHE_VERSION = 'wos-hub-v1.0.5';
+const CACHE_VERSION = 'wos-hub-v1.0.6';
 const CACHE_NAME = `whiteout-survival-${CACHE_VERSION}`;
 
 // Files to cache for offline use

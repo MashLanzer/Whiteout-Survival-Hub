@@ -207,6 +207,160 @@
             border: 1px solid #ff00ff;
             box-shadow: 0 0 10px #ff00ff44;
         }
+
+        /* TACTICAL SECTOR MATRIX STYLES */
+        .tabs-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 4rem auto;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        .type-tab {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            text-transform: uppercase;
+            font-family: 'Outfit', sans-serif;
+            clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%);
+        }
+
+        .sector-id {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-size: 0.6rem;
+            font-weight: 900;
+            opacity: 0.3;
+            letter-spacing: 2px;
+            color: white;
+        }
+
+        .sector-status {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #444;
+            transition: 0.4s;
+        }
+
+        .type-tab .tab-icon {
+            font-size: 1.8rem;
+            filter: grayscale(1);
+            transition: 0.4s;
+            opacity: 0.5;
+        }
+
+        .type-tab span:last-child {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+        }
+
+        .type-tab:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Active Sector Styling */
+        .type-tab.active {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+        }
+
+        .type-tab.active .tab-icon {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .type-tab.active span:last-child {
+            color: white;
+        }
+
+        .type-tab.active .sector-status {
+            animation: pulse-status 1s infinite alternate;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes pulse-status {
+            from {
+                opacity: 0.4;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Sector specific highlights */
+        .type-tab.active[data-cat="all"] {
+            border-color: #00d2ff;
+        }
+
+        .type-tab.active[data-cat="all"] .sector-status {
+            background: #00d2ff;
+            color: #00d2ff;
+        }
+
+        .type-tab.active[data-cat="recurrent"] {
+            border-color: #3498db;
+        }
+
+        .type-tab.active[data-cat="recurrent"] .sector-status {
+            background: #3498db;
+            color: #3498db;
+        }
+
+        .type-tab.active[data-cat="alliance"] {
+            border-color: #2ecc71;
+        }
+
+        .type-tab.active[data-cat="alliance"] .sector-status {
+            background: #2ecc71;
+            color: #2ecc71;
+        }
+
+        .type-tab.active[data-cat="special"] {
+            border-color: #f1c40f;
+        }
+
+        .type-tab.active[data-cat="special"] .sector-status {
+            background: #f1c40f;
+            color: #f1c40f;
+        }
+
+        .type-tab.active[data-cat="epic"] {
+            border-color: #e74c3c;
+        }
+
+        .type-tab.active[data-cat="epic"] .sector-status {
+            background: #e74c3c;
+            color: #e74c3c;
+        }
+
+        @media (max-width: 800px) {
+            .tabs-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .type-tab:last-child {
+                grid-column: span 2;
+            }
+        }
     </style>
 </head>
 
@@ -232,14 +386,38 @@
             </p>
         </header>
 
-        <!-- Category Filters -->
-        <div class="tabs-container"
-            style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-            <button class="type-tab active" onclick="filterWiki('all')">🌟 Todos</button>
-            <button class="type-tab" onclick="filterWiki('recurrent')">📅 Recurrentes</button>
-            <button class="type-tab" onclick="filterWiki('alliance')">🛡️ Alianza</button>
-            <button class="type-tab" onclick="filterWiki('special')">✨ Especiales</button>
-            <button class="type-tab" onclick="filterWiki('epic')">👑 Épicos / SvS</button>
+        <!-- Category Filters: Tactical Sector Matrix -->
+        <div class="tabs-container">
+            <div class="type-tab active" data-cat="all" onclick="filterWiki('all')">
+                <span class="sector-id">SEC-01</span>
+                <div class="sector-status"></div>
+                <div class="tab-icon">🌟</div>
+                <span>Todos</span>
+            </div>
+            <div class="type-tab" data-cat="recurrent" onclick="filterWiki('recurrent')">
+                <span class="sector-id">SEC-02</span>
+                <div class="sector-status"></div>
+                <div class="tab-icon">📅</div>
+                <span>Recurrentes</span>
+            </div>
+            <div class="type-tab" data-cat="alliance" onclick="filterWiki('alliance')">
+                <span class="sector-id">SEC-03</span>
+                <div class="sector-status"></div>
+                <div class="tab-icon">🛡️</div>
+                <span>Alianza</span>
+            </div>
+            <div class="type-tab" data-cat="special" onclick="filterWiki('special')">
+                <span class="sector-id">SEC-04</span>
+                <div class="sector-status"></div>
+                <div class="tab-icon">✨</div>
+                <span>Especiales</span>
+            </div>
+            <div class="type-tab" data-cat="epic" onclick="filterWiki('epic')">
+                <span class="sector-id">SEC-05</span>
+                <div class="sector-status"></div>
+                <div class="tab-icon">👑</div>
+                <span>Épicos / SvS</span>
+            </div>
         </div>
 
         <!-- Wiki Grid -->
@@ -289,7 +467,8 @@
 
         function filterWiki(category) {
             document.querySelectorAll('.type-tab').forEach(tab => {
-                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(category) || (category === 'all' && tab.textContent.includes('Todos')));
+                const isActive = tab.getAttribute('data-cat') === category;
+                tab.classList.toggle('active', isActive);
             });
             displayWiki(category);
         }

@@ -4,16 +4,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Arena y PvP - Whiteout Survival</title>
+    <title>Mastering Arena & PvP - Whiteout Survival Hub</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/guides.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --arena-blue: #00d2ff;
+            --arena-gold: #ffd700;
+            --arena-purple: #9370db;
+        }
+
+        .arena-header {
+            position: relative;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(10, 14, 23, 0.8), var(--bg-dark)),
+                url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid var(--arena-blue);
+            margin-bottom: 4rem;
+        }
+
+        .arena-header h1 {
+            font-size: 4rem;
+            background: linear-gradient(135deg, white 0%, var(--arena-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.4));
+        }
+
+        .arena-badge {
+            background: var(--arena-blue);
+            color: #0d1117;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        /* Battlefield Visualization */
+        .battlefield {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .battle-slot {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-align: center;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .battle-slot.active {
+            background: rgba(0, 210, 255, 0.1);
+            border: 2px solid var(--arena-blue);
+            color: white;
+            box-shadow: inset 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .battle-slot.infantry {
+            border-color: #ffaa00;
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        .battle-slot.lancer {
+            border-color: var(--svs-red);
+            background: rgba(255, 62, 62, 0.1);
+        }
+
+        .battle-slot.marksman {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        /* Reward Grid */
+        .reward-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .reward-item-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .reward-item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--arena-gold);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .reward-rank {
+            font-weight: 800;
+            color: var(--arena-gold);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-val {
+            font-size: 1.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Hero Cards */
+        .pvp-hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .pvp-hero-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .pvp-hero-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, transparent 50%, rgba(0, 210, 255, 0.1) 50%);
+        }
+
+        .hero-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-gen-badge {
+            background: var(--arena-purple);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        /* Gear Layout */
+        .gear-build-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .gear-item-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gear-icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .arena-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .battlefield {
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+
+            .reward-tier {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ROADMAP STYLES */
+        .roadmap-container {
+            position: relative;
+            margin: 4rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .roadmap-step {
+            display: flex;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 20px;
+            position: relative;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+
+        .roadmap-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--arena-blue);
+        }
+
+        .roadmap-step:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+            border-color: rgba(0, 210, 255, 0.3);
+        }
+
+        .step-icon-box {
+            min-width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--arena-blue);
+        }
+
+        .step-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 800;
+        }
+
+        .step-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--arena-blue);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .roadmap-step.mid-game::before {
+            background: var(--arena-gold);
+        }
+
+        .roadmap-step.mid-game .step-icon-box {
+            color: var(--arena-gold);
+        }
+
+        .roadmap-step.mid-game .step-badge {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--arena-gold);
+        }
+
+        .roadmap-step.late-game::before {
+            background: var(--svs-red);
+        }
+
+        .roadmap-step.late-game .step-icon-box {
+            color: var(--svs-red);
+        }
+
+        .roadmap-step.late-game .step-badge {
+            background: rgba(255, 62, 62, 0.1);
+            color: var(--svs-red);
+        }
+
+        .roadmap-step.late-game {
+            background: linear-gradient(135deg, rgba(255, 62, 62, 0.03), rgba(255, 255, 255, 0.02));
+        }
+
+        @media (max-width: 600px) {
+            .roadmap-step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* COUNTER CARD STYLES */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .counter-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: 0.3s;
+            border-left: 4px solid var(--svs-red);
+        }
+
+        .counter-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .counter-threat {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .threat-name {
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .counter-details {
+            font-size: 0.9rem;
+        }
+
+        .strategy-block {
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .strategy-label {
+            color: #00ff88;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-label {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 0.5rem;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="progress-container">
+        <div class="progress-bar" id="reading-progress"></div>
+    </div>
     <div class="snow-container"></div>
 
     <nav class="navbar">
@@ -25,366 +424,508 @@
         <a href="../index.html" class="btn secondary">← Volver al Hub</a>
     </nav>
 
-    <article class="guide-article">
-        <header class="guide-header">
-            <h1>🏟️ Domina la Arena y PvP</h1>
-            <p class="guide-subtitle">Formaciones, counters y estrategia competitiva</p>
-            <div class="meta-info">
-                <span>📅 Actualizado: Febrero 2026</span>
-                <span>⏱️ Lectura: 10 min</span>
-                <span>🎯 Nivel: Todos</span>
-            </div>
-        </header>
+    <header class="arena-header">
+        <span class="arena-badge">Competición Diaria</span>
+        <h1>🏟️ Domina la Arena y PvP</h1>
+        <p class="guide-subtitle">Estrategias de élite para el ranking mundial</p>
+        <div class="meta-info">
+            <span>📅 Feb 2026</span>
+            <span>⏱️ 10 min</span>
+            <span>🎯 Avanzado</span>
+        </div>
+    </header>
 
+    <article class="guide-article">
         <nav class="toc">
-            <h3>📑 Tabla de Contenidos</h3>
+            <h3>📑 Manual del Gladiador</h3>
             <ul>
-                <li><a href="#basics">Fundamentos de Arena</a></li>
-                <li><a href="#formaciones">Formaciones Meta</a></li>
-                <li><a href="#heroes">Mejores Héroes PvP</a></li>
-                <li><a href="#counters">Counters y Matchups</a></li>
-                <li><a href="#gear">Chief Gear Óptimo</a></li>
-                <li><a href="#estrategia">Estrategia de Ranking</a></li>
+                <li><a href="#basics">Fundamentos</a></li>
+                <li><a href="#formaciones">Meta Formaciones</a></li>
+                <li><a href="#heroes">Tier List PvP</a></li>
+                <li><a href="#counters">Counters</a></li>
+                <li><a href="#gear">Optimización de Gear</a></li>
+                <li><a href="#ranking">Push de Ranking</a></li>
             </ul>
         </nav>
 
-        <section id="basics">
-            <h2>🎯 Fundamentos de la Arena</h2>
-            <p>La Arena es el modo PvP diario donde luchas 5v5 contra formaciones enemigas. Cada victoria sube tu
-                ranking y desbloquea mejores recompensas.</p>
+        <section id="basics" class="section">
+            <h2><i data-lucide="award"></i> Fundamentos de la Arena</h2>
+            <p>La Arena no es solo fuerza bruta; es una partida de ajedrez donde el posicionamiento y la sinergia
+                superan al poder neto.</p>
 
-            <div class="highlight-box ice">
-                <h4>💎 Recompensas Diarias por Ranking</h4>
-                <table class="priority-table">
-                    <thead>
-                        <tr>
-                            <th>Ranking</th>
-                            <th>Gemas Diarias</th>
-                            <th>Frags de Héroe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Top 1-10</td>
-                            <td>1,000</td>
-                            <td>15 Legendary</td>
-                        </tr>
-                        <tr>
-                            <td>Top 11-50</td>
-                            <td>600</td>
-                            <td>10 Legendary</td>
-                        </tr>
-                        <tr>
-                            <td>Top 51-100</td>
-                            <td>350</td>
-                            <td>8 Epic</td>
-                        </tr>
-                        <tr>
-                            <td>Top 101-500</td>
-                            <td>180</td>
-                            <td>5 Epic</td>
-                        </tr>
-                        <tr>
-                            <td>Top 501-1000</td>
-                            <td>100</td>
-                            <td>3 Rare</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="reward-card-grid">
+                <div class="reward-item-card">
+                    <span class="reward-rank">Top 1-10</span>
+                    <span class="reward-val">1,000</span>
+                    <span class="rank-label">Gemas / Día</span>
+                    <span class="rank-label">15 Leg. Frags</span>
+                </div>
+                <div class="reward-item-card">
+                    <span class="reward-rank">Top 11-50</span>
+                    <span class="reward-val">600</span>
+                    <span class="rank-label">Gemas / Día</span>
+                    <span class="rank-label">10 Leg. Frags</span>
+                </div>
+                <div class="reward-item-card">
+                    <span class="reward-rank">Top 51-100</span>
+                    <span class="reward-val">350</span>
+                    <span class="rank-label">Gemas / Día</span>
+                    <span class="rank-label">8 Epic Frags</span>
+                </div>
+                <div class="reward-item-card">
+                    <span class="reward-rank">Top 101-500</span>
+                    <span class="reward-val">180</span>
+                    <span class="rank-label">Gemas / Día</span>
+                    <span class="rank-label">5 Epic Frags</span>
+                </div>
             </div>
 
-            <h3>Sistema de Acciones (Action Points)</h3>
-            <ul>
-                <li><strong>5 acciones gratuitas</strong> cada 24 horas (reset a las 00:00 UTC)</li>
-                <li>Puedes comprar +5 acciones con gemas (NO recomendado F2P)</li>
-                <li>Usar acciones estratégicamente: ataca solo cuando puedas ganar</li>
-            </ul>
+            <div class="highlight-box info">
+                <i data-lucide="zap"></i>
+                <div>
+                    <h4>Economía de Acciones y Reset</h4>
+                    <p><strong>5 acciones gratuitas</strong> cada 24 horas (Reset a las 00:00 UTC).<br>
+                        <strong>F2P Tip:</strong> No compres ataques extra con gemas (50 gemas por +5) a menos que
+                        falten 10 min para el cierre y estés a un paso del siguiente tier. La lista se actualiza gratis
+                        cada 60 min.
+                    </p>
+                </div>
+            </div>
         </section>
 
-        <section id="formaciones">
-            <h2>⚔️ Formaciones Meta 2026</h2>
+        <section id="formaciones" class="section">
+            <h2><i data-lucide="layout"></i> Formaciones Meta 2026</h2>
+            <p>El posicionamiento en el grid 3x2 define quién recibe el primer impacto y quién sobrevive para lanzar su
+                skill definitiva.</p>
 
-            <h3>Formación Estándar (Más Usada)</h3>
-            <div style="text-align: center; margin: 2rem 0;">
-                <pre
-                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #00d2ff;">
-    [MARKSMAN 1]        [LANCER]        [MARKSMAN 2]
-                                                      
-    [INFANTRY 1]                        [INFANTRY 2]
-                </pre>
+            <h3>1. Formación Estándar (Balanceada)</h3>
+            <div class="battlefield">
+                <div class="battle-slot active marksman">Marksman 1</div>
+                <div class="battle-slot active lancer">Lancer</div>
+                <div class="battle-slot active marksman">Marksman 2</div>
+                <div class="battle-slot active infantry">Infantry 1</div>
+                <div class="battle-slot">VACÍO</div>
+                <div class="battle-slot active infantry">Infantry 2</div>
             </div>
-            <p><strong>Por qué funciona:</strong> Infantería en frente tanquea daño. Lancer en centro da burst. Marksmen
-                en esquinas hacen DPS sostenido sin ser focuseados.</p>
+            <p>Ideal para defensa general. Las dos infanterías absorben el daño frontal mientras el Lancer central
+                proporciona burst rápido a la línea enemiga.</p>
 
-            <h3>Formación Anti-Burst (vs Teams High DPS)</h3>
-            <div style="text-align: center; margin: 2rem 0;">
-                <pre
-                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #ff8c00;">
-    [LANCER 1]          [INFANTRY]      [LANCER 2]
-                                                      
-    [MARKSMAN 1]                        [MARKSMAN 2]
-                </pre>
+            <h3>2. Formación Anti-Burst (vs High DPS)</h3>
+            <div class="battlefield">
+                <div class="battle-slot active marksman">Marksman 1</div>
+                <div class="battle-slot active infantry">Infantry</div>
+                <div class="battle-slot active marksman">Marksman 2</div>
+                <div class="battle-slot active lancer">Lancer 1</div>
+                <div class="battle-slot">VACÍO</div>
+                <div class="battle-slot active lancer">Lancer 2</div>
             </div>
-            <p><strong>Cuándo usar:</strong> Contra equipos con Sonya + Gwen + Lynn (alta burst). Lancers absorben el
-                burst, marksmen limpian después.</p>
+            <p><strong>Cuándo usar:</strong> Contra equipos con Sonya + Gwen + Lynn. Los Lancers absorben el burst
+                inicial mientras los Marksmen limpian el campo.</p>
 
-            <h3>Formación Full Aggro (Cheese Strat)</h3>
-            <div style="text-align: center; margin: 2rem 0;">
-                <pre
-                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #00ff00;">
-    [MARKSMAN 1]      [MARKSMAN 2]      [MARKSMAN 3]
-                                                      
-    [LANCER 1]                          [LANCER 2]
-                </pre>
+            <h3>3. Formación Full Aggro (Cheese Strat)</h3>
+            <div class="battlefield" style="border-color: var(--svs-red);">
+                <div class="battle-slot active marksman">Marksman 1</div>
+                <div class="battle-slot active marksman">Marksman 2</div>
+                <div class="battle-slot active marksman">Marksman 3</div>
+                <div class="battle-slot active lancer">Lancer 1</div>
+                <div class="battle-slot">VACÍO</div>
+                <div class="battle-slot active lancer">Lancer 2</div>
             </div>
-            <p><strong>High Risk/Reward:</strong> 3 marksmen Gen 7+ (Sonya, Gregory, Fred). Si tus heroes superan en
-                Generation al rival, puedes eliminarlos antes de que actúen. Solo funciona con 50M+ power advantage.</p>
+            <p><strong>High Risk/Reward:</strong> Solo funciona con 50M+ de ventaja de poder. Eliminas al rival antes de
+                que puedan activar sus habilidades.</p>
         </section>
 
-        <section id="heroes">
-            <h2>🦸 Mejores Héroes para PvP</h2>
+        <section id="heroes" class="section">
+            <h2><i data-lucide="users"></i> Tier List PvP: Los Intocables</h2>
 
-            <h3>Tier S+ (Meta Definidora)</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Héroe</th>
-                        <th>Gen</th>
-                        <th>Rol</th>
-                        <th>Por Qué es OP</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Lynn</strong></td>
-                        <td>9</td>
-                        <td>Lancer</td>
-                        <td>AOE masivo + stun. Mejor lancer del juego actual. Skill "Spear of Destiny" ignora 40%
-                            defense.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sonya</strong></td>
-                        <td>6</td>
-                        <td>Marksman</td>
-                        <td>Shield pierce = counter perfecto vs tanks. Critical letal en late game.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Gwen</strong></td>
-                        <td>6</td>
-                        <td>Lancer</td>
-                        <td>Versatilidad insane. Adaptive combat se ajusta al enemigo. Never bad pick.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Xura</strong></td>
-                        <td>7</td>
-                        <td>Infantry</td>
-                        <td>Berserker mode = +80% ATK cuando HP &lt;50%. Unstoppable en 1v1.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Charlie</strong></td>
-                        <td>2</td>
-                        <td>Infantry</td>
-                        <td>Buff +25% ATK a TODO el equipo. Hace que tus otros 4 heroes sean mejores.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="pvp-hero-grid">
+                <div class="pvp-hero-card">
+                    <div class="hero-header">
+                        <span class="hero-gen-badge">GEN 9</span>
+                        <h4 style="margin:0;">Lynn</h4>
+                    </div>
+                    <p style="color: var(--arena-blue); font-weight: 800;">Dominio Absoluto</p>
+                    <p class="phase-goal">Mejor hero PvP del juego. Su daño % de vida y stun masivo la hacen
+                        indispensable en el Top 100.</p>
+                </div>
 
-            <div class="highlight-box fire">
-                <h4>🔥 Combo Letal: "The Trinity"</h4>
-                <p><strong>Lynn (Lancer) + Sonya (Marksman) + Xura (Infantry)</strong></p>
-                <p>Esta combinación domina top 100 en todos los servidores. Lynn stuns, Sonya pierce shields, Xura
-                    cleanup. Requiere Gen 6+ mínimo en los 3.</p>
+                <div class="pvp-hero-card">
+                    <div class="hero-header">
+                        <span class="hero-gen-badge">GEN 7</span>
+                        <h4 style="margin:0;">Xura</h4>
+                    </div>
+                    <p style="color: var(--arena-gold); font-weight: 800;">Berserker de Arena</p>
+                    <p class="phase-goal">Elimina tanques con facilidad. Su modo berserker la hace casi invencible en
+                        duelos 1v1 al final de la ronda.</p>
+                </div>
+
+                <div class="pvp-hero-card">
+                    <div class="hero-header">
+                        <span class="hero-gen-badge">GEN 6</span>
+                        <h4 style="margin:0;">Sonya</h4>
+                    </div>
+                    <p style="color: var(--svs-red); font-weight: 800;">Armor Piercer</p>
+                    <p class="phase-goal">Indispensable contra equipos pesados. Ignora escudos y defensas, causando daño
+                        puro y crítico letal.</p>
+                </div>
+
+                <div class="pvp-hero-card">
+                    <div class="hero-header">
+                        <span class="hero-gen-badge">GEN 6</span>
+                        <h4 style="margin:0;">Gwen</h4>
+                    </div>
+                    <p style="color: var(--secondary); font-weight: 800;">Versatilidad Insane</p>
+                    <p class="phase-goal">Su sistema "Adaptive Combat" se ajusta al tipo de enemigo. Nunca es una mala
+                        elección en ninguna formación.</p>
+                </div>
+
+                <div class="pvp-hero-card">
+                    <div class="hero-header">
+                        <span class="hero-gen-badge">GEN 2</span>
+                        <h4 style="margin:0;">Charlie</h4>
+                    </div>
+                    <p style="color: #00ff88; font-weight: 800;">Force Multiplier</p>
+                    <p class="phase-goal">Aporta un buff de +25% de ATK a todo el equipo. Hace que tus otros 4 héroes
+                        sean exponencialmente mejores.</p>
+                </div>
             </div>
 
-            <h3>Budget Options (F2P Friendly)</h3>
-            <ul>
-                <li><strong>Jeronimo (Gen 1):</strong> Todavía viable como tank. Shield wall OP. F2P puede maxear fácil.
-                </li>
-                <li><strong>Charlie (Gen 2):</strong> Accesible en Lucky Wheel. El buff universal justifica slot
-                    siempre.</li>
-                <li><strong>Philly (Gen 2):</strong> Counter caballería + healing. Barato de upgradeary útil largo
-                    plazo.</li>
-                <li><strong>Gregory (Gen 5):</strong> Mejor sniper mid-game. Precision letal vs squishies.</li>
-            </ul>
+            <div class="highlight-box success">
+                <i data-lucide="flame"></i>
+                <div>
+                    <h4>🔥 Combo Sagrado: "The Trinity"</h4>
+                    <p><strong>Lynn + Sonya + Xura:</strong> Si posees a estos tres héroes con Gen 6+, tienes
+                        garantizado el Top 100 de tu servidor. La sinergia de stun, penetración y daño final es
+                        imbatible.</p>
+                </div>
+            </div>
+
+            <h3>Opciones Económicas (F2P Friendly)</h3>
+            <div class="reward-card-grid">
+                <div class="reward-item-card" style="text-align: left;">
+                    <strong style="color: var(--arena-gold);">Jeronimo (G1)</strong>
+                    <p class="phase-goal">Tanque confiable con muro de escudos. Muy fácil de maxear siendo F2P.</p>
+                </div>
+                <div class="reward-item-card" style="text-align: left;">
+                    <strong style="color: var(--arena-blue);">Charlie (G2)</strong>
+                    <p class="phase-goal">Su buff de +25% ATK universal justifica su slot en cualquier equipo.</p>
+                </div>
+                <div class="reward-item-card" style="text-align: left;">
+                    <strong style="color: var(--arena-purple);">Philly (G2)</strong>
+                    <p class="phase-goal">Curación y counter de caballería. Una inversión segura y útil a largo plazo.
+                    </p>
+                </div>
+                <div class="reward-item-card" style="text-align: left;">
+                    <strong style="color: #00ff88;">Gregory (G5)</strong>
+                    <p class="phase-goal">El mejor francotirador de mediados de juego. Precisión letal contra objetivos
+                        débiles.</p>
+                </div>
+            </div>
         </section>
 
-        <section id="counters">
-            <h2>🎯 Counters y Matchups</h2>
+        <section id="counters" class="section">
+            <h2><i data-lucide="swords"></i> Tácticas de Contraataque</h2>
 
-            <h3>Rock-Paper-Scissors de Tipos</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Fuerte Contra</th>
-                        <th>Débil Contra</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Infantería</strong></td>
-                        <td>Lanceros (+30% dmg)</td>
-                        <td>Tiradores (-25% DEF)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Lanceros</strong></td>
-                        <td>Tiradores (+30% dmg)</td>
-                        <td>Infantería (-25% DEF)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tiradores</strong></td>
-                        <td>Infantería (+30% dmg)</td>
-                        <td>Lanceros (-25% DEF)</td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- Rock-Paper-Scissors Combat Triangle -->
+            <div class="rps-system" style="margin-top: 3rem;">
+                <h3 style="text-align: center; margin-bottom: 2rem;"><i data-lucide="triangle"></i> Triángulo de Combate
+                    (RPS)</h3>
+                <div class="reward-card-grid">
+                    <!-- Infantry Card -->
+                    <div class="reward-item-card"
+                        style="border-top: 4px solid #ffaa00; background: rgba(255, 170, 0, 0.03);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem; color: #ffaa00;"><i data-lucide="shield"></i>
+                        </div>
+                        <span class="phase-name" style="color: #ffaa00; font-size: 1.4rem;">Infantería</span>
+                        <div
+                            style="margin-top: 1.5rem; text-align: left; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #00ff88; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-up-circle" style="width: 16px;"></i> Fuerte vs Lanceros (+30%)
+                            </div>
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #ff6e6e; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-down-circle" style="width: 16px;"></i> Débil vs Tiradores (-25%)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lancer Card -->
+                    <div class="reward-item-card"
+                        style="border-top: 4px solid var(--svs-red); background: rgba(255, 62, 62, 0.03);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem; color: var(--svs-red);"><i
+                                data-lucide="swords"></i></div>
+                        <span class="phase-name" style="color: var(--svs-red); font-size: 1.4rem;">Lanceros</span>
+                        <div
+                            style="margin-top: 1.5rem; text-align: left; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #00ff88; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-up-circle" style="width: 16px;"></i> Fuerte vs Tiradores (+30%)
+                            </div>
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #ff6e6e; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-down-circle" style="width: 16px;"></i> Débil vs Infantería (-25%)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Marksman Card -->
+                    <div class="reward-item-card"
+                        style="border-top: 4px solid #00ff88; background: rgba(0, 255, 136, 0.03);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem; color: #00ff88;"><i data-lucide="target"></i>
+                        </div>
+                        <span class="phase-name" style="color: #00ff88; font-size: 1.4rem;">Tiradores</span>
+                        <div
+                            style="margin-top: 1.5rem; text-align: left; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #00ff88; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-up-circle" style="width: 16px;"></i> Fuerte vs Infantería (+30%)
+                            </div>
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #ff6e6e; font-weight: 800; font-size: 0.9rem;">
+                                <i data-lucide="arrow-down-circle" style="width: 16px;"></i> Débil vs Lanceros (-25%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <h3>Counters Específicos por Héroe</h3>
-            <div class="highlight-box ice">
-                <ul>
-                    <li><strong>Si ves Lynn:</strong> Usa Magnus/Bradley (tanques HP masivo). Lynn hace dmg%, no burst
-                        puro.</li>
-                    <li><strong>Si ves Sonya:</strong> Evita tanks puros. Usa DPS burst (Gregory, Fred) para eliminarla
-                        first.</li>
-                    <li><strong>Si ves Charlie:</strong> Focus matarlo primero (su buff es pasivo, si muere se pierde).
-                    </li>
-                    <li><strong>Si ves healing comp (Freya/Molly):</strong> Necesitas burst alto o ignora heal (Xura).
-                    </li>
-                    <li><strong>Si ves 3+ marksmen:</strong> Formación tanque pesada. Sobrevive el burst initial y
-                        counter-attack.</li>
-                </ul>
+
+            <div class="counter-grid">
+                <!-- Lynn Counter -->
+                <div class="counter-card">
+                    <div class="counter-threat">
+                        <span class="threat-name"><i data-lucide="zap"></i> Lynn (AOE/Stun)</span>
+                        <span class="hero-gen-badge" style="background:var(--svs-red)">Gen 9</span>
+                    </div>
+                    <div class="counter-details">
+                        <div class="strategy-block">
+                            <span class="strategy-label">Counter Estratégico</span>
+                            Usa tanques con alto HP base como <strong>Magnus o Bradley</strong>. Lynn hace daño
+                            porcentual, no burst directo.
+                        </div>
+                        <span class="result-label">Resultado: Sobrevivir al burst inicial y anular su ventaja de
+                            Gen.</span>
+                    </div>
+                </div>
+
+                <!-- Sonya Counter -->
+                <div class="counter-card" style="border-left-color: var(--arena-gold);">
+                    <div class="counter-threat">
+                        <span class="threat-name"><i data-lucide="target"></i> Sonya (Shield Pierce)</span>
+                        <span class="hero-gen-badge" style="background:var(--arena-gold)">Gen 6</span>
+                    </div>
+                    <div class="counter-details">
+                        <div class="strategy-block">
+                            <span class="strategy-label">Counter Estratégico</span>
+                            Evita tanques puros. Usa burst de Lancers como <strong>Gregory o Fred</strong> para borrarla
+                            antes de su primera skill.
+                        </div>
+                        <span class="result-label">Resultado: Eliminar la amenaza de perforación antes de que
+                            actúe.</span>
+                    </div>
+                </div>
+
+                <!-- Charlie Counter -->
+                <div class="counter-card" style="border-left-color: var(--arena-blue);">
+                    <div class="counter-threat">
+                        <span class="threat-name"><i data-lucide="shield-alert"></i> Charlie (Buff Support)</span>
+                        <span class="hero-gen-badge" style="background:var(--arena-blue)">Gen 2</span>
+                    </div>
+                    <div class="counter-details">
+                        <div class="strategy-block">
+                            <span class="strategy-label">Counter Estratégico</span>
+                            <strong>Focus Total.</strong> Su buff es pasivo; si muere rápido, el equipo rival pierde
+                            instantáneamente el 25% ATK extra.
+                        </div>
+                        <span class="result-label">Resultado: Neutralizar el multiplicador de fuerza del equipo
+                            enemigo.</span>
+                    </div>
+                </div>
+
+                <!-- Healing Counter -->
+                <div class="counter-card" style="border-left-color: #9370db;">
+                    <div class="counter-threat">
+                        <span class="threat-name"><i data-lucide="heart-pulse"></i> Comp de Curación</span>
+                        <span class="hero-gen-badge" style="background:#9370db">Sustain</span>
+                    </div>
+                    <div class="counter-details">
+                        <div class="strategy-block">
+                            <span class="strategy-label">Counter Estratégico</span>
+                            Requiere burst instantáneo o usar a <strong>Xura</strong> para ignorar la curación mediante
+                            daño masivo de un solo golpe.
+                        </div>
+                        <span class="result-label">Resultado: Anular el heal por "overkill" estratégico.</span>
+                    </div>
+                </div>
+
+                <!-- Marksmen Counter -->
+                <div class="counter-card" style="border-left-color: #00ff88;">
+                    <div class="counter-threat">
+                        <span class="threat-name"><i data-lucide="users"></i> 3+ Marksmen (Burst)</span>
+                        <span class="hero-gen-badge" style="background:#00ff88">Aggro</span>
+                    </div>
+                    <div class="counter-details">
+                        <div class="strategy-block">
+                            <span class="strategy-label">Counter Estratégico</span>
+                            Formación tanque pesada (<strong>3 Infanterías</strong>). El objetivo es aguantar el primer
+                            golpe y ganar en el desgaste.
+                        </div>
+                        <span class="result-label">Resultado: Sobrevivir a la ráfaga inicial y ganar por
+                            resistencia.</span>
+                    </div>
+                </div>
             </div>
 
-            <h3>Scouting Pre-Battle</h3>
-            <p>SIEMPRE revisa la formación enemiga antes de atacar:</p>
-            <ol>
-                <li>Click en perfil rival → "Formation" tab</li>
-                <li>Identifica sus héroes más fuertes (Generation + Level)</li>
-                <li>Nota su formación (estándar vs anti-burst)</li>
-                <li>Ajusta TU formación en base a esto</li>
-                <li>Si no puedes counter adecuadamente, skip ese target</li>
-            </ol>
+            <div class="highlight-box warning">
+                <i data-lucide="eye"></i>
+                <div>
+                    <h4>Regla de Oro: Scouting Pre-Batalla</h4>
+                    <p>Sigue estos pasos antes de gastar una acción:</p>
+                    <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+                        <li>Click en perfil rival → Pestaña "Formation".</li>
+                        <li>Identifica sus héroes más fuertes (Generación + Nivel).</li>
+                        <li>Nota su tipo de formación (¿Estándar o Anti-Burst?).</li>
+                        <li>Ajusta tu formación en base al triángulo RPS.</li>
+                        <li>Si el counter no es claro, usa el botón "Skip" para otro target.</li>
+                    </ol>
+                </div>
+            </div>
         </section>
 
-        <section id="gear">
-            <h2>⚙️ Chief Gear Óptimo para PvP</h2>
+        <section id="gear" class="section">
+            <h2><i data-lucide="settings"></i> Optimización de Chief Gear</h2>
+            <p>En Arena, el equipo del Chief se escala de forma distinta. Olvida las estadísticas de tropas; aquí solo
+                mandan los héroes.</p>
 
-            <h3>Stats Prioritarios</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Stat</th>
-                        <th>Prioridad</th>
-                        <th>Explicación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Hero Attack %</strong></td>
-                        <td>🔥 Máxima</td>
-                        <td>Incrementa daño de TODOS tus héroes. Best stat overall.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Hero HP %</strong></td>
-                        <td>🔥 Alta</td>
-                        <td>Survivability. Permite que tus héroes lancen skills antes de morir.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Hero Defense %</strong></td>
-                        <td>⚠️ Media</td>
-                        <td>Menos efectivo que HP% pero útil vs burst teams.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Troop Attack/HP/DEF</strong></td>
-                        <td>⚠️ Baja</td>
-                        <td>En Arena solo importan HEROES, no tropas. Ignorar.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>March Speed</strong></td>
-                        <td>❌ Ignorar</td>
-                        <td>No aplica en Arena (solo world map).</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="gear-build-container">
+                <div class="gear-item-row">
+                    <div class="gear-icon-box" style="color: var(--svs-red);">⚔️</div>
+                    <div>
+                        <strong>Hero Attack %</strong>
+                        <p class="rank-label">Prioridad Ultra-Alta • Escala con todas las habilidades.</p>
+                    </div>
+                </div>
+                <div class="gear-item-row">
+                    <div class="gear-icon-box" style="color: var(--arena-blue);">🛡️</div>
+                    <div>
+                        <strong>Hero HP %</strong>
+                        <p class="rank-label">Prioridad Alta • Fundamental para que el Lancer lance su skill.</p>
+                    </div>
+                </div>
+                <div class="gear-item-row">
+                    <div class="gear-icon-box" style="color: var(--text-gray);">🌫️</div>
+                    <div>
+                        <strong>Hero Defense %</strong>
+                        <p class="rank-label">Prioridad Media • Menos efectivo contra Lynn/Sonya.</p>
+                    </div>
+                </div>
+            </div>
 
-            <h3>Build Recomendado (F2P)</h3>
             <div class="highlight-box fire">
-                <p><strong>Set de Epic Gear (Púrpura):</strong></p>
-                <ul>
-                    <li>Helmet: Hero ATK% + Hero HP%</li>
-                    <li>Armor: Hero HP% + Hero DEF%</li>
-                    <li>Weapon: Hero ATK% + Hero Critical%</li>
-                    <li>Accessory: Hero Skill Damage% + Hero ATK%</li>
-                </ul>
-                <p><strong>Total Target:</strong> +50% Hero ATK, +40% Hero HP mínimo (achieveable F2P en 3-4 meses
-                    farm).</p>
+                <i data-lucide="hammer"></i>
+                <div>
+                    <h4>Detailed Builds</h4>
+                    <p><strong>F2P (Epic/Púrpura):</strong><br>
+                        • Helmet: Hero ATK% + HP%<br>
+                        • Armor: Hero HP% + DEF%<br>
+                        • Weapon: Hero ATK% + Crit%<br>
+                        • Accessory: Skill DMG% + ATK%</p>
+                    <p><strong>P2W (Legendario):</strong><br>
+                        • God Roll: Hero ATK% + HP% + Skill DMG%<br>
+                        • Costo: ~$500-1000 USD por set optimizado.<br>
+                        • Impacto: +30-40% poder real (Top 50 vs Top 500).</p>
+                </div>
             </div>
-
-            <h3>Gear Legendario (P2W)</h3>
-            <p>Si inviertes dinero, prioriza crafting Legendary gear con:</p>
-            <ul>
-                <li><strong>God Roll:</strong> Hero ATK% + Hero HP% + Hero Skill DMG%</li>
-                <li><strong>Cost:</strong> ~500-1000 USD para set completo optimizado</li>
-                <li><strong>Impact:</strong> +30-40% power vs Epic gear = diferencia entre Top 50 y Top 500</li>
-            </ul>
         </section>
 
-        <section id="estrategia">
-            <h2>📈 Estrategia de Ranking</h2>
+        <section id="ranking" class="section">
+            <h2><i data-lucide="trending-up"></i> Estrategia de Push</h2>
+            <p>El ranking no se gana por la mañana. Se gana minutos antes del reset diario.</p>
 
-            <h3>Subir del 1000 al Top 100</h3>
-            <ol>
-                <li><strong>Early Game (Ranking 1000-500):</strong> Ataca CUALQUIERA que puedas vencer. No importa el
-                    ranking relativo. Objetivo: experiencia y familiarizarse con counters.</li>
-                <li><strong>Mid Game (Ranking 500-100):</strong> Sé selectivo. Ataca solo players 30-50 posiciones
-                    arriba tuyo. Cada victoria = +15 ranks aprox.</li>
-                <li><strong>Late Game (Ranking 100-10):</strong> Hyper selectivo. Necesitas revisar top 50 completo,
-                    identificar matchups favorables. Posiblemente necesites refresh list (cuesta 50 gemas).</li>
-                <li><strong>Endgame (Top 10):</strong> Timing crítico. Atacar en últimas 2 horas del día (menos chance
-                    de ser counter-attacked). Requiere heroes Gen 7+ maxed.</li>
-            </ol>
+            <div class="roadmap-container">
+                <div class="roadmap-step early-game">
+                    <div class="step-icon-box"><i data-lucide="chevrons-right"></i></div>
+                    <div class="step-content">
+                        <span class="step-badge">Etapa 1: Early Game</span>
+                        <h4>Push Inicial (Sub-1000)</h4>
+                        <p>No busques gloria, busca volumen. Gasta tus 5 acciones en cualquier victoria fácil
+                            garantizada para asegurar tu base diaria de gemas.</p>
+                    </div>
+                </div>
 
-            <h3>Timing Óptimo</h3>
-            <div class="highlight-box ice">
-                <h4>⏰ Cuándo Usar Tus 5 Acciones</h4>
-                <ul>
-                    <li><strong>22:00-23:59 (Server Time):</strong> Mejor ventana. Haces push y te duermes. Menos chance
-                        de ser atacado de vuelta.</li>
-                    <li><strong>Evitar 12:00-15:00:</strong> Peak activity. Todo el mundo online. Te van a atacar
-                        inmediatamente después.</li>
-                    <li><strong>Refresh de Lista:</strong> Si ves solo matchups malos, espera 1h (la lista se actualiza
-                        gratis). No gastes gemas en refresh a menos que estés en push final Top 10.</li>
-                </ul>
+                <div class="roadmap-step mid-game">
+                    <div class="step-icon-box"><i data-lucide="trending-up"></i></div>
+                    <div class="step-content">
+                        <span class="step-badge">Etapa 2: Especialista</span>
+                        <h4>Mantenimiento (Top 500)</h4>
+                        <p>Calidad sobre cantidad. Ataca exclusivamente a jugadores posicionados entre 30 y 50 puestos
+                            por encima de ti para maximizar el avance de puntos.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-step late-game">
+                    <div class="step-icon-box"><i data-lucide="flame"></i></div>
+                    <div class="step-content">
+                        <span class="step-badge">Etapa 3: Maestría</span>
+                        <h4>Ventana Crítica (Top 100)</h4>
+                        <p><strong>Timing Estratégico:</strong> El ranking se gana entre las <strong>22:00 y las 23:59
+                                UTC</strong>. Ataca en este lapso para dejar al rival sin tiempo de respuesta.</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #ff8e8e; font-weight: 700;">⚠️ Evita el
+                            pico de las 12:00-15:00 UTC (Periodo de máxima actividad).</p>
+                    </div>
+                </div>
             </div>
 
-            <h3>Defensa: Disuasión</h3>
-            <p>Tu formación defensiva (la que ven cuando te atacan) es clave:</p>
-            <ul>
-                <li><strong>Formation Trick:</strong> Pon tu MEJOR formación en defense. Mucha gente ataca sin revisar,
-                    si ven heroes Gen altos se lo piensan.</li>
-                <li><strong>Fake Weakness:</strong> (Avanzado) Pon formation débil early en el día para "invitar"
-                    ataques. Luego cambias a formation fuerte y los que te atacaron pierden.</li>
-                <li><strong>Trophy Pushing:</strong> Últimas 2h del día, cambia a formación ultra defensiva (3 tanks).
-                    Slow down a attackers.</li>
-            </ul>
+            <h3>Defensa Estratégica: El Arte de la Disuasión</h3>
+            <div class="pvp-hero-grid">
+                <div class="pvp-hero-card" style="border-left-color: var(--arena-gold);">
+                    <h4>El Truco de Formación</h4>
+                    <p class="phase-goal">Pon tu MEJOR formación en defensa. Mucha gente ataca por impulso; ver héroes
+                        de generación alta los hará buscar otro objetivo.</p>
+                </div>
+                <div class="pvp-hero-card" style="border-left-color: var(--svs-red);">
+                    <h4>Falsa Debilidad (Avanzado)</h4>
+                    <p class="phase-goal">Muestra una formación débil temprano en el día para atraer ataques, luego
+                        cámbiala por tu formación real cerca del reset.</p>
+                </div>
+                <div class="pvp-hero-card" style="border-left-color: #00ff88;">
+                    <h4>Trophy Pushing</h4>
+                    <p class="phase-goal">En las últimas 2 horas, cambia a 3 tanques (Infantería). Ralentiza los ataques
+                        enemigos y frustra sus intentos de push.</p>
+                </div>
+            </div>
         </section>
 
-        <div class="cta-box">
-            <h3>🏆 Conclusión: Consistencia > Suerte</h3>
-            <p>Top players en Arena no tienen "suerte" — tienen formaciones optimizadas, timing estratégico y nunca
-                desperdician acciones en peleas 50/50. Cada acción cuenta.</p>
-            <p><strong>Action Plan:</strong> Experimenta con formaciones esta semana. Nota qué counters funcionan. En 30
-                días deberías estar Top 500 fácilmente siendo F2P.</p>
-            <a href="../index.html#guias" class="btn primary">← Volver a Guías</a>
+        <div class="conclusion cta-box">
+            <h3>🏆 Conviértete en Leyenda</h3>
+            <p>La Arena premia la constancia. Ajusta tus formaciones semanalmente basándote en el meta de tu servidor y
+                nunca dejes que tus 5 acciones se pierdan. La disciplina F2P te llevará al Top 100.</p>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <a href="../index.html" class="btn primary">Volver al Hub</a>
+                <a href="#toc" class="btn secondary">Subir ↑</a>
+            </div>
         </div>
     </article>
 
-    <footer>
-        <p>© 2026 Whiteout Survival Hub Español</p>
+    <footer
+        style="margin-top: 5rem; padding: 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-gray);">
+        <p>© 2026 Whiteout Survival Hub - Estrategia Arena</p>
     </footer>
 
-    <script src="../js/app.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        // Progress Bar
+        window.onscroll = function () {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("reading-progress").style.width = scrolled + "%";
+        };
+
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

@@ -47,7 +47,17 @@ const WOSEventsAPI = {
                 time: "20:00 UTC",
                 status: "active",
                 icon: "🐻",
-                description: "¡Caza el oso polar y gana recompensas masivas!"
+                description: "¡Caza el oso polar y gana recompensas masivas!",
+                details: {
+                    explanation: "El evento más importante para el crecimiento de la alianza. El objetivo es infligir el mayor daño posible al Oso Polar durante 30 minutos.",
+                    howToPlay: [
+                        "Dura 30 minutos. Los ataques de Rally infligen mucho más daño que los ataques individuales.",
+                        "Usa héroes con Buffs de Daño como Jeronimo, Molly o Mia.",
+                        "Asegúrate de que tus marchas estén llenas y con tus mejores tropas.",
+                        "Coordinar con la alianza para que los jugadores con mejores stats de ataque lideren los Rallies."
+                    ],
+                    rewards: "Fragmentos de héroe, recursos, y puntos de alianza."
+                }
             });
         }
 
@@ -58,7 +68,17 @@ const WOSEventsAPI = {
             time: "Todo el día",
             status: "ongoing",
             icon: "🗺️",
-            description: "Recolecta puntos de exploración para boxes de recompensas."
+            description: "Recolecta puntos de exploración para boxes de recompensas.",
+            details: {
+                explanation: "Un evento diario de exploración y recolección en el mapa del mundo.",
+                howToPlay: [
+                    "Completa tareas de exploración enviando tus tropas a puntos específicos en el mapa.",
+                    "Cada tarea completada otorga puntos de evento.",
+                    "Alcanza los hitos de puntos para desbloquear cofres de recompensas.",
+                    "No consume stamina, así que hazlo siempre que esté disponible."
+                ],
+                rewards: "Aceleradores, recursos y llaves de cofre."
+            }
         });
 
         // SvS (simular basado en fecha)
@@ -70,7 +90,17 @@ const WOSEventsAPI = {
                 time: "--:--",
                 status: "upcoming",
                 icon: "⚔️",
-                description: "Prepara tus tropas para la batalla entre estados."
+                description: "Prepara tus tropas para la batalla entre estados.",
+                details: {
+                    explanation: "La guerra máxima entre servidores (Estados). Se divide en fases de preparación y batalla final por el Castillo Sunfire.",
+                    howToPlay: [
+                        "Fase de Preparación: Completa tareas diarias (recolección, entrenamiento, construcción) para ganar puntos por tu Estado.",
+                        "Fase de Batalla: Los jugadores pueden teletransportarse al servidor enemigo para atacar o defender castillos.",
+                        "El objetivo final es controlar el Castillo Sunfire del enemigo.",
+                        "Evento de altísimo riesgo pero con las mejores recompensas del juego."
+                    ],
+                    rewards: "Diamantes, fragmentos míticos, y skins exclusivas."
+                }
             });
         }
 
@@ -81,7 +111,17 @@ const WOSEventsAPI = {
             time: "Todo el día",
             status: "ongoing",
             icon: "🦌",
-            description: "Caza bestias salvajes para ganar monedas Hope."
+            description: "Caza bestias salvajes para ganar monedas Hope.",
+            details: {
+                explanation: "Un evento recurrente centrado en la caza de bestias de alto nivel.",
+                howToPlay: [
+                    "Caza bestias salvajes en el mapa del mundo usando stamina.",
+                    "Derrotar bestias otorga 'Monedas Hope' exclusivas del evento.",
+                    "Usa las monedas en la tienda del evento para comprar items raros.",
+                    "Héroes como Gina son ideales aquí para ahorrar stamina."
+                ],
+                rewards: "Monedas Hope, materiales de mejora, y fragmentos de héroe."
+            }
         });
 
         // Alliance Championship (fines de semana)
@@ -92,7 +132,17 @@ const WOSEventsAPI = {
                 time: "18:00 UTC",
                 status: "active",
                 icon: "🏆",
-                description: "Competición de alianzas por rankings y premios."
+                description: "Competición de alianzas por rankings y premios.",
+                details: {
+                    explanation: "Torneo de eliminación directa donde las mejores alianzas del servidor compiten entre sí.",
+                    howToPlay: [
+                        "La alianza debe registrarse previamente.",
+                        "Los combatientes se eligen según su poder.",
+                        "Las batallas son automáticas basadas en la fuerza bruta y formaciones.",
+                        "Asegúrate de tener tus mejores tropas curadas antes de que empiece."
+                    ],
+                    rewards: "Medallas de honor, recursos masivos y prestigio regional."
+                }
             });
         }
 

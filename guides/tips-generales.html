@@ -4,16 +4,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tips y Trucos Generales - Whiteout Survival</title>
+    <title>Tips Avanzados y Estrategia - Whiteout Survival Hub</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/guides.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --expert-gold: #ffcc00;
+            --tech-blue: #00f2ff;
+            --alliance-blue: #2a52be;
+        }
+
+        /* Hero Header */
+        .tips-header {
+            background: linear-gradient(to bottom, rgba(10, 14, 23, 0.8), var(--bg-dark)),
+                url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid var(--expert-gold);
+        }
+
+        /* Alliance Red Flags */
+        .flag-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .flag-card {
+            background: rgba(255, 62, 62, 0.05);
+            border: 1px solid rgba(255, 62, 62, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .flag-card:hover {
+            background: rgba(255, 62, 62, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .flag-icon {
+            color: var(--svs-red);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Pet Cards */
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pet-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .pet-card:hover {
+            border-color: var(--tech-blue);
+            background: rgba(0, 242, 255, 0.03);
+        }
+
+        .pet-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Research Roadmap */
+        .research-path {
+            margin: 3rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .path-step {
+            display: flex;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .step-level {
+            min-width: 100px;
+            font-weight: 900;
+            color: var(--expert-gold);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--border);
+        }
+
+        /* Strategy Checklist */
+        .routine-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .routine-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .routine-box.morning {
+            border-top: 4px solid var(--tech-blue);
+        }
+
+        .routine-box.evening {
+            border-top: 4px solid var(--svs-red);
+        }
+
+        .routine-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .routine-container {
+                grid-template-columns: 1fr;
+            }
+
+            .path-step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .step-level {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* FORGE SECTION STYLES */
+        .forge-container {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 120, 0, 0.2);
+            border-radius: 30px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forge-container::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 62, 62, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .gear-set-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .gear-set-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: 0.3s;
+        }
+
+        .gear-set-card:hover {
+            border-color: var(--expert-gold);
+            transform: translateY(-5px);
+        }
+
+        .stat-badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-badge {
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            color: var(--tech-blue);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-badge.atk {
+            color: #ff6e6e;
+            border-color: rgba(255, 110, 110, 0.3);
+            background: rgba(255, 110, 110, 0.05);
+        }
+
+        .stat-badge.hp {
+            color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.3);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .forge-warning {
+            background: linear-gradient(135deg, rgba(255, 62, 62, 0.05), rgba(255, 120, 0, 0.05));
+            border: 1px solid rgba(255, 62, 62, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .warning-number {
+            font-family: 'Outfit';
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--svs-red);
+            line-height: 1;
+        }
+
+        /* TACTICAL DOSSIER STYLES */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: 0.3s;
+            overflow: hidden;
+            border-left: 4px solid var(--tech-blue);
+        }
+
+        .strategy-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+            border-color: var(--tech-blue);
+        }
+
+        .strategy-card.hospital {
+            border-left-color: var(--expert-gold);
+        }
+
+        .strategy-card.teleport {
+            border-left-color: var(--svs-red);
+        }
+
+        .strategy-tag {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--tech-blue);
+            padding: 3px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .strategy-card.hospital .strategy-tag {
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--expert-gold);
+        }
+
+        .strategy-card.teleport .strategy-tag {
+            background: rgba(255, 62, 62, 0.1);
+            color: var(--svs-red);
+        }
+
+        .strategy-card h4 {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .strategy-outcome {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            font-style: italic;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="progress-container">
+        <div class="progress-bar" id="reading-progress"></div>
+    </div>
     <div class="snow-container"></div>
 
     <nav class="navbar">
@@ -25,412 +347,304 @@
         <a href="../index.html" class="btn secondary">← Volver al Hub</a>
     </nav>
 
-    <article class="guide-article">
-        <header class="guide-header">
-            <h1>💡 Tips y Trucos Generales</h1>
-            <p class="guide-subtitle">Todo lo importante que no cabe en otras guías</p>
-            <div class="meta-info">
-                <span>📅 Actualizado: Febrero 2026</span>
-                <span>⏱️ Lectura: 15 min</span>
-                <span>🎯 Nivel: Todos</span>
-            </div>
-        </header>
+    <header class="guide-header tips-header">
+        <span class="category-badge" style="background: var(--expert-gold); color: #000;">Mastery Guide</span>
+        <h1>💡 Tips y Estrategias Avanzadas</h1>
+        <p class="guide-subtitle">El conocimiento que separa a los jugadores promedio de las leyendas</p>
+        <div class="meta-info">
+            <span><i data-lucide="calendar"></i> Feb 2026</span>
+            <span><i data-lucide="clock"></i> 12 min</span>
+            <span><i data-lucide="award"></i> Pro Level</span>
+        </div>
+    </header>
 
+    <article class="guide-article">
         <nav class="toc">
-            <h3>📑 Tabla de Contenidos</h3>
+            <h3>📑 Índice del Maestro</h3>
             <ul>
                 <li><a href="#alianzas">Alianzas y Gestión</a></li>
                 <li><a href="#pets">Pets y Expertos</a></li>
-                <li><a href="#research">Research (Investigación)</a></li>
+                <li><a href="#research">Prioridad de Investigación</a></li>
                 <li><a href="#gear">Chief Gear Crafting</a></li>
-                <li><a href="#tips-avanzados">Tips Avanzados</a></li>
-                <li><a href="#errores">Errores Comunes</a></li>
-                <li><a href="#dailies">Rutina Diaria Optimal</a></li>
+                <li><a href="#avanzado">Tips Avanzados</a></li>
+                <li><a href="#rutina">Rutina Diaria Optimal</a></li>
             </ul>
         </nav>
 
-        <section id="alianzas">
+        <section id="alianzas" class="section">
             <h2>🤝 Alianzas: Cómo Elegir y Crecer</h2>
+            <p>Tu alianza es tu mayor multiplicador de poder. Estar en la alianza equivocada puede retrasar tu progreso
+                meses.</p>
 
             <h3>Red Flags de Alianzas Malas</h3>
-            <div class="highlight-box fire">
-                <h4>❌ Evitar Si Ves:</h4>
-                <ul>
-                    <li><strong>0-10 miembros online:</strong> Alianza muerta. No alliance help, no events.</li>
-                    <li><strong>R4/R5 inactivos &gt;7 días:</strong> Sin liderazgo = sin coordinación SvS.</li>
-                    <li><strong>Alliance Tech bajo:</strong> Si otras alianzas tienen Tech Lv10+Economic y tuya está en
-                        Lv3, cambiar ASAP.</li>
-                    <li><strong>No Discord/WhatsApp:</strong> Comunicación in-game es insuficiente para SvS.</li>
-                    <li><strong>Toxic environment:</strong> Drama constante, peleas internas = pérdida de tiempo.</li>
-                </ul>
+            <div class="flag-grid">
+                <div class="flag-card">
+                    <div class="flag-icon"><i data-lucide="ghost"></i></div>
+                    <h4>Inactividad</h4>
+                    <p class="phase-goal">Si ves 0-10 miembros online en horas pico, la alianza está muerta. Sin ayuda
+                        ni eventos.</p>
+                </div>
+                <div class="flag-card">
+                    <div class="flag-icon"><i data-lucide="shield-off"></i></div>
+                    <h4>Liderazgo Absentista</h4>
+                    <p class="phase-goal">R4/R5 inactivos > 7 días significa falta de coordinación para SvS y eventos
+                        críticos.</p>
+                </div>
+                <div class="flag-card">
+                    <div class="flag-icon"><i data-lucide="message-square-off"></i></div>
+                    <h4>Sin Discord/WhatsApp</h4>
+                    <p class="phase-goal">La comunicación in-game es insuficiente para la coordinación militar avanzada
+                        en SvS.</p>
+                </div>
+                <div class="flag-card">
+                    <div class="flag-icon"><i data-lucide="skull"></i></div>
+                    <h4>Ambiente Tóxico</h4>
+                    <p class="phase-goal">Drama constante y peleas internas solo resultan en pérdida de tiempo y
+                        recursos.</p>
+                </div>
             </div>
 
-            <h3>Cómo Subir en la Alianza</h3>
-            <ol>
-                <li><strong>Help Constante:</strong> Presionar "Help All" cada vez que entras (cooldown 30 min). Top
-                    helpers son promovidos.</li>
-                <li><strong>Donate Alliance Tech:</strong> Usa recursos para donate (wood/meat priority). Accumular
-                    contribution points.</li>
-                <li><strong>Eventos de Alianza:</strong> Participar en Crazy Joe, Mine occupancy, Gift Trades.</li>
-                <li><strong>Comunicación:</strong> Activo en chat. Reportar intel enemiga, coordinar gatherings.</li>
-                <li><strong>SvS Performance:</strong> Top contributors SvS usualmente reciben R4 promotion.</li>
-            </ol>
-
-            <h3>Alliance Benefits</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Beneficio</th>
-                        <th>Value</th>
-                        <th>Cómo Maximizar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Alliance Tech</strong></td>
-                        <td>+50-80% stats totales</td>
-                        <td>Join alianza con Tech maxed. Donate resources weekly.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Help Speed</strong></td>
-                        <td>-70% construction time</td>
-                        <td>Ser activo para que te ayuden. Ayudar a otros (karma).</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Alliance Shop</strong></td>
-                        <td>Speedups y Frags descuento</td>
-                        <td>Comprar con loyalty points. Refresh cada 6h.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Gifts & Trades</strong></td>
-                        <td>500-1K gems/semana gratis</td>
-                        <td>Enviar gifts diarios. Participar en gift events.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="highlight-box success">
+                <i data-lucide="trending-up"></i>
+                <div>
+                    <h4>Beneficios de una Alianza Top</h4>
+                    <p><strong>Alliance Tech:</strong> Hasta +80% en stats totales. <strong>Help Speed:</strong> Reduce
+                        hasta un 70% el tiempo de construcción. <strong>Gifts:</strong> Entre 500-1,000 gemas semanales
+                        gratis.</p>
+                </div>
+            </div>
         </section>
 
-        <section id="pets">
+        <section id="pets" class="section">
             <h2>🐾 Pets y Expertos</h2>
+            <p>Los Pets acompañan tus marchas y los Expertos potencian tu ciudad de forma pasiva e imbatible.</p>
 
-            <h3>Sistema de Pets</h3>
-            <p>Pets acompañan tus marches y dan buffs pasivos. Unlock a través de eventos y Beast Hunt.</p>
-
-            <h4>Mejores Pets (Tier List)</h4>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Pet</th>
-                        <th>Buff Principal</th>
-                        <th>Mejor Para</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Polar Bear</strong></td>
-                        <td>Infantry ATK +25%</td>
-                        <td>PvP con equipo tanque-heavy</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Snow Fox</strong></td>
-                        <td>March Speed +30%</td>
-                        <td>Gathering, repositioning rápido en SvS</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ice Wolf</strong></td>
-                        <td>Troop HP +20%</td>
-                        <td>Defense, rallies donde survivability importa</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Frost Hawk</strong></td>
-                        <td>Marksman ATK +25%</td>
-                        <td>Sniper comps (Sonya, Gregory, Fred teams)</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="pet-grid">
+                <div class="pet-card">
+                    <span class="pet-emoji">🐻</span>
+                    <h4>Polar Bear</h4>
+                    <p class="phase-goal">Infantry ATK +25%. Perfecto para composiciones tipo tanque.</p>
+                </div>
+                <div class="pet-card">
+                    <span class="pet-emoji">🦊</span>
+                    <h4>Snow Fox</h4>
+                    <p class="phase-goal">March Speed +30%. Vital para recolección y reposicionamiento en SvS.</p>
+                </div>
+                <div class="pet-card">
+                    <span class="pet-emoji">🐺</span>
+                    <h4>Ice Wolf</h4>
+                    <p class="phase-goal">Troop HP +20%. Fundamental para defensa y rallies de larga duración.</p>
+                </div>
+                <div class="pet-card">
+                    <span class="pet-emoji">🦅</span>
+                    <h4>Frost Hawk</h4>
+                    <p class="phase-goal">Marksman ATK +25%. El mejor para equipos de snipers (Sonya/Gwen).</p>
+                </div>
+            </div>
 
             <div class="highlight-box ice">
-                <h4>💡 Pet Priority F2P</h4>
-                <p>No intentes coleccionar todos. Focus en 1-2 pets principales:</p>
-                <ol>
-                    <li><strong>Unlock:</strong> Consigue Polar Bear o Snow Fox desde Beast Hunt</li>
-                    <li><strong>Level Up:</strong> Feed con pet food hasta Level 30+ (notable buffs)</li>
-                    <li><strong>Stars:</strong> Subir estrellas requiere duplicados. Solo viable P2W. F2P ignora stars.
-                    </li>
-                </ol>
-            </div>
-
-            <h3>Expertos (Experts)</h3>
-            <p>Experts son NPCs que puedas reclutar para buffs pasivos de ciudad.</p>
-
-            <h4>Top 3 Experts para Priorizar</h4>
-            <ol>
-                <li><strong>Bahador (Research Speed +25%):</strong> Acelera tech tree = power spike temprano</li>
-                <li><strong>Jack (Construction Speed +20%):</strong> Furnace upgrades más rápidos</li>
-                <li><strong>Rosa (Troop Training +30%):</strong> Rebuild troops post-war más rápido</li>
-            </ol>
-
-            <p><strong>Unlocking Experts:</strong> Eventos especiales (Serendipity), Alliance Shop, y algunas
-                achievements. F2P puede desbloquear 3-4 experts sin gastar.</p>
-        </section>
-
-        <section id="research">
-            <h2>🔬 Research (Investigación) Priority</h2>
-
-            <h3>Research Tree Breakdown</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Categoría</th>
-                        <th>Prioridad</th>
-                        <th>Qué Researchar Primero</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Military (Militar)</strong></td>
-                        <td>🔥 Máxima</td>
-                        <td>Troop ATK/HP/DEF → Troop Capacity → Advanced Military</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Development</strong></td>
-                        <td>⚠️ Alta</td>
-                        <td>Economic Assistance → Construction Speed → Gathering Speed</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Trap Defense</strong></td>
-                        <td>⚠️ Media</td>
-                        <td>Solo si juegas defensa pasiva (no recomendado F2P)</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Research Path Óptimo (Furnace 1-35)</h3>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h4>Furnace 1-20</h4>
-                    <p><strong>Economic Focus:</strong> Construction Speed, Gathering Speed, Troop Capacity básico.
-                        Objetivo: poder crecer rápido.</p>
+                <i data-lucide="user-check"></i>
+                <div>
+                    <h4>Expertos Prioritarios</h4>
+                    <p>Focus en <strong>Bahador</strong> (+25% Research Speed) para acelerar tu tech tree y
+                        <strong>Jack</strong> (+20% Construction) para un Furnace rápido.
+                    </p>
                 </div>
-                <div class="timeline-item">
-                    <h4>Furnace 21-30</h4>
-                    <p><strong>Military Foundations:</strong> Unlock T8-T9 troops. Infantry/Lancer/Marksman ATK%
-                        research básico. Start Alliance battles.</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>Furnace 31-35</h4>
-                    <p><strong>Competitive Setup:</strong> T10 troops, Advanced Military research maxed. Aquí ya eres
-                        PvP-ready para SvS serio.</p>
-                </div>
-            </div>
-
-            <div class="highlight-box fire">
-                <h4>⏱️ Research Time Reality Check</h4>
-                <ul>
-                    <li>Military tree completo (T1 → T10) = <strong>200-300 días total</strong></li>
-                    <li>F2P sin speedups: 8-12 meses</li>
-                    <li>F2P usando speedups de eventos: 5-7 meses</li>
-                    <li>P2W: 1-2 meses (comprando speedup bundles)</li>
-                </ul>
-                <p><strong>Consejo:</strong> Siempre tener research activo 24/7. Nunca dejar Academy idle.</p>
             </div>
         </section>
 
-        <section id="gear">
-            <h2>⚙️ Chief Gear Crafting (Básico)</h2>
+        <section id="research" class="section">
+            <h2>🔬 Prioridad de Investigación</h2>
+            <p>El Academy nunca debe estar inactivo. Como F2P, el tiempo es tu recurso más escaso.</p>
 
-            <h3>Cómo Funciona Gear</h3>
-            <p>Chief Gear se craftea en Forge usando materiales (Iron, Coal, Design Fragments). Cada pieza tiene stats
-                random al craftearse.</p>
+            <div class="research-path">
+                <div class="path-step">
+                    <div class="step-level">F. 1-20</div>
+                    <div>
+                        <h4>Fase de Crecimiento Económico</h4>
+                        <p>Focus en <em>Construction Speed</em>, <em>Gathering Speed</em> y <em>Troop Capacity</em>
+                            básico. El objetivo es llegar a mid-game lo antes posible.</p>
+                    </div>
+                </div>
+                <div class="path-step">
+                    <div class="step-level">F. 21-30</div>
+                    <div>
+                        <h4>Fundamentos Militares</h4>
+                        <p>Desbloqueo de tropas T8-T9. Investigación de ATK% para Infantería, Lanceros y Tiradores.
+                            Inicio de batallas de Alianza serias.</p>
+                    </div>
+                </div>
+                <div class="path-step" style="border-color: var(--expert-gold);">
+                    <div class="step-level">F. 31-35</div>
+                    <div>
+                        <h4>Setup Competitivo</h4>
+                        <p>Tropas T10 e investigación de <em>Advanced Military</em> al máximo. Aquí es donde te
+                            conviertes en una verdadera amenaza en SvS.</p>
+                    </div>
+                </div>
+            </div>
 
-            <h4>Tipos de Gear Sets</h4>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Set</th>
-                        <th>Para Qué</th>
-                        <th>Stats Óptimos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Combat Set</strong></td>
-                        <td>PvP, Arena, SvS</td>
-                        <td>Hero ATK%, Hero HP%, Hero Skill DMG%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Gathering Set</strong></td>
-                        <td>Farmear RSS del mapa</td>
-                        <td>Gathering Speed%, Load Capacity%, March Speed%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Defense Set</strong></td>
-                        <td>Anti-rally, garrison minas</td>
-                        <td>Troop HP%, Hero DEF%, Trap ATKmarco%</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Crafting Strategy F2P</h3>
-            <ol>
-                <li><strong>Early (Furnace &lt;25):</strong> Craftear CUALQUIER Epic (purple) gear. Stats no importan
-                    tanto aún.</li>
-                <li><strong>Mid (Furnace 25-32):</strong> Craftear Epic selectivo. Re-roll si stats son gathering
-                    (inútil para combat)</li>
-                <li><strong>Late (Furnace 33+):</strong> Intentar craftear Legendary (gold). Requiere event materials.
-                </li>
-            </ol>
-
-            <div class="highlight-box ice">
-                <h4>💎 Legendary Crafting (P2W Territory)</h4>
-                <p>Legendary gear tiene 3x stats de Epic, pero costo es prohibitivo F2P:</p>
-                <ul>
-                    <li>1 pieza Legendary = ~5,000 Design Fragments + 20M Iron + 5M Coal</li>
-                    <li>Set completo (6 piezas) = Months de farmeo o $200-400 USD</li>
-                    <li><strong>F2P Recomendación:</strong> Epic gear bien rolled &gt; Legendary con stats malos</li>
-                </ul>
+            <div class="highlight-box warning">
+                <i data-lucide="clock"></i>
+                <div>
+                    <h4>Reality Check</h4>
+                    <p>Completar el Military Tree (T1 → T10) toma entre <strong>200-300 días</strong> para un F2P. Usa
+                        los speedups de eventos sabiamente para recortar este tiempo a 5-7 meses.</p>
+                </div>
             </div>
         </section>
 
-        <section id="tips-avanzados">
+        <section id="gear" class="section">
+            <h2><i data-lucide="hammer"></i> Chief Gear Crafting</h2>
+            <p>Craftear en la Forge requiere paciencia. Un set bien optimizado puede vencer a un jugador con mucho más
+                poder pero mal equipo.</p>
+
+            <div class="forge-container">
+                <div class="gear-set-grid">
+                    <!-- Combat Set -->
+                    <div class="gear-set-card" style="border-top: 4px solid var(--svs-red);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="margin:0;">Combat Set</h4>
+                            <span class="category-badge" style="background: var(--svs-red); color: white; margin:0;">PvP
+                                Meta</span>
+                        </div>
+                        <p class="phase-goal" style="margin-top: 1rem;">Tu prioridad absoluta. Es la base de tu fuerza
+                            en Arena y SvS.</p>
+
+                        <div class="stat-badge-list">
+                            <span class="stat-badge atk"><i data-lucide="swords" style="width:14px;"></i> Hero
+                                ATK%</span>
+                            <span class="stat-badge hp"><i data-lucide="heart" style="width:14px;"></i> Hero HP%</span>
+                            <span class="stat-badge"><i data-lucide="zap" style="width:14px;"></i> Hero Skill
+                                DMG%</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-gray);">Focus total en estos 3 stats para
+                            dominar el ranking.</p>
+                    </div>
+
+                    <!-- Gathering Set -->
+                    <div class="gear-set-card" style="border-top: 4px solid var(--tech-blue);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="margin:0;">Gathering Set</h4>
+                            <span class="category-badge"
+                                style="background: var(--tech-blue); color: #000; margin:0;">Economy</span>
+                        </div>
+                        <p class="phase-goal" style="margin-top: 1rem;">Útil solo para cuentas secundarias (Farms) o
+                            progresión pasiva.</p>
+
+                        <div class="stat-badge-list">
+                            <span class="stat-badge"><i data-lucide="navigation" style="width:14px;"></i> Speed%</span>
+                            <span class="stat-badge"><i data-lucide="package" style="width:14px;"></i> Load
+                                Capacity%</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-gray);">No desperdicies recursos de tu cuenta
+                            principal aquí.</p>
+                    </div>
+                </div>
+
+                <div class="forge-warning">
+                    <div class="warning-number">5k</div>
+                    <div>
+                        <h4 style="color: var(--svs-red); margin-bottom: 0.5rem;">Legendary Crafting Warning</h4>
+                        <p style="font-size: 0.95rem;">Una sola pieza Legendary cuesta ~5,000 Fragments.
+                            <strong>Recomendación F2P:</strong> Un set Epic (purple) con buenos rolls es 3 veces más
+                            efectivo que piezas Legendary aisladas con stats mediocres.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="avanzado" class="section">
             <h2>🧠 Tips Avanzados (Game-Changers)</h2>
+            <p>Estrategias de nivel experto que pueden cambiar el curso de tu progresión y de las guerras de servidor.
+            </p>
 
-            <h3>1. Multiple Account Farm (Legal pero grindy)</h3>
-            <p>Crear alt account (farm) para apoyar tu main:</p>
-            <ul>
-                <li><strong>Setup:</strong> Dispositivo secundariotablet/PC con emulador</li>
-                <li><strong>Función:</strong> Alt gatherea recursos 24/7 y transfiere a main vía trade</li>
-                <li><strong>Extra:</strong> Alt puede join rallies para reinforcements en SvS</li>
-                <li><strong>Contra:</strong> Requiere dual-management (time-consuming)</li>
-            </ul>
+            <div class="strategy-grid">
+                <!-- Alt Account -->
+                <div class="strategy-card">
+                    <span class="strategy-tag">Expansión Económica</span>
+                    <h4><i data-lucide="layers"></i> Alt Account Farm</h4>
+                    <p>Crea una cuenta secundaria para recolectar recursos 24/7 y transferirlos a tu main. Esto ignora
+                        los límites de recolección de una sola cuenta.</p>
+                    <div class="strategy-outcome">
+                        <strong>Resultado:</strong> Dobla tu velocidad de crecimiento sin gastar un solo diamante.
+                    </div>
+                </div>
 
-            <h3>2. Fake Teleport Strategy (SvS)</h3>
-            <p>Desinformación enemiga:</p>
-            <ol>
-                <li>Anunciar en World Chat que tu alianza va a portar a zona X</li>
-                <li>Enemigos se posicionan para defender zona X</li>
-                <li>Tu alianza porta a zona Y (opposite direction)</li>
-                <li>Capturan minas sin resistencia</li>
-            </ol>
-            <p><em>Nota: Solo funciona 1-2 veces. Enemigos aprenden.</em></p>
+                <!-- Hospital Trick -->
+                <div class="strategy-card hospital">
+                    <span class="strategy-tag">Gestión de Riesgos</span>
+                    <h4><i data-lucide="activity"></i> Hospital Trick</h4>
+                    <p>Envía tropas a atacar un NPC fuerte antes de un upgrade masivo. Las tropas en hospital no cuentan
+                        para el poder total visible.</p>
+                    <div class="strategy-outcome">
+                        <strong>Resultado:</strong> Reduce tu visibilidad ante ballenas y ahorra recursos protegidos.
+                    </div>
+                </div>
 
-            <h3>3. Hospital Trick para Save Resources</h3>
-            <p>Antes de upgrade masivo (Furnace 30+):</p>
-            <ol>
-                <li>Envía tropas a attack un NPC fuerte (Polar Bear Lv50)</li>
-                <li>Tropas "mueren" pero van a hospital (no pierdes completamente)</li>
-                <li>Esto REDUCE tu power temporalmente</li>
-                <li>Haces upgrade con resources (nadie te ataca porque bajas en ranking)</li>
-                <li>Heal tropas después (re-gain power)</li>
-            </ol>
-            <p><strong>Advertencia:</strong> Healing cost puede ser alto. Solo viable si tienes healing speedups.</p>
-
-            <h3>4. VIP Hacks</h3>
-            <ul>
-                <li><strong>VIP Point Events:</strong> Espera eventos double VIP points (occur mensualmente) antes de
-                    comprar VIP crates.</li>
-                <li><strong>VIP 10 Meta:</strong> Push VIP 10 ASAP (2nd building queue permanente = game-changer).</li>
-                <li><strong>VIP 12+:</strong> Solo P2W territory. F2P tarda ~2 años llegar VIP 12 sin pagar.</li>
-            </ul>
-        </section>
-
-        <section id="errores">
-            <h2>❌ Errores Comunes (No Hagas Esto)</h2>
-
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Error</th>
-                        <th>Por Qué Es Malo</th>
-                        <th>Qué Hacer Instead</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Upgrade todo parejo</td>
-                        <td>Dispersas recursos, progresas lento</td>
-                        <td>Focus Furnace = unlock de todo. Ver guía Building Priority</td>
-                    </tr>
-                    <tr>
-                        <td>Join alianza random early</td>
-                        <td>Alianzas muertas = sin help, sin events</td>
-                        <td>Buscar alianza top 5 del servidor. Si rechazan, top 10.</td>
-                    </tr>
-                    <tr>
-                        <td>Craftear gear de gathering</td>
-                        <td>Waste materials. Gathering gear solo útil para farms</td>
-                        <td>Craft combat gear. Usa heroes con Expedition skills para gather</td>
-                    </tr>
-                    <tr>
-                        <td>No usar shields</td>
-                        <td>Te zerean overnight, pierdes semanas de progreso</td>
-                        <td>Shield 24/7 si &lt;100M power y offline</td>
-                    </tr>
-                    <tr>
-                        <td>Ignorar dailies</td>
-                        <td>Pierdes 3K+ gems/semana gratis</td>
-                        <td>Completar daily quest chain religiosamente</td>
-                    </tr>
-                    <tr>
-                        <td>Gastar gemas en speedups</td>
-                        <td>Terrible exchange rate</td>
-                        <td>Gemas SOLO para Lucky Wheel y VIP</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="dailies">
-            <h2>📅 Rutina Diaria Óptima (Checklist)</h2>
-
-            <div class="highlight-box ice">
-                <h4>⏰ Morning Routine (10 minutos)</h4>
-                <ol>
-                    <li>✅ Collect alliance chest + gift rewards</li>
-                    <li>✅ Help All en alliance (press 3 veces durante el día)</li>
-                    <li>✅ Enviar gathering marches (objetivo: 5M+ meat/wood al día)</li>
-                    <li>✅ Free chest en Shop (cada 6h, no olvidar)</li>
-                    <li>✅ Check eventos activos (Bear Hunt, Crazy Joe, etc.)</li>
-                </ol>
+                <!-- Fake Teleport -->
+                <div class="strategy-card teleport">
+                    <span class="strategy-tag">Guerra Psicológica</span>
+                    <h4><i data-lucide="shield-alert"></i> Fake Teleport (SvS)</h4>
+                    <p>Anuncia un objetivo falso en el chat global para forzar al enemigo a gastar escudos o reforzarse
+                        en la zona equivocada. Ataca el flanco opuesto de inmediato.</p>
+                    <div class="strategy-outcome">
+                        <strong>Resultado:</strong> Captura minas y objetivos críticos sin resistencia enemiga.
+                    </div>
+                </div>
             </div>
-
-            <div class="highlight-box fire">
-                <h4>🌙 Evening Routine (15 minutos)</h4>
-                <ol>
-                    <li>✅ Arena attacks (usar todas las 5 acciones)</li>
-                    <li>✅ Complete daily quest chain (120 gems)</li>
-                    <li>✅ Participate en evento activo (SvS, passing treasures, etc.)</li>
-                    <li>✅ Academy research activo antes de dormir (8h research)</li>
-                    <li>✅ Gathering marches overnight (buscar tiles Lv7+)</li>
-                    <li>✅ Shield ON si &lt;100M power</li>
-                </ol>
-            </div>
-
-            <h3>Weekly Todos</h3>
-            <ul>
-                <li><strong>Lunes:</strong> Revisar alliance tech donations (weekly reset)</li>
-                <li><strong>Miércoles:</strong> Preparar para SvS (shield, gear check, coordination)</li>
-                <li><strong>Viernes:</strong> Redeem gift codes nuevos (check Hub para códigos activos)</li>
-                <li><strong>Domingo:</strong> Review progress (gems acumuladas, fragments, milestones)</li>
-            </ul>
         </section>
 
-        <div class="cta-box">
-            <h3>🎯 Recordatorio Final</h3>
-            <p>Whiteout Survival es maratón, no sprint. Jugadores que juegan 30 min/día consistentemente por 6 meses
-                superan a jugadores que hacen binges de 8h/día por 1 mes y queman.</p>
-            <p><strong>Clave del éxito:</strong> Rutina diaria + Paciencia + Alianza activa + Leer guides = Top 100
-                servidor en &lt;1 año F2P.</p>
-            <a href="../index.html#guias" class="btn primary">← Volver a Guías</a>
+        <section id="rutina" class="section">
+            <h2>📅 Rutina Diaria Óptima</h2>
+            <p>La constancia de 30 minutos diarios supera a binges de 8 horas esporádicos.</p>
+
+            <div class="routine-container">
+                <div class="routine-box morning">
+                    <h4><i data-lucide="sun"></i> Mañana (10 min)</h4>
+                    <div class="routine-item">✅ Recoger Alliance Chests</div>
+                    <div class="routine-item">✅ "Help All" (mínimo 3 veces al día)</div>
+                    <div class="routine-item">✅ Marchas de recolección (objetivo: 5M)</div>
+                    <div class="routine-item">✅ Cofre gratis en Shop</div>
+                </div>
+                <div class="routine-box evening">
+                    <h4><i data-lucide="moon"></i> Noche (15 min)</h4>
+                    <div class="routine-item">✅ 5 Ataques de Arena</div>
+                    <div class="routine-item">✅ Daily Quest Chain completa</div>
+                    <div class="routine-item">✅ Research activo de 8h+</div>
+                    <div class="routine-item">✅ Escudo ON (si offline > 12h)</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="conclusion cta-box">
+            <h3>🛡️ Palabras Finales</h3>
+            <p>Whiteout Survival es un maratón. La clave del éxito F2P es la disciplina diaria, una alianza activa y
+                seguir estas guías al pie de la letra. ¡Nos vemos en el Top 100!</p>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <a href="../index.html" class="btn primary">Volver al Hub</a>
+                <a href="#toc" class="btn secondary">Subir ↑</a>
+            </div>
         </div>
     </article>
 
-    <footer>
-        <p>© 2026 Whiteout Survival Hub Español</p>
+    <footer
+        style="margin-top: 5rem; padding: 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-gray);">
+        <p>© 2026 Whiteout Survival Hub - Pro Tips Division</p>
     </footer>
 
-    <script src="../js/app.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        // Progress Bar
+        window.onscroll = function () {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("reading-progress").style.width = scrolled + "%";
+        };
+
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

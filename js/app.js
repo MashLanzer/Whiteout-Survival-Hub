@@ -59,7 +59,7 @@ function displayHeroes() {
             const bgColor = tierColors[hero.tier] || '1a2233';
 
             // Try local image first (webp format based on what user has)
-            const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+            const imageName = hero.name;
             const localImage = `images/${imageName}.webp`;
             const placeholderImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=200&background=${bgColor}&color=ffffff&bold=true&font-size=0.5`;
 
@@ -97,7 +97,7 @@ function showHeroModal(hero) {
         'C': '#666666'
     };
 
-    const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+    const imageName = hero.name;
     const bgColor = tierColors[hero.tier] || '#1a2233';
 
     modalContent.innerHTML = `
@@ -122,15 +122,62 @@ function showHeroModal(hero) {
                 <p>${hero.desc}</p>
             </div>
             
-            <div class="modal-section">
-                <h3><i data-lucide="zap"></i> Habilidades</h3>
-                <p><strong>${hero.skills}</strong></p>
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3><i data-lucide="bar-chart-3"></i> Estadísticas Base</h3>
+                    <div class="stat-bars">
+                        <div class="stat-bar-item">
+                            <label>Ataque</label>
+                            <div class="progress-container"><div class="progress-bar" style="width: ${hero.stats?.atk || 50}%"></div></div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <label>Defensa</label>
+                            <div class="progress-container"><div class="progress-bar" style="width: ${hero.stats?.def || 50}%; background: #2ecc71;"></div></div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <label>Salud</label>
+                            <div class="progress-container"><div class="progress-bar" style="width: ${hero.stats?.hp || 50}%; background: #e74c3c;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                ${hero.synergy ? `
+                <div class="modal-section">
+                    <h3><i data-lucide="users"></i> Sinergias</h3>
+                    <div class="synergy-list">
+                        ${hero.synergy.split(', ').map(s => `<span class="synergy-tag">${s}</span>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
             </div>
-            
-            <div class="modal-section">
-                <h3><i data-lucide="target"></i> Mejor Para</h3>
-                <p>${hero.bestFor}</p>
+
+            ${hero.story ? `
+            <div class="modal-section story-section">
+                <h3><i data-lucide="book-open"></i> Historia Original</h3>
+                <div class="story-content">
+                    <p>${hero.story}</p>
+                </div>
             </div>
+            ` : ''}
+
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3><i data-lucide="zap"></i> Habilidades</h3>
+                    <p><strong>${hero.skills}</strong></p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3><i data-lucide="target"></i> Mejor Para</h3>
+                    <p>${hero.bestFor}</p>
+                </div>
+            </div>
+
+            ${hero.tips ? `
+            <div class="modal-section tips-section" style="background: rgba(255, 140, 0, 0.05); padding: 1.5rem; border-radius: 15px; border-left: 4px solid #ff8c00; margin-top: 1rem;">
+                <h3 style="color: #ff8c00;"><i data-lucide="lightbulb"></i> Estrategia y Consejos</h3>
+                <p style="color: #eee; font-size: 0.95rem;">${hero.tips}</p>
+            </div>
+            ` : ''}
             
             <div class="modal-section">
                 <h3><i data-lucide="gamepad-2"></i> Modos Recomendados</h3>
@@ -298,6 +345,9 @@ async function loadEvents() {
         events.slice(0, 5).forEach((event, index) => {
             const eventItem = document.createElement('div');
             eventItem.className = `event-item ${event.status === 'active' ? 'active' : ''}`;
+            eventItem.style.cursor = 'pointer';
+            eventItem.onclick = () => showEventModal(event);
+
             eventItem.innerHTML = `
                 <div class="event-icon">${event.icon}</div>
                 <div class="event-details">
@@ -314,6 +364,65 @@ async function loadEvents() {
         console.error('Error cargando eventos:', error);
     }
 }
+
+// ===== MODAL DE EVENTO =====
+function showEventModal(event) {
+    const modal = document.getElementById('event-modal');
+    const content = document.getElementById('modal-event-content');
+    if (!modal || !content) return;
+
+    const details = event.details || {
+        explanation: event.description,
+        howToPlay: ["Próximamente más detalles sobre este evento."],
+        rewards: "Recursos y items varios."
+    };
+
+    content.innerHTML = `
+        <div class="event-modal-header">
+            <div class="event-modal-icon">${event.icon}</div>
+            <div class="event-modal-title">
+                <h2>${event.name}</h2>
+                <span class="badge ${event.status}">${event.date} | ${event.time}</span>
+            </div>
+        </div>
+        
+        <div class="modal-body">
+            <div class="modal-section">
+                <h3><i data-lucide="info"></i> ¿Qué es este evento?</h3>
+                <p>${details.explanation}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3><i data-lucide="play-circle"></i> Cómo jugar / Tips</h3>
+                <ul class="event-tips-list">
+                    ${details.howToPlay.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3><i data-lucide="gift"></i> Recompensas Principales</h3>
+                <p>${details.rewards}</p>
+            </div>
+
+            <button class="btn primary full-width" onclick="closeEventModal()" style="margin-top: 2rem;">Cerrar</button>
+        </div>
+    `;
+
+    modal.style.display = 'flex';
+    if (window.lucide) lucide.createIcons();
+}
+
+function closeEventModal() {
+    const modal = document.getElementById('event-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+// Close event modal when clicking outside
+document.getElementById('event-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'event-modal') {
+        closeEventModal();
+    }
+});
 
 
 // ============================================

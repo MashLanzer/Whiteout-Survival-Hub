@@ -4,16 +4,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Definitiva SvS - Whiteout Survival</title>
+    <title>Guía Definitiva SvS - Whiteout Survival Hub</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/guides.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --svs-red: #ff3e3e;
+            --svs-orange: #ff8c00;
+            --svs-dark-red: #8b0000;
+        }
+
+        .svs-header {
+            position: relative;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(10, 14, 23, 0.7), var(--bg-dark)),
+                url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 2px solid var(--svs-red);
+            margin-bottom: 4rem;
+        }
+
+        .svs-header h1 {
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, white 0%, var(--svs-red) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(255, 62, 62, 0.5));
+        }
+
+        .svs-badge {
+            background: var(--svs-red);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba(255, 62, 62, 0.4);
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .role-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--primary);
+        }
+
+        .role-card.titan::before {
+            background: #ffaa00;
+        }
+
+        .role-card.attacker::before {
+            background: var(--svs-red);
+        }
+
+        .role-card.defender::before {
+            background: #00d2ff;
+        }
+
+        .role-card.scout::before {
+            background: #9370db;
+        }
+
+        .role-card.farmer::before {
+            background: #2ecc71;
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .role-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-meta {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .svs-timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin: 4rem 0;
+        }
+
+        .svs-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--svs-red), var(--primary));
+        }
+
+        .timeline-node {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--bg-dark);
+            border: 3px solid var(--svs-red);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .node-date {
+            color: var(--svs-red);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .node-content {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .battle-window {
+            background: rgba(255, 62, 62, 0.05);
+            border: 1px dashed var(--svs-red);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .battle-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .step-num {
+            background: var(--svs-red);
+            min-width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid var(--border);
+        }
+
+        .score-badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+
+        .color-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-family: monospace;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .svs-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .svs-timeline {
+                padding-left: 2rem;
+            }
+
+            .svs-timeline::before {
+                left: 0.2rem;
+            }
+
+            .timeline-node::before {
+                left: -2.3rem;
+            }
+        }
+
+        /* NEW PREMIUM TACTICAL COMPONENTS */
+        .phase-grid,
+        .tactical-grid,
+        .reward-tiers,
+        .error-alerts {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .phase-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .phase-card:hover {
+            border-color: var(--svs-red);
+            background: rgba(255, 62, 62, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .phase-name {
+            display: block;
+            font-weight: 800;
+            color: var(--svs-red);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .phase-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .phase-goal {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.4;
+        }
+
+        /* Tactical Cards */
+        .tactical-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .tactical-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tactical-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tactical-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 62, 62, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--svs-red);
+        }
+
+        .tactical-card h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .tactical-body div {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .tactical-label {
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        /* Reward Tiers */
+        .reward-tiers {
+            grid-template-columns: 1fr;
+        }
+
+        .reward-tier {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            gap: 2rem;
+            transition: 0.3s;
+        }
+
+        .reward-tier:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--svs-orange);
+        }
+
+        .tier-rank {
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .rank-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            display: block;
+        }
+
+        .rank-label {
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        .tier-pts {
+            flex: 1;
+            font-weight: 700;
+            color: var(--svs-orange);
+            font-size: 1.1rem;
+        }
+
+        .tier-items {
+            flex: 2;
+            color: var(--text-white);
+            font-size: 1rem;
+        }
+
+        .reward-tier.top-1 {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .reward-tier.top-1 .rank-num {
+            color: #ffd700;
+        }
+
+        /* Error Alerts */
+        .error-alerts {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .error-card {
+            background: rgba(255, 62, 62, 0.03);
+            border: 1px solid rgba(255, 62, 62, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--svs-red);
+        }
+
+        .error-card h4 {
+            color: var(--svs-red);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .error-consequence {
+            color: #ff8e8e;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .error-solution {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            color: #a0ffcf;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .reward-tier {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="progress-container">
+        <div class="progress-bar" id="reading-progress"></div>
+    </div>
     <div class="snow-container"></div>
 
     <nav class="navbar">
@@ -25,442 +473,437 @@
         <a href="../index.html" class="btn secondary">← Volver al Hub</a>
     </nav>
 
-    <article class="guide-article">
-        <header class="guide-header">
-            <h1>⚔️ Guía Definitiva de SvS</h1>
-            <p class="guide-subtitle">Domina State vs State y lleva a tu alianza a la victoria</p>
-            <div class="meta-info">
-                <span>📅 Actualizado: Febrero 2026</span>
-                <span>⏱️ Lectura: 12 min</span>
-                <span>🎯 Nivel: Intermedio-Avanzado</span>
-            </div>
-        </header>
+    <header class="svs-header">
+        <span class="svs-badge">Evento Mundial PvP</span>
+        <h1>⚔️ Guía Definitiva de SvS</h1>
+        <p class="guide-subtitle">Lleva a tu estado a la gloria eterna</p>
+        <div class="meta-info">
+            <span>📅 Feb 2026</span>
+            <span>⏱️ 12 min</span>
+            <span>🎯 Intermedio-Avanzado</span>
+        </div>
+    </header>
 
+    <article class="guide-article">
         <nav class="toc">
-            <h3>📑 Tabla de Contenidos</h3>
+            <h3>📑 Estrategia de Guerra</h3>
             <ul>
-                <li><a href="#que-es">¿Qué es SvS?</a></li>
-                <li><a href="#preparacion">Preparación Pre-SvS</a></li>
-                <li><a href="#roles">Roles en el Estado</a></li>
-                <li><a href="#estrategia">Estrategia de Batalla</a></li>
-                <li><a href="#rally">Rally y Concentraciones</a></li>
-                <li><a href="#defensa">Defensa del Estado</a></li>
-                <li><a href="#recompensas">Maximizar Recompensas</a></li>
-                <li><a href="#errores">Errores Comunes</a></li>
+                <li><a href="#que-es">Conceptos Core</a></li>
+                <li><a href="#preparacion">Preparación</a></li>
+                <li><a href="#roles">Roles Estratégicos</a></li>
+                <li><a href="#estrategia">Ventanas de Batalla</a></li>
+                <li><a href="#rally">Tácticas de Rally</a></li>
+                <li><a href="#defensa">Protocolos de Defensa</a></li>
+                <li><a href="#recompensas">Optimización de Puntos</a></li>
             </ul>
         </nav>
 
-        <section id="que-es">
-            <h2>⚔️ ¿Qué es State vs State (SvS)?</h2>
+        <section id="que-es" class="section">
+            <h2><i data-lucide="shield-alert"></i> ¿Qué es State vs State?</h2>
             <p>SvS es el evento PvP más importante de Whiteout Survival. Cada 2-3 semanas, tu estado (servidor) se
                 enfrenta a otro en una guerra masiva de 48 horas donde alianzas enteras luchan por territorios, recursos
                 y honor.</p>
 
             <div class="highlight-box ice">
-                <h4>📊 Datos Clave del SvS</h4>
-                <ul>
-                    <li><strong>Duración:</strong> 48 horas (Sábado-Domingo)</li>
-                    <li><strong>Participantes:</strong> Todo el estado vs otro estado</li>
-                    <li><strong>Objetivo:</strong> Acumular más puntos que el estado rival</li>
-                    <li><strong>Recompensas:</strong> Gemas, Speedups, Hero Fragments, RSS masivos</li>
-                </ul>
+                <i data-lucide="bar-chart-2"></i>
+                <div>
+                    <h4>📊 Datos Clave del SvS</h4>
+                    <ul>
+                        <li><strong>Duración:</strong> 48 horas (Sábado-Domingo)</li>
+                        <li><strong>Participantes:</strong> Todo el estado vs otro estado</li>
+                        <li><strong>Objetivo:</strong> Acumular más puntos que el estado rival</li>
+                        <li><strong>Recompensas:</strong> Gemas, Speedups, Hero Fragments, RSS masivos</li>
+                    </ul>
+                </div>
             </div>
 
             <h3>Fases del SvS</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Fase</th>
-                        <th>Duración</th>
-                        <th>Objetivo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Preparación</td>
-                        <td>3 días antes</td>
-                        <td>Fabricar gear, ahorrar stamina, coordinar alianza</td>
-                    </tr>
-                    <tr>
-                        <td>Día 1 (Sábado)</td>
-                        <td>24h</td>
-                        <td>Capturar minas, eliminar farms, presión inicial</td>
-                    </tr>
-                    <tr>
-                        <td>Día 2 (Domingo)</td>
-                        <td>24h</td>
-                        <td>Defensiva o agresiva según scoreboard, rallies finales</td>
-                    </tr>
-                    <tr>
-                        <td>Cierre Final</td>
-                        <td>Última hora</td>
-                        <td>Rush de puntos, burns masivos</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="phase-grid">
+                <div class="phase-card">
+                    <span class="phase-name">Logística</span>
+                    <span class="phase-time">3 Días Antes</span>
+                    <div class="phase-goal">Fabricar gear, ahorrar stamina y coordinar alianza.</div>
+                </div>
+                <div class="phase-card">
+                    <span class="phase-name">Apertura</span>
+                    <span class="phase-time">Día 1 (Sábado)</span>
+                    <div class="phase-goal">Capturar minas, eliminar alts y presión inicial.</div>
+                </div>
+                <div class="phase-card">
+                    <span class="phase-name">Guerra</span>
+                    <span class="phase-time">Día 2 (Domingo)</span>
+                    <div class="phase-goal">Defensa o agresión según scoreboard y rallies finales.</div>
+                </div>
+                <div class="phase-card" style="border-bottom: 3px solid var(--svs-red);">
+                    <span class="phase-name">Blitz</span>
+                    <span class="phase-time">Última Hora</span>
+                    <div class="phase-goal">Rush de puntos y quemado masivo de alianzas.</div>
+                </div>
+            </div>
         </section>
 
-        <section id="preparacion">
-            <h2>🛠️ Preparación Pre-SvS (Crítico)</h2>
+        <section id="preparacion" class="section">
+            <h2><i data-lucide="hammer"></i> Logística Pre-Guerra</h2>
             <p>La victoria en SvS se decide ANTES del evento. Los estados organizados ganan 9/10 veces.</p>
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h4>7 Días Antes</h4>
-                    <p><strong>Comunicación alianza:</strong> Discord/WhatsApp activo. Definir roles (attackers,
-                        defenders, scouts). Leader establece objetivos.</p>
+            <div class="svs-timeline">
+                <div class="timeline-node">
+                    <span class="node-date">D-7: Organización</span>
+                    <div class="node-content">
+                        <strong>Protocolo de Redes:</strong> Activar canales de guerra en Discord. Confirmar
+                        disponibilidad de los Rally Leaders (RL). Definir roles.
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>5 Días Antes</h4>
-                    <p><strong>Farmeo masivo:</strong> Llenar almacenes. Objetivo mínimo: 50M wood+meat, 30M iron, 15M
-                        coal. Activar 24h shields para proteger recursos.</p>
+                <div class="timeline-node">
+                    <span class="node-date">D-5: Acumulación</span>
+                    <div class="node-content">
+                        <strong>Farmeo Masivo:</strong> Objetivo mínimo 50M Wood/Meat, 30M Iron, 15M Coal. Activar 24h
+                        shields para proteger excedentes.
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>3 Días Antes</h4>
-                    <p><strong>Craft Chief Gear:</strong> Fabricar gear de combate (no gathering). Priorizar Attack%,
-                        HP%, Defense%. Activar buffs de alianza.</p>
+                <div class="timeline-node">
+                    <span class="node-date">D-3: Armadura</span>
+                    <div class="node-content">
+                        <strong>Combat Gear:</strong> Fabricar/Equipar gear ofensivo. Priorizar Attack%, HP%, Defense%.
+                        Activar buffs de alianza.
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>1 Día Antes</h4>
-                    <p><strong>Stamina Full:</strong> No usar stamina. Tener 300+ stamina guardada. Comprar stamina
-                        bundles si es necesario. Troops full health.</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>12h Antes</h4>
-                    <p><strong>Final Check:</strong> Shield activo hasta inicio. Heroes en formación PvP. Research
-                        militar al máximo. Alliance help completo.</p>
+                <div class="timeline-node">
+                    <span class="node-date">D-1: Última Guardia</span>
+                    <div class="node-content">
+                        <strong>Max Stamina:</strong> Dejar de usar stamina. Guardar 300+ para el rush de minas.
+                        Hospital vacío (curar todo).
+                    </div>
                 </div>
             </div>
 
-            <div class="highlight-box fire">
-                <h4>⚠️ Checklist Obligatorio Pre-SvS</h4>
-                <ul>
-                    <li>✅ Chief Gear PvP equipado (Attack/Defense focus)</li>
-                    <li>✅ Héroes Gen más alta en slots principales</li>
-                    <li>✅ 300+ Stamina guardada</li>
-                    <li>✅ 24h Shield activo (quitar al inicio SvS)</li>
-                    <li>✅ Recursos en almacén protegido</li>
-                    <li>✅ Tropas full HP (heal todas las heridas)</li>
-                    <li>✅ Buffs de alianza activos</li>
-                    <li>✅ Discord/chat con coordinadores</li>
-                </ul>
+            <div class="highlight-box warning" style="border-left-color: var(--svs-red);">
+                <i data-lucide="check-square"></i>
+                <div>
+                    <h4>⚠️ Checklist Obligatorio Pre-SvS</h4>
+                    <ul class="feature-list" style="margin: 0; padding: 0;">
+                        <li style="background:transparent; border:none; padding: 0.5rem 0;"><i
+                                data-lucide="check-circle-2"></i> Chief Gear PvP equipado</li>
+                        <li style="background:transparent; border:none; padding: 0.5rem 0;"><i
+                                data-lucide="check-circle-2"></i> Héroes Gen más alta asignados</li>
+                        <li style="background:transparent; border:none; padding: 0.5rem 0;"><i
+                                data-lucide="check-circle-2"></i> 300+ Stamina guardada</li>
+                        <li style="background:transparent; border:none; padding: 0.5rem 0;"><i
+                                data-lucide="check-circle-2"></i> 24h Shield activo antes de iniciar</li>
+                        <li style="background:transparent; border:none; padding: 0.5rem 0;"><i
+                                data-lucide="check-circle-2"></i> Recursos protegidos en almacén</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
-        <section id="roles">
-            <h2>👥 Roles en el Estado</h2>
+        <section id="roles" class="section">
+            <h2><i data-lucide="users"></i> Roles en el Estado</h2>
             <p>Un estado bien organizado divide jugadores por poder y rol estratégico:</p>
 
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Rol</th>
-                        <th>Poder</th>
-                        <th>Función</th>
-                        <th>Consejos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Titans 🦁</strong></td>
-                        <td>200M+</td>
-                        <td>Liderar rallies, atacar fortalezas enemigas, defensa de capital</td>
-                        <td>Máximo gear, heroes maxed. Coordinar con R4/R5.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Attackers ⚔️</strong></td>
-                        <td>100M-200M</td>
-                        <td>Solos vs farms, joins en rallies, capturar minas</td>
-                        <td>High stamina, gear balanceado. Priorizar speed.tro</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Defenders 🛡️</strong></td>
-                        <td>50M-100M</td>
-                        <td>Garrison minas propias, defensa de tiles, reinforce titans</td>
-                        <td>Gear defensivo, heroes tanque. Shields listos.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Scouts 🔍</strong></td>
-                        <td>30M-50M</td>
-                        <td>Explorar estado enemigo, marcar targets, reportar movements</td>
-                        <td>Speed march. Low troop march (no morir). Comunicación clave.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Farmers 🌾</strong></td>
-                        <td>
-                            <30M< /td>
-                        <td>Recolección de recursos, transport a titans, support roles</td>
-                        <td>Shield permanente si posible. No salir al mapa sin órdenes.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="role-grid">
+                <div class="role-card titan">
+                    <span class="role-icon">🦁</span>
+                    <span class="role-title">Titan (200M+)</span>
+                    <p>Liderar rallies pesados, atacar fortalezas y defensa de capital. Héroes maxed obligatorios.</p>
+                </div>
+                <div class="role-card attacker">
+                    <span class="role-icon">⚔️</span>
+                    <span class="role-title">Attacker (100-200M)</span>
+                    <p>Ataques continuos vs farms enemigas, joiners en rallies principales, captura de minas móviles.
+                    </p>
+                </div>
+                <div class="role-card defender">
+                    <span class="role-icon">🛡️</span>
+                    <span class="role-title">Guardian (50-100M)</span>
+                    <p>Garrison en minas Lv7 propias, defensa de tiles y refuerzo de Titans. Shields siempre listos.</p>
+                </div>
+                <div class="role-card scout">
+                    <span class="role-icon">🔍</span>
+                    <span class="role-title">Scout (30-50M)</span>
+                    <p>Explorar estado enemigo, marcar targets vulnerables y reportar movimientos en chat.</p>
+                </div>
+            </div>
 
-            <div class="highlight-box ice">
-                <h4>💡 Tip Pro: Sistema de Colores</h4>
-                <p>Muchas alianzas usan prefijos en nombres:</p>
-                <ul>
-                    <li><span style="color: #ff0000">[ATK]</span> = Attackers agresivos</li>
-                    <li><span style="color: #00ff00">[DEF]</span> = Defenders de tiles</li>
-                    <li><span style="color: #ffaa00">[SCT]</span> = Scouts</li>
-                    <li><span style="color: #888888">[FRM]</span> = Farmers (no combat)</li>
-                </ul>
+            <div class="highlight-box info">
+                <i data-lucide="palette"></i>
+                <div>
+                    <h4>💡 Tip Pro: Sistema de Colores</h4>
+                    <p>Prefijos recomendados para coordinación visual:</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;"><span class="color-tag"
+                                style="background: #ff3e3e; color:white;">[ATK]</span> Attackers agresivos</li>
+                        <li style="margin-bottom: 0.5rem;"><span class="color-tag"
+                                style="background: #00d2ff; color:black;">[DEF]</span> Defenders de territorio</li>
+                        <li style="margin-bottom: 0.5rem;"><span class="color-tag"
+                                style="background: #ffcc00; color:black;">[SCT]</span> Scouts (Exploradores)</li>
+                        <li style="margin-bottom: 0.5rem;"><span class="color-tag"
+                                style="background: #888888; color:white;">[FRM]</span> Farmers / Soporte Logístico</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
-        <section id="estrategia">
-            <h2>🎯 Estrategia de Batalla</h2>
+        <section id="estrategia" class="section">
+            <h2><i data-lucide="target"></i> Estrategia de Batalla</h2>
 
-            <h3>Primeras 6 Horas (Critical Window)</h3>
-            <p>Las primeras horas deciden el momentum del SvS:</p>
-            <ol>
-                <li><strong>0-2h:</strong> Rush a minas nivel 7+. Capturar máximo territorio. Evitar fights
-                    innecesarios.</li>
-                <li><strong>2-4h:</strong> Establecer garrison en minas clave. Formar defensive line en fronteras.</li>
-                <li><strong>4-6h:</strong> Iniciar rallies organizados vs farms enemigas. Acumular puntos early.</li>
-            </ol>
+            <h3>La Ventana Crítica (Primeras 6 Horas)</h3>
+            <div class="battle-window">
+                <div class="battle-step">
+                    <div class="step-num">01</div>
+                    <div><strong>0-2h Rush:</strong> Capturar el máximo territorio de minas Lv7+. Evitar peleas menores.
+                    </div>
+                </div>
+                <div class="battle-step">
+                    <div class="step-num">02</div>
+                    <div><strong>2-4h Garrison:</strong> Establecer defensa sólida en fronteras y minas clave.</div>
+                </div>
+                <div class="battle-step">
+                    <div class="step-num">03</div>
+                    <div><strong>4-6h Offensive:</strong> Iniciar rallies coordinados vs alianzas top enemigas.</div>
+                </div>
+            </div>
 
             <h3>Sistema de Puntos SvS</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Acción</th>
-                        <th>Puntos Base</th>
-                        <th>Multiplicador</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Eliminar tropa T10</td>
-                        <td>100 pts</td>
-                        <td>x1.5 si power &gt;100M</td>
-                    </tr>
-                    <tr>
-                        <td>Quemar Furnace 35+</td>
-                        <td>5,000 pts</td>
-                        <td>x2 si conquista completa</td>
-                    </tr>
-                    <tr>
-                        <td>Capturar mina Lv7</td>
-                        <td>2,000 pts/h</td>
-                        <td>x1.2 si hold por 6h+</td>
-                    </tr>
-                    <tr>
-                        <td>Defender rally exitoso</td>
-                        <td>3,000 pts</td>
-                        <td>x3 si derrotan rally completo</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="score-row">
+                <span>Eliminar tropa T10 enemiga</span>
+                <span class="score-badge">+100 pts (x1.5 bonus)</span>
+            </div>
+            <div class="score-row">
+                <span>Quemar Furnace 35+</span>
+                <span class="score-badge">+5,000 pts</span>
+            </div>
+            <div class="score-row">
+                <span>Capturar mina Lv7 (Holding)</span>
+                <span class="score-badge">+2,000 pts / hora</span>
+            </div>
+            <div class="score-row">
+                <span>Defensa de rally exitosa</span>
+                <span class="score-badge">+3,000 pts</span>
+            </div>
 
-            <div class="highlight-box fire">
-                <h4>🔥 Meta Estrategia 2026</h4>
-                <p><strong>Zeroing Rush:</strong> Coordinar 3-5 titans para eliminar completamente (zero) las top 10
-                    cuentas enemigas en las primeras 12h. Esto desmotiva al estado rival y asegura victoria psicológica.
-                </p>
-                <p><strong>Counters:</strong> Bubble dance (shield on/off), fake rallies, scatter formation.</p>
+            <div class="highlight-box fire" style="margin-top: 2rem;">
+                <i data-lucide="flame"></i>
+                <div>
+                    <h4>🔥 Meta Estrategia 2026: Zeroing Rush</h4>
+                    <p>Coordinar sets de 5 Titans para elminar completamente (zero) a las top 10 cuentas enemigas en las
+                        primeras 12h. Esto garantiza una victoria psicológica y de puntos masiva.</p>
+                </div>
             </div>
         </section>
 
-        <section id="rally">
-            <h2>🚩 Rally y Concentraciones</h2>
+        <section id="rally" class="section">
+            <h2><i data-lucide="fist"></i> Rally y Concentraciones</h2>
 
-            <h3>Liderar un Rally (Rally Leader)</h3>
-            <ol>
-                <li><strong>Target Selection:</strong> Scout primero. Confirmar que target no tiene shield. Verificar
-                    power y garrison.</li>
-                <li><strong>Timing:</strong> Anunciar rally 5min antes en chat. Coordinar con scouts para timing
-                    perfecto.</li>
-                <li><strong>Composition:</strong> Rally de 5 players idealmente. Todos con héroes Gen 5+. Balance 40%
-                    Infantry, 30% Lancers, 30% Marksmen.</li>
-                <li><strong>Execution:</strong> 30 segundos antes de hit, re-confirmar no shield. Cancel si dudas.</li>
-            </ol>
+            <div class="grid-container" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="queue" style="margin: 0;">
+                    <h4>Liderar un Rally</h4>
+                    <ol style="padding-left: 1.5rem; margin-top: 1rem;">
+                        <li><strong>Scout previo:</strong> No hit sin saber qué hay dentro.</li>
+                        <li><strong>Timing:</strong> Anunciar 5 min antes en chat global alianza.</li>
+                        <li><strong>Mix:</strong> Balance 40% Inf / 30% Lan / 30% Mark.</li>
+                        <li><strong>Heroes:</strong> Usar siempre los de mayor Gen disponible.</li>
+                    </ol>
+                </div>
+                <div class="queue" style="margin: 0; border-color: var(--svs-red);">
+                    <h4>Unirse a un Rally (Joiner)</h4>
+                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <li>✅ Hero formation PvP activa</li>
+                        <li>✅ Dejar 10% de tropas en ciudad (reserva)</li>
+                        <li>✅ Usar "Speed join" si el target es lejano</li>
+                        <li>❌ NUNCA unirse si el líder tiene 50M- power</li>
+                        <li>❌ No entrar en rallies sin confirmación de voz/chat</li>
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Unirse a Rally (Joiner)</h3>
-            <div class="highlight-box ice">
+            <h3 style="margin-top: 3rem;">Tipos de Concentraciones</h3>
+            <div class="tactical-grid">
+                <div class="tactical-card">
+                    <div class="tactical-header">
+                        <div class="tactical-icon"><i data-lucide="flame"></i></div>
+                        <h4>Burn Rally</h4>
+                    </div>
+                    <div class="tactical-body">
+                        <div class="tactical-label">Objetivo Principal</div>
+                        <div>Eliminar un Furnace (Zeroing estratégico)</div>
+                        <div class="tactical-label">Escuadrón Ideal</div>
+                        <div>5 Titans con 150M+ de poder cada uno</div>
+                    </div>
+                </div>
+                <div class="tactical-card">
+                    <div class="tactical-header">
+                        <div class="tactical-icon" style="color: var(--svs-orange); background: rgba(255,140,0,0.1);"><i
+                                data-lucide="target"></i></div>
+                        <h4>Farm Rally</h4>
+                    </div>
+                    <div class="tactical-body">
+                        <div class="tactical-label">Objetivo Principal</div>
+                        <div>Puntos fáciles en alts y jugadores inactivos</div>
+                        <div class="tactical-label">Escuadrón Ideal</div>
+                        <div>3-4 jugadores de poder medio</div>
+                    </div>
+                </div>
+                <div class="tactical-card">
+                    <div class="tactical-header">
+                        <div class="tactical-icon" style="color: var(--primary); background: rgba(0,210,255,0.1);"><i
+                                data-lucide="trending-up"></i></div>
+                        <h4>Mine Rally</h4>
+                    </div>
+                    <div class="tactical-body">
+                        <div class="tactical-label">Objetivo Principal</div>
+                        <div>Desalojar minas Lv8 enemigas con alta defensa</div>
+                        <div class="tactical-label">Escuadrón Ideal</div>
+                        <div>Fuerza rápida con enfoque en velocidad de marcha</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="defensa" class="section">
+            <h2><i data-lucide="shield"></i> Protocolos de Defensa</h2>
+
+            <div class="highlight-box warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <h4>⚠️ Protocolo de Emergencia</h4>
+                    <p>Si eres atacado masivamente y tienes < 100M power:</p>
+                            <ol style="margin-top: 1rem;">
+                                <li><strong>SHIELD IMMEDIATO</strong> sin pensarlo.</li>
+                                <li>Notificar en Discord posición del enemigo.</li>
+                                <li>Evacuar recursos a cuentas protegidas.</li>
+                            </ol>
+                </div>
+            </div>
+
+            <h3>Defensa de Counter-Rally</h3>
+            <div class="feature-list">
                 <ul>
-                    <li>✅ SIEMPRE verificar que conoces al rally leader</li>
-                    <li>✅ Confirmar target en chat antes de join</li>
-                    <li>✅ Hero formation PvP activada</li>
-                    <li>✅ Dejar 10% troops en ciudad (nunca send 100%)</li>
-                    <li>❌ NUNCA join rallies random sin verificar</li>
-                    <li>❌ No join si eres 50M+ menos power que target</li>
-                </ul>
-            </div>
-
-            <h3>Tipos de Rally</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Objetivo</th>
-                        <th>Participantes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Burn Rally</strong></td>
-                        <td>Quemar furnace enemigo para zeroing</td>
-                        <td>5 titans 150M+ cada uno</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Farm Rally</strong></td>
-                        <td>Eliminar alts/farms para puntos fáciles</td>
-                        <td>3-4 players mid-power</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mine Rally</strong></td>
-                        <td>Capturar mina nivel 7-8 defendida</td>
-                        <td>2-3 players, focus speed march</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="defensa">
-            <h2>🛡️ Defensa del Estado</h2>
-
-            <h3>Defensive Positioning</h3>
-            <p>La defensa es tan importante como el ataque:</p>
-
-            <ol>
-                <li><strong>Capital Shield:</strong> Top 3-5 alianzas mantener players cerca de capital del estado.
-                    Garrison rotativo.</li>
-                <li><strong>Border Patrol:</strong> Defenders en fronteras para detectar invasiones early.</li>
-                <li><strong>Mine Defense:</strong> 1-2 defenders por mina nivel 7+. Rotation cada 6h para stamina.</li>
-                <li><strong>Teleport Strategy:</strong> Teleports guardados para emergencias (counter-attack o rescue).
-                </li>
-            </ol>
-
-            <div class="highlight-box fire">
-                <h4>⚠️ Emergency Protocol: Bajo Ataque Masivo</h4>
-                <ol>
-                    <li>Activar shield inmediatamente si tienes &lt;100M power</li>
-                    <li>Notificar R4/R5 en Discord/chat general</li>
-                    <li>Evacuar recursos a jugadores con shield</li>
-                    <li>Recall tropas si estás en march</li>
-                    <li>No revenge attack sin coordinación</li>
-                </ol>
-            </div>
-
-            <h3>Counter-Rally Defense</h3>
-            <p>Si enemigos lanzan rally contra tu ciudad/garrison:</p>
-            <ul>
-                <li><strong>Reinforce Call:</strong> Pedir reinforcements en alliance chat (necesitas 500K+ troops
-                    defensivas)</li>
-                <li><strong>Hero Swap:</strong> Cambiar a heroes defensivos (Magnus, Gregory, Jeronimo)</li>
-                <li><strong>Buff Stack:</strong> Activar defense buffs de alliance + personal items</li>
-                <li><strong>Last Resort:</strong> Si no puedes defender, shield antes de que rally llegue</li>
-            </ul>
-        </section>
-
-        <section id="recompensas">
-            <h2>🏆 Maximizar Recompensas</h2>
-
-            <h3>Ranking Individual</h3>
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Ranking</th>
-                        <th>Puntos Necesarios</th>
-                        <th>Recompensas Aproximadas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Top 1-10</td>
-                        <td>500K+ puntos</td>
-                        <td>50K gems, 100 legendary frags, speedups masivos</td>
-                    </tr>
-                    <tr>
-                        <td>Top 11-50</td>
-                        <td>200K-500K puntos</td>
-                        <td>30K gems, 50 legendary frags</td>
-                    </tr>
-                    <tr>
-                        <td>Top 51-100</td>
-                        <td>100K-200K puntos</td>
-                        <td>15K gems, epic frags</td>
-                    </tr>
-                    <tr>
-                        <td>Top 101-500</td>
-                        <td>50K-100K puntos</td>
-                        <td>8K gems, resources</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="highlight-box ice">
-                <h4>💰 F2P Strategy: Farming Points</h4>
-                <p>Si eres F2P o mid-power (50M-100M):</p>
-                <ul>
-                    <li><strong>Target farms:</strong> Buscar cuentas &lt;20M sin alianza. Solo attacks fáciles (10K pts
-                        cada uno).</li>
-                    <li><strong>Join good rallies:</strong> Unirse a rallies de titans. 2-3 buenos rallies = 30K pts sin
-                        riesgo.</li>
-                    <li><strong>Capture undefended mines:</strong> Minas nivel 5-6 sin garrison = 1K pts/h pasivo.</li>
-                    <li><strong>Objective: Top 500:</strong> Con 50K puntos entras top 500 y aseguras gems decentes.
-                    </li>
+                    <li><i data-lucide="shield-check"></i> <strong>Reinforce Call:</strong> Pedir ayuda inmediata
+                        (necesitas 500K+ tropas defensivas).</li>
+                    <li><i data-lucide="refresh-cw"></i> <strong>Hero Swap:</strong> Cambiar a Magnus, Gregory o
+                        Jeronimo para aguantar el golpe.</li>
+                    <li><i data-lucide="zap"></i> <strong>Buff Stack:</strong> Activar items de +20% Defensa antes del
+                        impacto.</li>
                 </ul>
             </div>
         </section>
 
-        <section id="errores">
-            <h2>❌ Errores Comunes (Evita Estos)</h2>
+        <section id="recompensas" class="section">
+            <h2><i data-lucide="trophy"></i> Maximizar Recompensas</h2>
 
-            <table class="priority-table">
-                <thead>
-                    <tr>
-                        <th>Error</th>
-                        <th>Consecuencia</th>
-                        <th>Solución</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Salir sin shield siendo &lt;100M</td>
-                        <td>Te zerean en 5 minutos, pierdes todo</td>
-                        <td>SIEMPRE shield si no estás en march coordinado</td>
-                    </tr>
-                    <tr>
-                        <td>Solo attack vs power muy superior</td>
-                        <td>Pierdes tropas, hospital full 7 días</td>
-                        <td>Solo ataca targets -30% tu power o menos</td>
-                    </tr>
-                    <tr>
-                        <td>No comunicarte con alianza</td>
-                        <td>Ataques descoordinados, pérdida de puntos</td>
-                        <td>Discord/chat activo. Reportar todo</td>
-                    </tr>
-                    <tr>
-                        <td>Gastar stamina pre-SvS</td>
-                        <td>No tienes marches cuando importa</td>
-                        <td>3 días antes: ZERO stamina use</td>
-                    </tr>
-                    <tr>
-                        <td>Revenge attacks emocionales</td>
-                        <td>Re-zerean, pérdidas mayores</td>
-                        <td>Coordinado con R4. No revenge solo</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h3>Premios por Ranking Individual</h3>
+            <div class="reward-tiers">
+                <div class="reward-tier top-1">
+                    <div class="tier-rank">
+                        <span class="rank-num">Top 1-10</span>
+                        <span class="rank-label">Élite Superior</span>
+                    </div>
+                    <div class="tier-pts">500K+ Puntos</div>
+                    <div class="tier-items">50K Gemas, 100 Frags Legendarios, Boosts Masivos de Combate.</div>
+                </div>
+                <div class="reward-tier">
+                    <div class="tier-rank">
+                        <span class="rank-num">11 - 50</span>
+                        <span class="rank-label">Veteranos</span>
+                    </div>
+                    <div class="tier-pts">200K - 500K pts</div>
+                    <div class="tier-items">30K Gemas, 50 Fragmentos Legendarios.</div>
+                </div>
+                <div class="reward-tier">
+                    <div class="tier-rank">
+                        <span class="rank-num">51 - 100</span>
+                        <span class="rank-label">Combatientes</span>
+                    </div>
+                    <div class="tier-pts">100K - 200K pts</div>
+                    <div class="tier-items">15K Gemas, Fragmentos Épicos.</div>
+                </div>
+                <div class="reward-tier">
+                    <div class="tier-rank">
+                        <span class="rank-num">101 - 500</span>
+                        <span class="rank-label">Contribuyentes</span>
+                    </div>
+                    <div class="tier-pts">50K - 100k pts</div>
+                    <div class="tier-items">8K Gemas + Paquetes de Recursos.</div>
+                </div>
+            </div>
+
+            <div class="highlight-box info" style="margin-top: 3rem;">
+                <i data-lucide="trending-up"></i>
+                <div>
+                    <h4>💰 Estrategia F2P (Bajo Gasto)</h4>
+                    <p>Si tienes entre 50M y 100M de poder:</p>
+                    <ul style="margin-top:1rem;">
+                        <li>Buscad cuentas menores de 20M sin alianza para puntos gratis.</li>
+                        <li>Uniós SOLAMENTE a los rallies de vuestros aliados Titans.</li>
+                        <li>Mantened minas nivel 5 o 6; son menos atacadas que las de nivel 7.</li>
+                        <li><strong>Meta:</strong> Alcanzar los 50K puntos para asegurar el Top 500.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
-        <div class="cta-box">
-            <h3>🎯 Conclusión: Preparación > Skill</h3>
-            <p>El 80% de SvS se gana en preparación. Un estado coordinado con players 80M power dominará un estado
-                desorganizado con players 150M. Comunicación, disciplina y roles claros son las 3 claves.</p>
-            <p><strong>Next Steps:</strong> Únete al Discord de tu alianza, define tu rol, y prepárate 7 días antes del
-                próximo SvS.</p>
-            <a href="../index.html#guias" class="btn primary">← Volver a Guías</a>
+        <section id="errores" class="section">
+            <h2><i data-lucide="x-circle"></i> Errores Comunes (Lista Negra)</h2>
+            <div class="error-alerts">
+                <div class="error-card">
+                    <h4><i data-lucide="shield-off"></i> No usar shield (< 100M)</h4>
+                            <div class="error-consequence">TE DEJAN EN ZERO EN MENOS DE 2 MINUTOS.</div>
+                            <div class="error-solution"><strong>SOLUCIÓN:</strong> Mantén el escudo de 24h SIEMPRE
+                                activo si no estás coordinando un ataque.</div>
+                </div>
+                <div class="error-card">
+                    <h4><i data-lucide="swords"></i> Solo attack vs Gigantes</h4>
+                    <div class="error-consequence">PÉRDIDA TOTAL DE TROPAS Y HOSPITAL FULL POR 7 DÍAS.</div>
+                    <div class="error-solution"><strong>SOLUCIÓN:</strong> Ataca solo objetivos con al menos un 30%
+                        menos de poder que tú.</div>
+                </div>
+                <div class="error-card">
+                    <h4><i data-lucide="battery-low"></i> Gastar stamina en PVE</h4>
+                    <div class="error-consequence">TE QUEDAS SIN MARCHAS CUANDO REALMENTE IMPORTA.</div>
+                    <div class="error-solution"><strong>SOLUCIÓN:</strong> 3 días antes del SvS, detén todo consumo de
+                        stamina.</div>
+                </div>
+                <div class="error-card">
+                    <h4><i data-lucide="message-square-x"></i> Revenge attacks locos</h4>
+                    <div class="error-consequence">PÉRDIDA DE PUNTOS CRÍTICOS POR IMPULSOS EMOCIONALES.</div>
+                    <div class="error-solution"><strong>SOLUCIÓN:</strong> Consulta con los R4. Mantén la calma y sigue
+                        el plan de guerra.</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="conclusion cta-box">
+            <h3>🎯 Conclusión: Disciplina > Poder</h3>
+            <p>El 80% de SvS se gana con comunicación y organización. Un estado con sobrevivientes de 80M bien
+                coordinados vencerá a ballenas de 200M desorganizadas. Sigue los protocolos de tu alianza y prepárate 7
+                días antes.</p>
+            <p><strong>Siguiente Paso:</strong> Revisa el Discord de tu estado y confirma tu rol con los líderes de tu
+                alianza.</p>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <a href="../index.html" class="btn primary">Volver al Hub</a>
+                <a href="#toc" class="btn secondary">Volver al Índice ↑</a>
+            </div>
         </div>
     </article>
 
-    <footer>
-        <p>© 2026 Whiteout Survival Hub Español</p>
+    <footer
+        style="margin-top: 5rem; padding: 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-gray);">
+        <p>© 2026 Whiteout Survival Hub - Guía Maestra SvS</p>
     </footer>
 
-    <script src="../js/app.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        // Progress Bar
+        window.onscroll = function () {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("reading-progress").style.width = scrolled + "%";
+        };
+
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

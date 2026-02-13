@@ -90,31 +90,122 @@
     <div id="hero-modal-v2" class="hero-modal-v2" onclick="closeHeroModal(event)">
         <div class="modal-container-v2" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeHeroModal(event)"
-                style="position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; border: none; color: white; cursor: pointer;">
+                style="position: absolute; top: 20px; right: 20px; z-index: 100; background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; border: none; color: white; cursor: pointer;">
                 <i data-lucide="x"></i>
             </button>
-            <div id="modal-image-pane" style="background-size: cover; background-position: center; position: relative;">
+            <div id="modal-image-pane"
+                style="background-size: cover; background-position: center; position: relative; height: 350px;">
                 <div
-                    style="position: absolute; bottom: 0; left: 0; padding: 2rem; background: linear-gradient(transparent, #0a0e17); width: 100%;">
-                    <h2 id="modal-name" style="font-size: 3rem; margin-bottom: 0.5rem;"></h2>
-                    <div id="modal-badges-row" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                    style="position: absolute; bottom: 0; left: 0; padding: 2.5rem; background: linear-gradient(transparent, #0a101b); width: 100%;">
+                    <h2 id="modal-name"
+                        style="font-size: 3.5rem; margin-bottom: 0.5rem; letter-spacing: -1px; line-height: 1;"></h2>
+                    <div id="modal-badges-row" style="display: flex; gap: 0.8rem; flex-wrap: wrap;"></div>
                 </div>
             </div>
-            <div style="padding: 3rem; overflow-y: auto;">
-                <div class="modal-section-v2">
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="info"></i> Perfil</h3>
-                    <p id="modal-desc" style="font-size: 1.1rem; line-height: 1.6; color: #ddd;"></p>
+
+            <!-- Information Corridor with Scroll -->
+            <div class="modal-content-area" style="max-height: 55vh; overflow-y: auto; padding: 2.5rem;">
+                <div class="modal-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
+                    <!-- Column 1: Core Stats & Lore -->
+                    <div>
+                        <div class="modal-section" style="margin-bottom: 2rem;">
+                            <h3
+                                style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.6rem; margin-bottom: 1.2rem; color: var(--primary);">
+                                <i data-lucide="bar-chart-3"></i> Estadísticas Base
+                            </h3>
+                            <div class="stat-bars">
+                                <div class="stat-bar-item" style="margin-bottom: 1rem;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.85rem;">
+                                        <label>Ataque</label><span id="val-atk">0</span>
+                                    </div>
+                                    <div class="progress-container" style="height: 6px; border-radius: 10px;">
+                                        <div id="modal-stat-atk" class="progress-bar" style="background: #e74c3c;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stat-bar-item" style="margin-bottom: 1rem;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.85rem;">
+                                        <label>Defensa</label><span id="val-def">0</span>
+                                    </div>
+                                    <div class="progress-container" style="height: 6px; border-radius: 10px;">
+                                        <div id="modal-stat-def" class="progress-bar" style="background: #2ecc71;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stat-bar-item">
+                                    <div
+                                        style="display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.85rem;">
+                                        <label>Salud</label><span id="val-hp">0</span>
+                                    </div>
+                                    <div class="progress-container" style="height: 6px; border-radius: 10px;">
+                                        <div id="modal-stat-hp" class="progress-bar" style="background: #3498db;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-section" style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i data-lucide="info"></i> Descripción
+                            </h3>
+                            <p id="modal-desc"
+                                style="font-size: 0.95rem; line-height: 1.6; color: #ccc; margin-bottom: 1.5rem;"></p>
+                        </div>
+
+                        <div id="modal-story-container" class="modal-section" style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i data-lucide="book-open"></i> Historia
+                                Original</h3>
+                            <p id="modal-story"
+                                style="font-size: 0.9rem; line-height: 1.7; color: #bbb; background: rgba(255,255,255,0.02); padding: 1.2rem; border-radius: 12px;">
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Strategy & Context -->
+                    <div>
+                        <div id="modal-synergy-container" class="modal-section" style="margin-bottom: 2rem;">
+                            <h3
+                                style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.6rem; margin-bottom: 1.2rem;">
+                                <i data-lucide="users"></i> Sinergias
+                            </h3>
+                            <div id="modal-synergy" class="synergy-list"
+                                style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                        </div>
+
+                        <div class="modal-section" style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i data-lucide="zap"></i> Habilidades
+                            </h3>
+                            <p id="modal-skills"
+                                style="color: #fff; font-weight: 600; font-size: 1rem; border-left: 3px solid var(--primary); padding-left: 1rem;">
+                            </p>
+                        </div>
+
+                        <div class="modal-section" style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i data-lucide="award"></i> Uso Óptimo
+                            </h3>
+                            <p id="modal-best" style="color: #ddd; font-size: 0.95rem;"></p>
+                        </div>
+
+                        <div id="modal-tips-container" class="modal-section" style="margin-bottom: 2rem;">
+                            <h3 style="color: #ffcc00; margin-bottom: 0.8rem; font-size: 1.1rem;"><i
+                                    data-lucide="lightbulb"></i> Estrategia y Consejos</h3>
+                            <p id="modal-tips" style="color: #ddd; font-size: 0.9rem; line-height: 1.6;"></p>
+                        </div>
+
+                        <div class="modal-section">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i data-lucide="layout"></i> Modos
+                                Recomendados</h3>
+                            <div id="modal-modes" style="display: flex; gap: 0.6rem; flex-wrap: wrap;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-section-v2" style="margin-top: 2rem;">
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="zap"></i> Sinergias &
-                        Habilidades</h3>
-                    <p id="modal-skills" style="color: #fff; font-weight: 600;"></p>
-                </div>
-                <div class="modal-section-v2" style="margin-top: 2rem;">
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="award"></i> Uso Óptimo</h3>
-                    <p id="modal-best" style="color: #ddd;"></p>
-                </div>
-                <div id="modal-modes" style="margin-top: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div
+                style="padding: 1.2rem 2.5rem; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); text-align: right;">
+                <button class="btn primary" onclick="closeHeroModal(event)">Cerrar Expediente</button>
             </div>
         </div>
     </div>
@@ -133,7 +224,7 @@
 
             filteredHeroes.forEach(hero => {
                 const tierClass = hero.tier.toLowerCase().replace('+', '-plus');
-                const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+                const imageName = hero.name;
                 const localImage = `images/${imageName}.webp`;
                 const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=300&background=1a2233&color=ffffff&bold=true`;
 
@@ -187,7 +278,7 @@
 
         function openHeroModal(hero) {
             const modal = document.getElementById('hero-modal-v2');
-            const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+            const imageName = hero.name;
             const localImage = `images/${imageName}.webp`;
 
             document.getElementById('modal-image-pane').style.backgroundImage = `url(${localImage})`;
@@ -195,6 +286,40 @@
             document.getElementById('modal-desc').textContent = hero.desc;
             document.getElementById('modal-skills').textContent = hero.skills;
             document.getElementById('modal-best').textContent = hero.bestFor;
+
+            // Stats handling
+            document.getElementById('modal-stat-atk').style.width = `${hero.stats?.atk || 50}%`;
+            document.getElementById('modal-stat-def').style.width = `${hero.stats?.def || 50}%`;
+            document.getElementById('modal-stat-hp').style.width = `${hero.stats?.hp || 50}%`;
+            document.getElementById('val-atk').textContent = hero.stats?.atk || 50;
+            document.getElementById('val-def').textContent = hero.stats?.def || 50;
+            document.getElementById('val-hp').textContent = hero.stats?.hp || 50;
+
+            // Synergy handling
+            const synergyContainer = document.getElementById('modal-synergy-container');
+            const synergyList = document.getElementById('modal-synergy');
+            if (hero.synergy) {
+                synergyContainer.style.display = 'block';
+                synergyList.innerHTML = hero.synergy.split(', ').map(s => `<span class="synergy-tag">${s}</span>`).join('');
+            } else {
+                synergyContainer.style.display = 'none';
+            }
+
+            // Story handling
+            const storyText = document.getElementById('modal-story');
+            if (hero.story) {
+                storyText.textContent = hero.story;
+            } else {
+                storyText.textContent = "Información clasificada del archivo de la Dawn Alliance.";
+            }
+
+            // Tips handling
+            const tipsText = document.getElementById('modal-tips');
+            if (hero.tips) {
+                tipsText.textContent = hero.tips;
+            } else {
+                tipsText.textContent = "Afinando tácticas de combate avanzadas para este héroe.";
+            }
 
             const badgesRow = document.getElementById('modal-badges-row');
             badgesRow.innerHTML = `

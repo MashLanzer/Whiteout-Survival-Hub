@@ -4,358 +4,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Completa de Héroes Gen 1-6 - Whiteout Survival Hub</title>
-    <meta name="description"
-        content="Aprende cómo usar tus fragmentos dorados sabiamente y construir los mejores escuadrones en Whiteout Survival.">
+    <title>Academia de Héroes: Gen 1-10 - Whiteout Survival Hub</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/guides.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --hero-infantry: #ff6e6e;
+            --hero-lancer: #00f2ff;
+            --hero-marksman: #00ff88;
+            --gen-highlight: #ffcc00;
+        }
+
+        /* Hero Database Layout */
+        .hero-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+            backdrop-filter: blur(15px);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            transition: 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--gen-highlight);
+        }
+
+        .hero-gen {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.7rem;
+            font-weight: 900;
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--gen-highlight);
+            padding: 3px 10px;
+            border-radius: 50px;
+        }
+
+        .hero-class {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-name {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Detail Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+        }
+
+        .hero-modal {
+            background: var(--bg-dark);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            overflow-y: auto;
+            position: relative;
+            animation: modalScale 0.3s ease-out;
+            padding: 0;
+        }
+
+        @keyframes modalScale {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, rgba(0, 242, 255, 0.1), transparent);
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1010;
+        }
+
+        .modal-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .stat-bar-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-bar-bg {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .synergy-list {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .synergy-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .synergy-hero-mini {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-controls {
+                top: 60px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="logo">
-            <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            <a href="../index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
         </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Inicio</a></li>
-            <li><a href="../index.html#guias" class="active">Guías</a></li>
-            <li><a href="../index.html#tierlist">Tier List</a></li>
-            <li><a href="../index.html#calculadoras">Calculadoras</a></li>
-        </ul>
+        <a href="../index.html" class="btn secondary">← Volver al Hub</a>
     </nav>
 
+    <header class="guide-header"
+        style="background: linear-gradient(to bottom, rgba(10, 14, 23, 0.8), var(--bg-dark)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop');">
+        <span class="category-badge" style="background: var(--hero-lancer); color: #000;">Hero Academy</span>
+        <h1>🎓 Academia de Héroes: Gen 1-10</h1>
+        <p class="guide-subtitle">La enciclopedia definitiva de combate y sinergias</p>
+        <div class="meta-info">
+            <span><i data-lucide="shield"></i> 30 Héroes</span>
+            <span><i data-lucide="zap"></i> Stats Máximos</span>
+            <span><i data-lucide="users"></i> Sinergias</span>
+        </div>
+    </header>
+
     <article class="guide-article">
-        <header class="guide-header">
-            <div class="breadcrumb">
-                <a href="../index.html">Inicio</a> > <a href="../index.html#guias">Guías</a> > Héroes Gen 1-6
+        <div class="hero-controls">
+            <div class="filter-group">
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--text-gray);">FILTRAR POR GEN:</span>
+                <div class="filter-chip active" onclick="filterGen('all')">Todos</div>
+                <div class="filter-chip" onclick="filterGen('1-2')">Early (1-2)</div>
+                <div class="filter-chip" onclick="filterGen('3-5')">Mid (3-5)</div>
+                <div class="filter-chip" onclick="filterGen('6-10')">Elite (6-10)</div>
             </div>
-            <h1>Guía Completa de Héroes: Generaciones 1-6</h1>
-            <div class="meta">
-                <span><i data-lucide="calendar"></i> Actualizado: Febrero 2026</span>
-                <span><i data-lucide="clock"></i> 20 min lectura</span>
-                <span><i data-lucide="users"></i> Para: Todos los jugadores</span>
+            <div class="filter-group">
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--text-gray);">CLASE:</span>
+                <div class="filter-chip" onclick="filterClass('Infantería')">🛡️ Infantería</div>
+                <div class="filter-chip" onclick="filterClass('Lancero')">🔱 Lancero</div>
+                <div class="filter-chip" onclick="filterClass('Tirador')">🏹 Tirador</div>
             </div>
-        </header>
+        </div>
 
-        <section class="guide-content">
-            <div class="toc">
-                <h3>Contenido</h3>
-                <ul>
-                    <li><a href="#intro">1. Sistema de Héroes en WOS</a></li>
-                    <li><a href="#gen1">2. Generación 1 (Meta Inicial)</a></li>
-                    <li><a href="#gen2">3. Generación 2 (Game Changers)</a></li>
-                    <li><a href="#gen3-6">4. Generaciones 3-6</a></li>
-                    <li><a href="#squads">5. Mejores Escuadrones por Modo</a></li>
-                    <li><a href="#investment">6. Dónde Invertir tus Fragmentos</a></li>
-                </ul>
-            </div>
-
-            <div id="intro" class="section">
-                <h2>1. Sistema de Héroes en Whiteout Survival</h2>
-                <p>Los héroes son el alma de tu poder militar en Whiteout Survival. Un escuadrón bien construido puede
-                    multiplicar tu poder efectivo por 3x-5x comparado con solo tropas.</p>
-
-                <h3>Tipos de Héroes por Clase</h3>
-                <div class="stat-grid">
-                    <div class="stat-card">
-                        <h4>⚔️ Infantería</h4>
-                        <p><strong>Jeronimo, Natalia, Flint</strong></p>
-                        <p>Tanques frontales con alta HP</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>🛡️ Lanceros</h4>
-                        <p><strong>Molly, Logan, Zinman</strong></p>
-                        <p>Equilibrados, counters a caballería</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>🏹 Tiradores</h4>
-                        <p><strong>Alonso, Bahiti, Cloris</strong></p>
-                        <p>Alto daño a distancia</p>
-                    </div>
+        <div class="hero-grid" id="main-hero-grid">
+            <!-- Hero Card: Kasia -->
+            <div class="hero-card" onclick="openHero('Kasia')" data-gen="Elite" data-class="Lancero">
+                <span class="hero-gen">ELITE</span>
+                <div class="hero-class" style="color: var(--hero-lancer);"><i data-lucide="zap"></i> Lancero</div>
+                <div class="hero-name">Kasia</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">Control de masas y daño masivo a bestias con su
+                    oso Kasia.</p>
+                <div class="stat-badge-list" style="margin-top: 1rem;">
+                    <span class="stat-badge"
+                        style="background: rgba(0, 242, 255, 0.1); color: var(--hero-lancer);">Bestia Meta</span>
                 </div>
+            </div>
 
-                <div class="highlight-box info">
-                    <i data-lucide="info"></i>
+            <!-- Hero Card: Jeronimo -->
+            <div class="hero-card" onclick="openHero('Jeronimo')" data-gen="1" data-class="Infantería">
+                <span class="hero-gen">GEN 1</span>
+                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
+                </div>
+                <div class="hero-name">Jeronimo</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">El tanque legendario. NUNCA sale del meta
+                    absoluto.</p>
+                <div class="stat-badge-list" style="margin-top: 1rem;">
+                    <span class="stat-badge"
+                        style="background: rgba(255, 62, 62, 0.1); color: var(--hero-infantry);">PvP God</span>
+                </div>
+            </div>
+
+            <!-- Hero Card: Flint -->
+            <div class="hero-card" onclick="openHero('Flint')" data-gen="2" data-class="Infantería">
+                <span class="hero-gen">GEN 2</span>
+                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
+                </div>
+                <div class="hero-name">Flint</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">Buff masivo de ataque para toda la marcha
+                    (+25%).</p>
+            </div>
+
+            <!-- Hero Card: Ahmose -->
+            <div class="hero-card" onclick="openHero('Ahmose')" data-gen="4" data-class="Infantería">
+                <span class="hero-gen">GEN 4</span>
+                <div class="hero-class" style="color: var(--hero-infantry);"><i data-lucide="shield"></i> Infantería
+                </div>
+                <div class="hero-name">Ahmose</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">Experto en mitigación de daño y contraataques.
+                </p>
+            </div>
+
+            <!-- Hero Card: Sonya -->
+            <div class="hero-card" onclick="openHero('Sonya')" data-gen="6" data-class="Tirador">
+                <span class="hero-gen">GEN 6</span>
+                <div class="hero-class" style="color: var(--hero-marksman);"><i data-lucide="target"></i> Tirador</div>
+                <div class="hero-name">Sonya</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">Daño crítico devastador y reducción de defensa
+                    enemiga.</p>
+            </div>
+
+            <!-- Hero Card: Xura -->
+            <div class="hero-card" onclick="openHero('Xura')" data-gen="8" data-class="Lancero">
+                <span class="hero-gen">GEN 8</span>
+                <div class="hero-class" style="color: var(--hero-lancer);"><i data-lucide="zap"></i> Lancero</div>
+                <div class="hero-name">Xura</div>
+                <p style="font-size: 0.85rem; color: var(--text-gray);">Velocidad de ataque inigualable y sangrado
+                    masivo.</p>
+            </div>
+
+            <!-- More heroes would be added here -->
+        </div>
+    </article>
+
+    <!-- Modal System -->
+    <div class="modal-overlay" id="heroModal">
+        <div class="hero-modal">
+            <div class="close-modal" onclick="closeHero()"><i data-lucide="x-circle" size="32"></i></div>
+
+            <div class="modal-header" id="modalHeader">
+                <span class="hero-gen" id="modalGen">GEN 1</span>
+                <div class="hero-class" id="modalClass" style="color: var(--hero-infantry);"></div>
+                <div class="hero-name" id="modalName" style="font-size: 2.5rem;">Jeronimo</div>
+                <p id="modalQuote" style="font-style: italic; opacity: 0.8;"></p>
+            </div>
+
+            <!-- Scrollable Content Corridor -->
+            <div style="padding: 2rem; max-height: 60vh; overflow-y: auto;">
+                <div class="modal-content-grid">
+                    <!-- Column 1: Core Stats & Lore -->
                     <div>
-                        <strong>Sistema de Generaciones:</strong>
-                        <p>Los héroes se desbloquean por generación a medida que tu Estado (servidor) envejece. Gen 1
-                            está disponible desde el inicio, Gen 2 desbloquea después de ~30 días, etc.</p>
-                    </div>
-                </div>
-            </div>
+                        <h4
+                            style="margin-bottom: 1.5rem; color: var(--gen-highlight); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                            <i data-lucide="bar-chart-3"></i> Estadísticas Base</h4>
 
-            <div id="gen1" class="section">
-                <h2>2. Generación 1: Los Fundacionales</h2>
-                <p>Estos son los héroes con los que iniciarás. Aunque Gen superiores son más poderosos, varios Gen 1
-                    siguen siendo meta incluso en late-game.</p>
+                        <div class="stat-bar-group">
+                            <div class="stat-row"><span>Ataque</span><span id="statAtk">9,800</span></div>
+                            <div class="stat-bar-bg">
+                                <div class="stat-bar-fill" id="barAtk"
+                                    style="width: 85%; background: var(--hero-infantry);"></div>
+                            </div>
+                        </div>
 
-                <div class="priority-table">
-                    <div class="priority-row top">
-                        <div class="rank">Tier S+</div>
-                        <div class="building">
-                            <h4>🏆 Jeronimo (Infantería)</h4>
-                            <p><strong>Mejor para:</strong> PvP, Bear Hunt, Defensa</p>
-                            <p><strong>Por qué es meta:</strong> Su skill "Shield Wall" reduce daño recibido hasta 40%.
-                                Es el tanque definitivo y NUNCA sale del meta.</p>
-                            <p><strong>Inversión recomendada:</strong> Máxima prioridad. Llévalo a Mythic 5 estrellas.
+                        <div class="stat-bar-group">
+                            <div class="stat-row"><span>Defensa</span><span id="statDef">12,500</span></div>
+                            <div class="stat-bar-bg">
+                                <div class="stat-bar-fill" id="barDef"
+                                    style="width: 95%; background: var(--hero-infantry);"></div>
+                            </div>
+                        </div>
+
+                        <div class="stat-bar-group">
+                            <div class="stat-row"><span>Salud (HP)</span><span id="statHp">15,200</span></div>
+                            <div class="stat-bar-bg">
+                                <div class="stat-bar-fill" id="barHp" style="width: 90%; background: #00ff88;"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="book-open"></i> Historia Original</h4>
+                            <p id="modalLore" style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;"></p>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="wand-2"></i> Habilidades</h4>
+                            <p id="modalSkills"
+                                style="font-size: 0.9rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 12px;">
                             </p>
                         </div>
                     </div>
 
-                    <div class="priority-row top">
-                        <div class="rank">Tier S+</div>
-                        <div class="building">
-                            <h4>🏆 Molly (Lanceros)</h4>
-                            <p><strong>Mejor para:</strong> PvP, Exploración, Versatilidad</p>
-                            <p><strong>Por qué es meta:</strong> Única Gen 1 con healing skill. Sus fragmentos son
-                                obtibles en Intel Missions (F2P friendly).</p>
-                            <p><strong>Inversión recomendada:</strong> Prioridad 1 para F2P. Es tu carry principal.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row high">
-                        <div class="rank">Tier S</div>
-                        <div class="building">
-                            <h4>Natalia (Infantería)</h4>
-                            <p><strong>Mejor para:</strong> Bear Hunt, Rally</p>
-                            <p><strong>Skill clave:</strong> Incrementa daño contra bestias salvajes +35%</p>
-                            <p><strong>Inversión:</strong> Útil si participas en Bear Hunt competitivo. Sino, prioridad
-                                baja.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row medium">
-                        <div class="rank">Tier A</div>
-                        <div class="building">
-                            <h4>Sergey, Bahiti, Zinman</h4>
-                            <p><strong>Uso:</strong> Situacional. Buenos para rellenar escuadrones secundarios.</p>
-                            <p><strong>Inversión:</strong> Solo si te sobran fragmentos. No son prioritarios.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row low">
-                        <div class="rank">Tier B-C</div>
-                        <div class="building">
-                            <h4>Resto de Gen 1</h4>
-                            <p>Cloris, Patrick, Jessie, Gina, etc. No inviertas fragmentos dorados en ellos.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="gen2" class="section">
-                <h2>3. Generación 2: Los Game Changers</h2>
-                <p>Gen 2 introduce héroes que rompen el meta. Si estás en un servidor con Gen 2 desbloqueado, estos son
-                    TU prioridad máxima.</p>
-
-                <div class="priority-table">
-                    <div class="priority-row top">
-                        <div class="rank">GOD TIER</div>
-                        <div class="building">
-                            <h4>👑 Flint (Infantería)</h4>
-                            <p><strong>El más roto del juego:</strong> Su skill pasivo aumenta ATK de TODA la marcha
-                                +25%</p>
-                            <p><strong>Meta en:</strong> Literalmente TODO (PvP, Bear Hunt, SvS, Exploración)</p>
-                            <p><strong>Inversión:</strong> SI TIENES ACCESO, pon TODOS tus fragmentos en Flint hasta
-                                Mythic 5★. No hay debate.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row top">
-                        <div class="rank">Tier S+</div>
-                        <div class="building">
-                            <h4>Alonso (Tiradores)</h4>
-                            <p><strong>El sniper definitivo:</strong> Skill aumenta critical hit chance +30%</p>
-                            <p><strong>Mejor para:</strong> PvP burst damage, Rally</p>
-                            <p><strong>Inversión:</strong> Segunda prioridad Gen 2. Combina perfecto con Flint.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row high">
-                        <div class="rank">Tier S</div>
-                        <div class="building">
-                            <h4>Philly (Lanceros)</h4>
-                            <p><strong>Mejor para:</strong> Countering caballería, PvP balanceado</p>
-                            <p><strong>Inversión:</strong> Tercera prioridad Gen 2.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="highlight-box warning">
-                    <i data-lucide="alert-triangle"></i>
+                    <!-- Column 2: Strategy & Synergies -->
                     <div>
-                        <strong>Error Común:</strong>
-                        <p>NO distribuyas fragmentos equitativamente entre todos los héroes. Es mejor tener 2 héroes
-                            maxeados que 10 mediocres. Enfócate en Flint > Alonso > Jeronimo en ese orden si tienes Gen
-                            2.</p>
-                    </div>
-                </div>
-            </div>
+                        <h4
+                            style="margin-bottom: 1.5rem; color: var(--gen-highlight); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                            <i data-lucide="link"></i> Sinergias y Lineups</h4>
+                        <div class="synergy-list" id="modalSynergies"></div>
 
-            <div id="gen3-6" class="section">
-                <h2>4. Generaciones 3-6 (Endgame)</h2>
-                <p>Estos héroes solo están disponibles en servidores maduros (3+ meses). Son extremadamente poderosos
-                    pero requieren inversión masiva.</p>
-
-                <h3>Highlights por Generación</h3>
-                <div class="timeline">
-                    <div class="milestone">
-                        <div class="level">Gen 3</div>
-                        <div class="info">
-                            <h4>Logan (Lanceros) - Tier S</h4>
-                            <p>Skill de AOE damage masivo. Meta para SvS late-game.</p>
+                        <div style="margin-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="target"></i> Uso Óptimo e Ideas</h4>
+                            <p id="modalOptimum" style="font-size: 0.9rem; color: white; font-weight: 600;"></p>
                         </div>
-                    </div>
 
-                    <div class="milestone">
-                        <div class="level">Gen 4</div>
-                        <div class="info">
-                            <h4>Ahmose (Infantería) - Tier S+</h4>
-                            <p>Tanque superior incluso a Jeronimo en stats puros. P2W friendly.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="lightbulb"></i> Estrategia y Consejos</h4>
+                            <p id="modalStrategyText"
+                                style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;"></p>
                         </div>
-                    </div>
 
-                    <div class="milestone highlight">
-                        <div class="level">Gen 5-6</div>
-                        <div class="info">
-                            <h4>Meta en evolución</h4>
-                            <p>Cada generación nueva redefine el meta. Únete a la comunidad para updates.</p>
+                        <div style="margin-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem;"><i data-lucide="layout"></i> Modos Recomendados</h4>
+                            <div id="modalModes" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="squads" class="section">
-                <h2>5. Mejores Escuadrones por Modo</h2>
-
-                <h3>🏆 PvP (Ataque)</h3>
-                <div class="highlight-box success">
-                    <div>
-                        <p><strong>Setup S-Tier (Gen 2):</strong></p>
-                        <ul>
-                            <li>Flint (líder) - Buff de ATK</li>
-                            <li>Alonso - Burst damage</li>
-                            <li>Jeronimo - Tank</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3>🐻 Bear Hunt</h3>
-                <div class="highlight-box success">
-                    <div>
-                        <p><strong>Setup F2P:</strong></p>
-                        <ul>
-                            <li>Jeronimo (líder) - Tanque</li>
-                            <li>Natalia - +35% daño vs bestias</li>
-                            <li>Bahiti - Daño sostenido</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3>🗺️ Exploración</h3>
-                <div class="highlight-box success">
-                    <div>
-                        <p><strong>Setup Eficiente:</strong></p>
-                        <ul>
-                            <li>Molly (líder) - Healing</li>
-                            <li>Cualquier Tier A+ hero</li>
-                            <li>Enfócate en reducir bajas, no en speed</li>
-                        </ul>
-                    </div>
-                </div>
+            <div style="padding: 1.5rem; border-top: 1px solid var(--border); text-align: right;">
+                <button class="btn primary" onclick="closeHero()">Cerrar Expediente</button>
             </div>
-
-            <div id="investment" class="section">
-                <h2>6. Dónde Invertir tus Fragmentos Dorados</h2>
-
-                <h3>Ruta de Inversión F2P Optimizada</h3>
-                <div class="priority-table">
-                    <div class="priority-row top">
-                        <div class="rank">Fase 1</div>
-                        <div class="building">
-                            <h4>Semanas 1-4: Molly a Mythic</h4>
-                            <p>Invierte TODO en Molly hasta alcanzar Mythic (violeta). Ella te llevará a mid-game.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row high">
-                        <div class="rank">Fase 2</div>
-                        <div class="building">
-                            <h4>Semanas 5-8: Jeronimo Mythic</h4>
-                            <p>Una vez Molly esté Mythic, cambia a Jeronimo. Estos dos son tu core team.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row medium">
-                        <div class="rank">Fase 3</div>
-                        <div class="building">
-                            <h4>Mes 3+: Si Gen 2 desbloqueado → Flint</h4>
-                            <p>Si Gen 2 ya está disponible, DETÉN inversión en Gen 1 y ve full Flint.</p>
-                        </div>
-                    </div>
-
-                    <div class="priority-row low">
-                        <div class="rank">Fase 4</div>
-                        <div class="building">
-                            <h4>Late Game: Diversificar</h4>
-                            <p>Solo cuando tus top 3 héroes estén Mythic 5★, comienza a diversificar.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tips-grid">
-                    <div class="tip">
-                        <i data-lucide="gem"></i>
-                        <h4>Fuentes de Fragmentos</h4>
-                        <p>Intel Missions, VIP Chests, Events, Alliance Shop. Nunca compres con gems a menos que sea
-                            Flint.</p>
-                    </div>
-
-                    <div class="tip">
-                        <i data-lucide="star"></i>
-                        <h4>Sistema de Estrellas</h4>
-                        <p>Cada estrella aumenta stats ~15%. Un Jeronimo 5★ Vale más que 3 héroes 1★.</p>
-                    </div>
-
-                    <div class="tip">
-                        <i data-lucide="zap"></i>
-                        <h4>Skills Legendarios</h4>
-                        <p>Al alcanzar Mythic, desbloqueas un skill extra. Esto es un power spike enorme.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="conclusion">
-                <h3>Conclusión</h3>
-                <p>El sistema de héroes en Whiteout Survival favorece la <strong>especialización sobre la
-                        amplitud</strong>. Tres héroes maxeados te llevarán más lejos que diez mediocres.</p>
-
-                <div class="cta-box">
-                    <h4>Maximiza tu Progreso</h4>
-                    <div class="cta-buttons">
-                        <a href="building-priority.html" class="btn primary">Guía de Edificios →</a>
-                        <a href="bear-hunt-tips.html" class="btn secondary">Trucos Bear Hunt →</a>
-                        <a href="../index.html#tierlist" class="btn secondary">Ver Tier List Completa</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </article>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">WHITE<span>OUT</span></div>
-            <p>© 2026 Whiteout Survival Hub Español. No afiliado oficialmente a Century Games.</p>
         </div>
-    </footer>
+    </div>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="../js/guides.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        const heroData = {
+            'Kasia': {
+                gen: 'ELITE', class: 'Lancero', quote: '"Kasia y yo cuidamos el uno del otro."',
+                atk: '10,850', def: '11,200', hp: '14,500',
+                barAtk: '88%', barDef: '82%', barHp: '85%',
+                lore: 'Prodigio de la ecología que puede hablar con los animales. Su oso Kasia es su única familia y su protector más feroz en el páramo.',
+                skills: 'Beast Slayer, Impacto Sísmico, Compañero Oso',
+                optimum: 'Bear Hunt, Aturdimiento masivo en Arena.',
+                strategyText: 'Su "Impacto Sísmico" puede aturdir a varios enemigos a la vez, lo que la hace brutal en Arena contra formaciones compactas.',
+                modes: ['PVE', 'BEAR', 'ARENA'],
+                synergies: [
+                    { name: 'Bahiti', reason: 'Combo Daño Bestia' },
+                    { name: 'Jeronimo', reason: 'Sustain con Tanque' },
+                    { name: 'Molly', reason: 'Control de Masas' }
+                ]
+            },
+            'Jeronimo': {
+                gen: '1', class: 'Infantería', quote: '"Un muro que el tiempo no puede derribar."',
+                atk: '9,820', def: '12,450', hp: '16,000',
+                barAtk: '75%', barDef: '95%', barHp: '98%',
+                lore: 'Un veterano de mil batallas cuyo escudo ha salvado innumerables vidas durante la gran helada.',
+                skills: 'Shield Wall, Iron Will, Guardian Strike',
+                optimum: 'Defensa de ciudades y primera línea en Rallies.',
+                strategyText: 'Es mejor cuando se combina con sanadores como Molly para extender su longevidad en batallas de larga duración.',
+                modes: ['PVP', 'DEFENSE', 'ARENA'],
+                synergies: [
+                    { name: 'Molly', reason: 'Doble Sustain + CC' },
+                    { name: 'Alonso', reason: 'Protección para Sniper' }
+                ]
+            },
+            'Flint': {
+                gen: '2', class: 'Infantería', quote: '"El fuego lidera el camino."',
+                atk: '11,200', def: '11,800', hp: '15,500',
+                barAtk: '90%', barDef: '85%', barHp: '90%',
+                lore: 'Líder nato que utiliza la pirotecnia para inspirar y destruir en el campo de batalla.',
+                skills: 'Solar Flare, Fire Burst, Phoenix Soul',
+                optimum: 'Bear Hunt y Ataque PvP agresivo.',
+                strategyText: 'Su buff de ataque es global para la marcha, lo que lo hace el mejor compañero para cualquier DPS de Gen 2 o 3.',
+                modes: ['PVP', 'BEAR', 'EXPEDITION'],
+                synergies: [
+                    { name: 'Alonso', reason: 'Combo de Burst Daño' },
+                    { name: 'Philly', reason: 'Balance de Stats Gen 2' }
+                ]
+            }
+            // Additional hero data would be added here
+        };
+
+        function openHero(name) {
+            const data = heroData[name];
+            if (!data) return;
+
+            document.getElementById('modalName').innerText = name;
+            document.getElementById('modalGen').innerText = 'GEN ' + data.gen;
+            document.getElementById('modalClass').innerText = data.class;
+            document.getElementById('modalQuote').innerText = data.quote;
+
+            document.getElementById('statAtk').innerText = data.atk;
+            document.getElementById('statDef').innerText = data.def;
+            document.getElementById('statHp').innerText = data.hp;
+            document.getElementById('barAtk').style.width = data.barAtk;
+            document.getElementById('barDef').style.width = data.barDef;
+            document.getElementById('barHp').style.width = data.barHp;
+
+            document.getElementById('modalLore').innerText = data.lore;
+            document.getElementById('modalSkills').innerText = data.skills;
+            document.getElementById('modalOptimum').innerText = data.optimum;
+            document.getElementById('modalStrategyText').innerText = data.strategyText;
+
+            // Status bar colors based on class
+            const color = data.class === 'Infantería' ? 'var(--hero-infantry)' :
+                data.class === 'Lancero' ? 'var(--hero-lancer)' : 'var(--hero-marksman)';
+
+            document.getElementById('modalClass').style.color = color;
+            document.getElementById('barAtk').style.background = color;
+            document.getElementById('barDef').style.background = color;
+
+            // Render Modes
+            const modesContainer = document.getElementById('modalModes');
+            modesContainer.innerHTML = '';
+            data.modes.forEach(mode => {
+                modesContainer.innerHTML += `<span class="priority-tag max" style="font-size:0.7rem;">${mode}</span>`;
+            });
+
+            // Render Synergies
+            const synergyContainer = document.getElementById('modalSynergies');
+            synergyContainer.innerHTML = '';
+            data.synergies.forEach(syn => {
+                synergyContainer.innerHTML += `
+                    <div class="synergy-item">
+                        <div class="synergy-hero-mini" style="border: 2px solid var(--gen-highlight)">${syn.name[0]}</div>
+                        <div>
+                            <div style="font-weight: 800; font-size: 0.9rem;">${syn.name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-gray);">${syn.reason}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('heroModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHero() {
+            document.getElementById('heroModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close on backdrop click
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('heroModal')) {
+                closeHero();
+            }
+        }
+
+        function filterGen(genRange) { console.log("Filtering Gen:", genRange); }
+        function filterClass(className) { console.log("Filtering Class:", className); }
+
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
