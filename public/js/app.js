@@ -59,8 +59,8 @@ function displayHeroes() {
             const bgColor = tierColors[hero.tier] || '1a2233';
 
             // Try local image first (webp format based on what user has)
-            const imageName = hero.name;
-            const localImage = `images/${imageName}.webp`;
+            const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
+            const localImage = `images/${imageName}.webp?v=2.0`;
             const placeholderImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=200&background=${bgColor}&color=ffffff&bold=true&font-size=0.5`;
 
             card.innerHTML = `
@@ -97,12 +97,12 @@ function showHeroModal(hero) {
         'C': '#666666'
     };
 
-    const imageName = hero.name;
+    const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
     const bgColor = tierColors[hero.tier] || '#1a2233';
 
     modalContent.innerHTML = `
         <div class="modal-header" style="border-left: 5px solid ${bgColor};">
-            <img src="images/${imageName}.webp" 
+            <img src="images/${imageName}.webp?v=2.0" 
                  alt="${hero.name}" 
                  onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=150&background=${bgColor.slice(1)}&color=ffffff&bold=true'"
                  class="modal-hero-img">
@@ -232,8 +232,8 @@ function renderHeroDatabase() {
 
     filtered.forEach(hero => {
         const tierClass = hero.tier.toLowerCase().replace('+', 'plus');
-        const imageName = hero.name.toLowerCase().replace(/-/g, '-');
-        const localImage = `images/${imageName}.webp`;
+        const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
+        const localImage = `images/${imageName}.webp?v=2.0`;
         const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=300&background=1a2233&color=ffffff&bold=true`;
 
         const card = document.createElement('div');
@@ -487,13 +487,13 @@ function createComparisonCard(hero) {
         'C': '#666666'
     };
 
-    const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+    const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
     const bgColor = tierColors[hero.tier] || '#1a2233';
 
     return `
         <div class="comparison-card">
             <div class="comparison-header">
-                <img src="images/${imageName}.webp" 
+                <img src="images/${imageName}.webp?v=2.0" 
                      alt="${hero.name}"
                      onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=150&background=${bgColor.slice(1)}&color=ffffff&bold=true'">
                 <h4>${hero.name}</h4>

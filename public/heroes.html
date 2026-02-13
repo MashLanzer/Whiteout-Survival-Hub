@@ -224,8 +224,8 @@
 
             filteredHeroes.forEach(hero => {
                 const tierClass = hero.tier.toLowerCase().replace('+', '-plus');
-                const imageName = hero.name;
-                const localImage = `images/${imageName}.webp`;
+                const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
+                const localImage = `images/${imageName}.webp?v=2.0`;
                 const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=300&background=1a2233&color=ffffff&bold=true`;
 
                 const card = document.createElement('div');
@@ -278,8 +278,8 @@
 
         function openHeroModal(hero) {
             const modal = document.getElementById('hero-modal-v2');
-            const imageName = hero.name;
-            const localImage = `images/${imageName}.webp`;
+            const imageName = hero.name.toLowerCase().trim().replace(/\s+/g, '-');
+            const localImage = `images/${imageName}.webp?v=2.0`;
 
             document.getElementById('modal-image-pane').style.backgroundImage = `url(${localImage})`;
             document.getElementById('modal-name').textContent = hero.name;
