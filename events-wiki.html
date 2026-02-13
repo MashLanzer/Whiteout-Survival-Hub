@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki de Eventos - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .wiki-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .event-card {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.3);
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--primary-gradient);
+        }
+
+        .event-category-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .event-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-name {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-frequency {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Detail Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow-y: auto;
+            padding: 3rem;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .wiki-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--primary);
+        }
+
+        .wiki-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .reward-pill {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--fire-gradient);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 0.3rem;
+        }
+
+        .strategy-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .strategy-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .strategy-list li::before {
+            content: '➔';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .difficulty-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 900;
+        }
+
+        .diff-low {
+            background: #00ff8822;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        .diff-medium {
+            background: #ffaa0022;
+            color: #ffaa00;
+            border: 1px solid #ffaa00;
+        }
+
+        .diff-high {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+        }
+
+        .diff-hell {
+            background: #ff00ff22;
+            color: #ff00ff;
+            border: 1px solid #ff00ff;
+            box-shadow: 0 0 10px #ff00ff44;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                📚 Wiki de Eventos
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Guías estratégicas, tiempos y recompensas de todos los eventos de Whiteout Survival.
+            </p>
+        </header>
+
+        <!-- Category Filters -->
+        <div class="tabs-container"
+            style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
+            <button class="type-tab active" onclick="filterWiki('all')">🌟 Todos</button>
+            <button class="type-tab" onclick="filterWiki('recurrent')">📅 Recurrentes</button>
+            <button class="type-tab" onclick="filterWiki('alliance')">🛡️ Alianza</button>
+            <button class="type-tab" onclick="filterWiki('special')">✨ Especiales</button>
+            <button class="type-tab" onclick="filterWiki('epic')">👑 Épicos / SvS</button>
+        </div>
+
+        <!-- Wiki Grid -->
+        <div id="wiki-grid" class="wiki-container">
+            <!-- Se llenará con JS -->
+        </div>
+    </main>
+
+    <!-- Detailed Event Modal -->
+    <div id="wiki-modal" class="modal-overlay" onclick="closeWiki()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="close-modal" onclick="closeWiki()">✕</div>
+            <div id="modal-body">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/events-wiki-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function displayWiki(category = 'all') {
+            const grid = document.getElementById('wiki-grid');
+            const filtered = category === 'all'
+                ? eventsWikiData
+                : eventsWikiData.filter(e => e.category === category);
+
+            grid.innerHTML = filtered.map(event => `
+                <div class="event-card" onclick="openWiki('${event.id}')">
+                    <div class="event-category-badge">${event.category}</div>
+                    <div class="event-icon">${event.icon}</div>
+                    <div class="event-name">${event.name}</div>
+                    <div class="event-frequency">Frecuencia: ${event.frequency}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                         <span class="difficulty-badge diff-${event.difficulty.toLowerCase()}">${event.difficulty.toUpperCase()}</span>
+                         <span style="color: var(--primary); font-size: 0.8rem; font-weight: 800;">VER GUÍA ➔</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterWiki(category) {
+            document.querySelectorAll('.type-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(category) || (category === 'all' && tab.textContent.includes('Todos')));
+            });
+            displayWiki(category);
+        }
+
+        function openWiki(id) {
+            const event = eventsWikiData.find(e => e.id === id);
+            const modal = document.getElementById('wiki-modal');
+            const body = document.getElementById('modal-body');
+
+            body.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
+                    <div style="font-size: 6rem;">${event.icon}</div>
+                    <div>
+                        <div class="event-category-badge">${event.category}</div>
+                        <h2 style="font-size: 3rem; color: white;">${event.name}</h2>
+                        <div style="margin-top: 0.5rem;">
+                            <span class="difficulty-badge diff-${event.difficulty.toLowerCase()}">${event.difficulty.toUpperCase()}</span>
+                            <span style="margin-left: 1rem; color: var(--text-gray); font-size: 0.9rem;">Frecuencia: ${event.frequency}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2rem; line-height: 1.6; color: var(--text-gray); margin-bottom: 2rem;">
+                    ${event.description}
+                </p>
+
+                <div class="wiki-section">
+                    <h3><i data-lucide="info"></i> Descripción General</h3>
+                    <p style="color: white; line-height: 1.6;">${event.overview}</p>
+                </div>
+
+                <div class="wiki-section">
+                    <h3><i data-lucide="target"></i> Guía Estratégica</h3>
+                    <ul class="strategy-list">
+                        ${event.strategy.map(step => `<li>${step}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="wiki-section" style="border-left-color: #00ff88;">
+                        <h3><i data-lucide="zap"></i> Pro Tip</h3>
+                        <p style="color: #00ff88; font-weight: 600;">${event.tips}</p>
+                    </div>
+                    <div class="wiki-section" style="border-left-color: var(--fire);">
+                        <h3><i data-lucide="gift"></i> Recompensas</h3>
+                        <div>
+                            ${event.rewards.map(r => `<span class="reward-pill">${r}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWiki() {
+            document.getElementById('wiki-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize
+        displayWiki();
+
+        // Snow Effect
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>

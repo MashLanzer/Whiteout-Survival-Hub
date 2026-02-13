@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alliance Tech Tree - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff8c00, var(--primary));
+        }
+
+        .tech-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.3);
+        }
+
+        .tech-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+        }
+
+        .donation-calc {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid var(--border);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                🏆 Alliance Tech Tree
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Todos los techs de alianza + calculadora de contribución
+            </p>
+        </header>
+
+        <!-- Alliance Tech Grid -->
+        <div id="alliance-tech-container" class="tech-grid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Donation Calculator -->
+        <section class="donation-calc">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🧮 Calculadora de Contribución
+            </h2>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                Calcula cuánto donar para subir un tech de alianza
+            </p>
+
+            <div class="calc-input-group"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div class="calc-input">
+                    <label>Alliance Tech</label>
+                    <select id="alliance-tech-select">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+
+                <div class="calc-input">
+                    <label>Nivel Actual</label>
+                    <input type="number" id="current-tech-level" placeholder="Ej: 5" min="0" max="9">
+                </div>
+
+                <div class="calc-input">
+                    <label>Nivel Objetivo</label>
+                    <input type="number" id="target-tech-level" placeholder="Ej: 10" min="1" max="10">
+                </div>
+
+                <div class="calc-input">
+                    <label>Número de Miembros Activos</label>
+                    <input type="number" id="alliance-members" placeholder="Ej: 50" min="1" max="100">
+                </div>
+            </div>
+
+            <button class="btn primary full-width" style="margin-top: 2rem;" onclick="calculateDonation()">
+                Calcular Contribución Total
+            </button>
+
+            <div id="donation-result" class="result" style="margin-top: 2rem; display: none;"></div>
+        </section>
+
+        <!-- Priority Guide -->
+        <section class="donation-calc">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🎯 Guía de Prioridades para R4/R5
+            </h2>
+
+            <div style="display: grid; gap: 2rem;">
+                <div
+                    style="background: rgba(255, 0, 0, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid #ff0000;">
+                    <h3 style="color: #ff0000; margin-bottom: 1rem;">🔴 FASE 1: Early Game (Primeras 2 semanas)</h3>
+                    <ul style="color: var(--text-gray); line-height: 2;">
+                        <li><strong>Alliance Help</strong> - Reducir tiempos de construcción/research</li>
+                        <li><strong>March Speed</strong> - Farming eficiente para todos</li>
+                        <li><strong>Troop Load</strong> - Más recursos por march</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(255, 140, 0, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid #ff8c00;">
+                    <h3 style="color: #ff8c00; margin-bottom: 1rem;">🟠 FASE 2: Mid Game (Semanas 3-6)</h3>
+                    <ul style="color: var(--text-gray); line-height: 2;">
+                        <li><strong>Alliance Attack/Defense</strong> - Preparar para SvS</li>
+                        <li><strong>Resource Production</strong> - Income constante</li>
+                        <li><strong>Rally Capacity</strong> - Para rallies efectivos</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(0, 210, 255, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔵 FASE 3: Late Game (Semana 7+)</h3>
+                    <ul style="color: var(--text-gray); line-height: 2;">
+                        <li><strong>Advanced Alliance Attack</strong> - Max damage en SvS</li>
+                        <li><strong>Alliance HP</strong> - Survivability</li>
+                        <li><strong>Gift Level</strong> - Mejor loot de alliance gifts</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/alliance-tech-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>

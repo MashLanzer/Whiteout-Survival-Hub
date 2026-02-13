@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whiteout Survival Hub Español | Guías, Tier List y Calculadoras</title>
+    <meta name="description"
+        content="El centro definitivo para jugadores de Whiteout Survival en español. Encuentra guías de héroes, calculadoras de recursos, tier lists y eventos.">
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00d2ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WOS Hub">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/icon-512x512.png">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#inicio" class="active">Inicio</a></li>
+            <li><a href="#guias">Guías</a></li>
+            <li><a href="#tierlist">Tier List</a></li>
+            <li><a href="#calculadoras">Calculadoras</a></li>
+            <li><a href="#eventos">Eventos</a></li>
+        </ul>
+        <button onclick="openSearch()" class="btn secondary" style="display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+            Buscar
+            <kbd
+                style="background: rgba(0, 0, 0, 0.3); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.8rem; margin-left: 0.5rem;">Ctrl+K</kbd>
+        </button>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 class="glaze-text">Sobrevive al <br><span>Invierno Eterno</span></h1>
+            <p>La comunidad hispana de Whiteout Survival. Estrategias, herramientas y guías para dominar el hielo.</p>
+            <div class="hero-btns">
+                <a href="#guias" class="btn primary">Ver Guías</a>
+                <a href="#tierlist" class="btn secondary">Tier List 2026</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="furnace-glow">
+                <div class="flame"></div>
+                <div class="core"></div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="section-title">
+            <h2>Herramientas de Supervivencia</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="grid-container">
+            <a href="#guias" class="card" data-tilt>
+                <i data-lucide="book-open"></i>
+                <h3>Wiki & Guías</h3>
+                <p>Desde el primer nivel del horno hasta las batallas de SvS.</p>
+            </a>
+            <a href="#tierlist" class="card" data-tilt>
+                <i data-lucide="trophy"></i>
+                <h3>Tier List</h3>
+                <p>Analizamos los mejores héroes para cada modo de juego.</p>
+            </a>
+            <a href="#calculadoras" class="card" data-tilt>
+                <i data-lucide="calculator"></i>
+                <h3>Calculadoras</h3>
+                <p>Calcula tus recursos y tiempos de construcción al instante.</p>
+            </a>
+            <a href="#eventos" class="card" data-tilt>
+                <i data-lucide="calendar"></i>
+                <h3>Eventos</h3>
+                <p>No te pierdas ningún Bear Hunt o Castillo con nuestro calendario.</p>
+            </a>
+        </div>
+    </section>
+
+    <main>
+        <section id="tierlist" class="content-section">
+            <div class="section-header">
+                <h2>Tier List de Héroes <span class="badge">V5.0</span> <span class="badge fire">34 Héroes</span></h2>
+            </div>
+
+            <div class="tierlist-controls">
+                <!-- Barra de búsqueda -->
+                <div class="hero-search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="hero-search" placeholder="Buscar héroe por nombre...">
+                </div>
+
+                <!-- Filtros de Modo -->
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="pvp">PvP</button>
+                    <button class="filter-btn" data-filter="pve">Exploración</button>
+                    <button class="filter-btn" data-filter="bear">Bear Hunt</button>
+                    <button class="filter-btn" data-filter="svs">SvS</button>
+                    <button class="filter-btn" data-filter="arena">Arena</button>
+                </div>
+
+                <!-- Filtros de Generación -->
+                <div class="gen-filters">
+                    <label>Filtrar por Generación:</label>
+                    <div class="gen-buttons">
+                        <button class="gen-filter-btn active" data-gen="all">Todas</button>
+                        <button class="gen-filter-btn" data-gen="1">Gen 1</button>
+                        <button class="gen-filter-btn" data-gen="2">Gen 2</button>
+                        <button class="gen-filter-btn" data-gen="3">Gen 3</button>
+                        <button class="gen-filter-btn" data-gen="4">Gen 4</button>
+                        <button class="gen-filter-btn" data-gen="5">Gen 5</button>
+                        <button class="gen-filter-btn" data-gen="6">Gen 6</button>
+                        <button class="gen-filter-btn" data-gen="7">Gen 7</button>
+                        <button class="gen-filter-btn" data-gen="8">Gen 8</button>
+                        <button class="gen-filter-btn" data-gen="9">Gen 9</button>
+                        <button class="gen-filter-btn" data-gen="10">Gen 10+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-grid" id="hero-tier-list">
+                <!-- Se llenará con JS -->
+            </div>
+
+            <!-- COMPARADOR DE HÉROES -->
+            <div class="hero-comparator-section">
+                <h3 style="text-align: center; margin-top: 4rem; margin-bottom: 1rem;">⚖️ Comparador de Héroes</h3>
+                <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                    Compara hasta 3 héroes lado a lado
+                </p>
+
+                <div class="comparator-selectors">
+                    <div class="comparator-selector">
+                        <label>Héroe 1</label>
+                        <select id="compare-hero-1" onchange="updateComparison()">
+                            <option value="">Seleccionar...</option>
+                        </select>
+                    </div>
+                    <div class="comparator-selector">
+                        <label>Héroe 2</label>
+                        <select id="compare-hero-2" onchange="updateComparison()">
+                            <option value="">Seleccionar...</option>
+                        </select>
+                    </div>
+                    <div class="comparator-selector">
+                        <label>Héroe 3 (Opcional)</label>
+                        <select id="compare-hero-3" onchange="updateComparison()">
+                            <option value="">Seleccionar...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="comparison-result" class="comparison-result">
+                    <p style="text-align: center; color: var(--text-gray); padding: 3rem;">
+                        Selecciona al menos 2 héroes para comparar
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal de Información del Héroe -->
+        <div id="hero-modal" class="hero-modal">
+            <div class="hero-modal-content">
+                <button class="modal-close" onclick="closeHeroModal()">
+                    <i data-lucide="x"></i>
+                </button>
+                <div id="modal-hero-content">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <section id="guias" class="content-section">
+            <div class="section-title">
+                <h2>Guías en Español <span class="badge">7 Guías Completas</span></h2>
+                <div class="underline"></div>
+            </div>
+            <div class="grid-container">
+                <a href="guides/building-priority.html" class="guide-card">
+                    <img src="images/guides/Prioridad de Edificios.jpg" alt="Guía de Edificios"
+                        onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🏗️ Prioridad de Edificios</h4>
+                        <p>Aprende qué mejorar primero para maximizar tu poder F2P.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/hero-guide.html" class="guide-card">
+                    <img src="images/guides/Guía de Héroes Gen 1-6.jpg" alt="Guía de Héroes"
+                        onerror="this.src='https://images.unsplash.com/photo-1535666669445-e8c15cd2e7d9?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🦸 Guía de Héroes Gen 1-6</h4>
+                        <p>Cómo usar tus fragmentos dorados sabiamente.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/bear-hunt-tips.html" class="guide-card">
+                    <img src="images/guides/Trucos para Bear Hunt.jpg" alt="Eventos"
+                        onerror="this.src='https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🐻 Trucos para Bear Hunt</h4>
+                        <p>Cómo alcanzar el Top 10 sin gastar dinero.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/svs-strategy.html" class="guide-card">
+                    <img src="images/guides/Guia Definitiva SvS.jpg" alt="SvS"
+                        onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>⚔️ Guía Definitiva SvS</h4>
+                        <p>Estrategia completa para dominar State vs State.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/arena-pvp.html" class="guide-card">
+                    <img src="images/guides/Arena y PvP.jpg" alt="Arena"
+                        onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🏟️ Arena y PvP</h4>
+                        <p>Formaciones meta, counters y cómo subir al Top 100.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/recursos-f2p.html" class="guide-card">
+                    <img src="images/guides/Gestión de Recursos F2P.jpg" alt="Recursos"
+                        onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>💎 Gestión de Recursos F2P</h4>
+                        <p>Maximiza gemas, speedups y fragmentos sin gastar.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+
+                <a href="guides/tips-generales.html" class="guide-card">
+                    <img src="images/guides/Tips y Trucos Generales.jpg" alt="Tips"
+                        onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>💡 Tips y Trucos Generales</h4>
+                        <p>Alianzas, pets, research, gear y rutina diaria.</p>
+                        <span class="read-more">Leer más →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- DATABASE DEL JUEGO -->
+        <section id="database" class="content-section">
+            <div class="section-title">
+                <h2>📚 Database Completa del Juego <span class="badge">8 Sistemas</span></h2>
+                <div class="underline"></div>
+                <p style="text-align: center; color: var(--text-gray); margin-top: 1rem;">
+                    Toda la información del juego en un solo lugar
+                </p>
+            </div>
+            <div class="grid-container">
+                <a href="troops.html" class="guide-card">
+                    <img src="images/database/base de datos tropas.jpg" alt="Tropas"
+                        onerror="this.src='https://images.unsplash.com/photo-1590856029826-c7a73142663e?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>💪 Sistema de Tropas</h4>
+                        <p>Database T1-T10: Stats, costos, calculadoras de entrenamiento.</p>
+                        <span class="read-more">Ver Database →</span>
+                    </div>
+                </a>
+
+                <a href="buildings.html" class="guide-card">
+                    <img src="images/database/bade datos edificios.jpg" alt="Edificios"
+                        onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🏗️ Base de Datos de Edificios</h4>
+                        <p>20+ edificios, niveles 1-40, requisitos y beneficios.</p>
+                        <span class="read-more">Ver Edificios →</span>
+                    </div>
+                </a>
+
+
+                <a href="gear.html" class="guide-card">
+                    <img src="images/database/chief gear.jpg" alt="Gear"
+                        onerror="this.src='https://images.unsplash.com/photo-1501741040015-840974edc849?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>⚙️ Chief Gear Database</h4>
+                        <p>Todos los gear sets, stats, materiales y optimizer.</p>
+                        <span class="read-more">Ver Equipo →</span>
+                    </div>
+                </a>
+
+                <a href="events-wiki.html" class="guide-card">
+                    <img src="images/database/wiki eventos.jpg" alt="Eventos"
+                        onerror="this.src='https://images.unsplash.com/photo-1510511459019-5dee9954889c?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🗺️ Wiki de Eventos</h4>
+                        <p>Guías para Furnace Frenzy, Lucky Wheel, Crazy Joe, etc.</p>
+                        <span class="read-more">Ver Wiki →</span>
+                    </div>
+                </a>
+
+                <a href="alliance-tech.html" class="guide-card">
+                    <img src="images/database/alliance tech.jpg" alt="Alliance Tech"
+                        onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🏆 Alliance Tech Tree</h4>
+                        <p>Todos los techs, beneficios y calculadora de contribución.</p>
+                        <span class="read-more">Ver Tech →</span>
+                    </div>
+                </a>
+
+                <a href="world-map.html" class="guide-card">
+                    <img src="images/database/mapa mundo.jpg" alt="Mapa"
+                        onerror="this.src='https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🗺️ Mapa del Mundo Interactivo</h4>
+                        <p>Regiones, minas, zonas de SvS, Polar Bear spawns.</p>
+                        <span class="read-more">Ver Mapa →</span>
+                    </div>
+                </a>
+
+                <a href="servers.html" class="guide-card">
+                    <img src="images/database/server traker.jpg" alt="Servidores"
+                        onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🌍 Server Tracker</h4>
+                        <p>Lista de servidores, estado, alianzas top 10 por server.</p>
+                        <span class="read-more">Ver Tracker →</span>
+                    </div>
+                </a>
+
+                <a href="heroes.html" class="guide-card">
+                    <img src="images/database/hero database.jpg" alt="Héroes"
+                        onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&h=300&auto=format&fit=crop'">
+                    <div class="guide-content">
+                        <h4>🦸 Héroes Database</h4>
+                        <p>Gen 1-10, stats máximos, habilidades y combinaciones.</p>
+                        <span class="read-more">Ver Base de Datos →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+
+        <section id="eventos" class="content-section">
+            <div class="section-header">
+                <h2>Calendario de Eventos</h2>
+                <span class="badge">En Vivo 🔴</span>
+            </div>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                Conectado con datos reales del juego. Actualización automática cada hora.
+            </p>
+            <div class="calendar-grid">
+                <div class="event-item loading">
+                    <div class="event-date">Cargando...</div>
+                    <div class="event-name">Obteniendo eventos del servidor</div>
+                    <div class="event-time">⏳</div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="databases" class="content-section">
+            <div class="section-title">
+                <h2>📚 Enciclopedias & Bases de Datos</h2>
+                <p>Herramientas maestras para dominar el servidor</p>
+                <div class="underline"></div>
+            </div>
+            <div class="grid-container">
+                <a href="gear.html" class="card" data-tilt>
+                    <i data-lucide="settings"></i>
+                    <h3>Chief Gear Encyclopedia</h3>
+                    <p>Evolución, stats min-max y optimizador de sets.</p>
+                </a>
+                <a href="events-wiki.html" class="card" data-tilt>
+                    <i data-lucide="book-open"></i>
+                    <h3>Wiki de Eventos</h3>
+                    <p>Guías maestras para SvS, Joe, Bear y más.</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="calculadoras" class="content-section glass">
+            <div class="section-title">
+                <h2>🧮 Panel de Control de Estrategia</h2>
+                <p>Herramientas tácticas para optimizar tu crecimiento y combate</p>
+                <div class="underline"></div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="calc-dashboard">
+                <!-- Group 1: Economy & Growth -->
+                <div class="calc-group">
+                    <div class="group-header">
+                        <i data-lucide="trending-up"></i>
+                        <span>Economía & Crecimiento</span>
+                    </div>
+                    <div class="group-items">
+                        <button class="calc-menu-item active" onclick="switchCalc('recursos', event)">
+                            <span class="icon">📦</span>
+                            <div class="info">
+                                <strong>Recursos Furnace</strong>
+                                <small>Niveles 1-40</small>
+                            </div>
+                        </button>
+                        <button class="calc-menu-item" onclick="switchCalc('farm', event)">
+                            <span class="icon">🌾</span>
+                            <div class="info">
+                                <strong>Eficiencia Farm</strong>
+                                <small>Optimizar marchas</small>
+                            </div>
+                        </button>
+                        <button class="calc-menu-item" onclick="switchCalc('trade', event)">
+                            <span class="icon">💱</span>
+                            <div class="info">
+                                <strong>Optimizador Trade</strong>
+                                <small>Ratios de comercio</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 2: Military & Combat -->
+                <div class="calc-group">
+                    <div class="group-header">
+                        <i data-lucide="shield-alert"></i>
+                        <span>Militar & Combate</span>
+                    </div>
+                    <div class="group-items">
+                        <button class="calc-menu-item" onclick="switchCalc('pvp', event)">
+                            <span class="icon">⚔️</span>
+                            <div class="info">
+                                <strong>Simulador PvP</strong>
+                                <small>Batallas 1 vs 1</small>
+                            </div>
+                        </button>
+                        <button class="calc-menu-item" onclick="switchCalc('power', event)">
+                            <span class="icon">⚡</span>
+                            <div class="info">
+                                <strong>Estimador Power</strong>
+                                <small>Ganancia por upgrade</small>
+                            </div>
+                        </button>
+                        <button class="calc-menu-item" onclick="switchCalc('stamina', event)">
+                            <span class="icon">🏃</span>
+                            <div class="info">
+                                <strong>Gestor Stamina</strong>
+                                <small>Uso de energía</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 3: Survival & Logistics -->
+                <div class="calc-group">
+                    <div class="group-header">
+                        <i data-lucide="truck"></i>
+                        <span>Logística & Defensa</span>
+                    </div>
+                    <div class="group-items">
+                        <button class="calc-menu-item" onclick="switchCalc('hospital', event)">
+                            <span class="icon">🏥</span>
+                            <div class="info">
+                                <strong>Costes Hospital</strong>
+                                <small>Sanación de tropas</small>
+                            </div>
+                        </button>
+                        <button class="calc-menu-item" onclick="switchCalc('shield', event)">
+                            <span class="icon">🛡️</span>
+                            <div class="info">
+                                <strong>Escudo (Shield)</strong>
+                                <small>Tiempos de protección</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-display-area">
+                <!-- Calculadora de Recursos -->
+                <div id="calc-recursos" class="calc-container active">
+                    <div class="calc-header-modern">
+                        <h3>Calculadora de Recursos</h3>
+                        <span>Proyección para expansión del Horno</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Nivel Actual del Horno</label>
+                            <input type="number" id="current-level" placeholder="Ej: 25" min="1" max="40">
+                        </div>
+                        <div class="calc-input">
+                            <label>Nivel Objetivo</label>
+                            <input type="number" id="target-level" placeholder="Ej: 30" min="1" max="40">
+                        </div>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculateResources()">Calcular Recursos</button>
+                    <div id="calc-result" class="result"></div>
+                </div>
+
+                <!-- Calculadora de Power -->
+                <div id="calc-power" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Estimador de Power</h3>
+                        <span>Proyección de fuerza militar por upgrade</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Tipo de Upgrade</label>
+                            <select id="power-upgrade-type">
+                                <option value="furnace">Furnace Level Up</option>
+                                <option value="research">Research Militar</option>
+                                <option value="troops">Train Tropas T10</option>
+                                <option value="hero">Hero Star Up</option>
+                            </select>
+                        </div>
+                        <div class="calc-input">
+                            <label>Cantidad/Nivel</label>
+                            <input type="number" id="power-amount" placeholder="Ej: 1 nivel, 100K tropas" min="1">
+                        </div>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculatePower()">Calcular Power Ganado</button>
+                    <div id="power-result" class="result"></div>
+                </div>
+
+                <!-- Calculadora de Stamina -->
+                <div id="calc-stamina" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Calculadora de Stamina</h3>
+                        <span>Optimización de energía y marchas diarias</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Stamina Actual</label>
+                            <input type="number" id="current-stamina" placeholder="Ej: 250" min="0" max="999">
+                        </div>
+                        <div class="calc-input">
+                            <label>Costo por March</label>
+                            <input type="number" id="stamina-per-march" placeholder="Ej: 15" value="15" min="1">
+                        </div>
+                    </div>
+                    <div class="calc-input">
+                        <label>Tipo de Actividad</label>
+                        <select id="activity-type">
+                            <option value="gathering">Gathering (Tiles)</option>
+                            <option value="bear">Bear Hunt</option>
+                            <option value="rally">Rallies</option>
+                            <option value="explore">Exploración</option>
+                        </select>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculateStamina()">Calcular Marches
+                        Disponibles</button>
+                    <div id="stamina-result" class="result"></div>
+                </div>
+
+                <!-- Calculadora de Hospital -->
+                <div id="calc-hospital" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Calculadora de Hospital</h3>
+                        <span>Costos de sanación por tier de tropa</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Tipo de Tropa</label>
+                            <select id="hospital-troop-tier">
+                                <option value="1">T1 - Bajo costo</option>
+                                <option value="3">T3</option>
+                                <option value="5">T5</option>
+                                <option value="7">T7</option>
+                                <option value="9" selected>T9 - Alto costo</option>
+                                <option value="10">T10 - Máximo costo</option>
+                            </select>
+                        </div>
+                        <div class="calc-input">
+                            <label>Tropas Heridas</label>
+                            <input type="number" id="wounded-troops" placeholder="Ej: 50000" min="1">
+                        </div>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculateHospital()">Calcular Costo de
+                        Curación</button>
+                    <div id="hospital-result" class="result"></div>
+                </div>
+
+                <!-- Calculadora de Shield -->
+                <div id="calc-shield" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Gestión de Escudos (Shield)</h3>
+                        <span>Tiempos de protección según nivel de amenaza</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Tiempo Offline (horas)</label>
+                            <input type="number" id="offline-hours" placeholder="Ej: 8" min="0.5" step="0.5">
+                        </div>
+                        <div class="calc-input">
+                            <label>Nivel de Amenaza</label>
+                            <select id="threat-level">
+                                <option value="low">Baja (Server pacífico)</option>
+                                <option value="medium" selected>Media (Normal)</option>
+                                <option value="high">Alta (KvK activo)</option>
+                                <option value="extreme">Extrema (Target marcado)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-input">
+                        <label>¿Recursos desprotegidos?</label>
+                        <select id="exposed-resources">
+                            <option value="none">Nada (Todo en warehouse)</option>
+                            <option value="low">Poco (< 10M)</option>
+                            <option value="medium" selected>Medio (10-50M)</option>
+                            <option value="high">Alto (> 50M)</option>
+                        </select>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculateShield()">Calcular Shield
+                        Recomendado</button>
+                    <div id="shield-result" class="result"></div>
+                </div>
+
+                <!-- Calculadora de Farm Efficiency -->
+                <div id="calc-farm" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Eficiencia de Farming</h3>
+                        <span>Ratio de ganancia por minuto de recolección</span>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Troop Load por March</label>
+                            <input type="number" id="troop-load" placeholder="Ej: 125000" min="1000">
+                        </div>
+                        <div class="calc-input">
+                            <label>Tiempo de Gathering (min)</label>
+                            <input type="number" id="gathering-time" placeholder="Ej: 30" min="1">
+                        </div>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Número de Marches Disponibles</label>
+                            <input type="number" id="available-marches" placeholder="Ej: 4" min="1" max="6">
+                        </div>
+                        <div class="calc-input">
+                            <label>Tipo de Recurso</label>
+                            <select id="resource-type">
+                                <option value="wood">🪵 Madera</option>
+                                <option value="food">🥩 Comida</option>
+                                <option value="iron">⛓️ Hierro</option>
+                                <option value="mixed">🔄 Mixto</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn primary full-width" onclick="calculateFarm()">Calcular Eficiencia y
+                        Ganancia</button>
+                    <div id="farm-result" class="result"></div>
+                </div>
+
+                <!-- PvP Combat Simulator -->
+                <div id="calc-pvp" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Simulador de Combate PvP</h3>
+                        <span>Cálculo probabilístico basado en stats y tiers</span>
+                    </div>
+
+                    <h4 style="color: var(--primary); margin: 2rem 0 1rem;">👤 Tu Ejército</h4>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Total Tropas</label>
+                            <input type="number" id="your-troops" placeholder="Ej: 500000" min="1000">
+                        </div>
+                        <div class="calc-input">
+                            <label>Troop Tier Promedio</label>
+                            <select id="your-tier">
+                                <option value="5">T5</option>
+                                <option value="7">T7</option>
+                                <option value="9" selected>T9</option>
+                                <option value="10">T10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Attack Boost (%)</label>
+                            <input type="number" id="your-attack" placeholder="Ej: 150" value="100" min="0">
+                        </div>
+                        <div class="calc-input">
+                            <label>Defense Boost (%)</label>
+                            <input type="number" id="your-defense" placeholder="Ej: 120" value="100" min="0">
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--fire); margin: 2rem 0 1rem;">💀 Ejército Enemigo</h4>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Total Tropas</label>
+                            <input type="number" id="enemy-troops" placeholder="Ej: 450000" min="1000">
+                        </div>
+                        <div class="calc-input">
+                            <label>Troop Tier Promedio</label>
+                            <select id="enemy-tier">
+                                <option value="5">T5</option>
+                                <option value="7">T7</option>
+                                <option value="9" selected>T9</option>
+                                <option value="10">T10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Attack Boost (%)</label>
+                            <input type="number" id="enemy-attack" placeholder="Ej: 130" value="100" min="0">
+                        </div>
+                        <div class="calc-input">
+                            <label>Defense Boost (%)</label>
+                            <input type="number" id="enemy-defense" placeholder="Ej: 110" value="100" min="0">
+                        </div>
+                    </div>
+
+                    <div class="calc-input">
+                        <label>Tipo de Combate</label>
+                        <select id="combat-type">
+                            <option value="field">Field Battle (Mapa abierto)</option>
+                            <option value="rally">Rally (Ataque coordinado)</option>
+                            <option value="defense">Base Defense (Defensor tiene ventaja)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn primary full-width" onclick="calculatePvP()">Simular Combate</button>
+                    <div id="pvp-result" class="result"></div>
+                </div>
+
+                <!-- Trade Optimizer -->
+                <div id="calc-trade" class="calc-container" style="display: none;">
+                    <div class="calc-header-modern">
+                        <h3>Optimizador de Comercio</h3>
+                        <span>Ratio de intercambio según mercado actual</span>
+                    </div>
+
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Recurso que OFRECES</label>
+                            <select id="trade-offer-type">
+                                <option value="wood">🪵 Madera</option>
+                                <option value="food" selected>🥩 Comida</option>
+                                <option value="iron">⛓️ Hierro</option>
+                            </select>
+                        </div>
+                        <div class="calc-input">
+                            <label>Cantidad a Ofrecer</label>
+                            <input type="number" id="trade-offer-amount" placeholder="Ej: 5000000" min="1000">
+                        </div>
+                    </div>
+
+                    <div class="calc-inputs-row">
+                        <div class="calc-input">
+                            <label>Recurso que NECESITAS</label>
+                            <select id="trade-need-type">
+                                <option value="wood">🪵 Madera</option>
+                                <option value="food">🥩 Comida</option>
+                                <option value="iron" selected>⛓️ Hierro</option>
+                            </select>
+                        </div>
+                        <div class="calc-input">
+                            <label>Cantidad que Necesitas</label>
+                            <input type="number" id="trade-need-amount" placeholder="Ej: 3000000" min="1000">
+                        </div>
+                    </div>
+
+                    <div class="calc-input">
+                        <label>Situación de Mercado</label>
+                        <select id="market-situation">
+                            <option value="normal">Normal (ratio estándar)</option>
+                            <option value="shortage">Escasez (pides recurso escaso)</option>
+                            <option value="surplus">Exceso (ofreces recurso abundante)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn primary full-width" onclick="calculateTrade()">Analizar Trade</button>
+                    <div id="trade-result" class="result"></div>
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">WHITE<span>OUT</span></div>
+            <p>© 2026 Whiteout Survival Hub Español. No afiliado oficialmente a Century Games.</p>
+            <div class="socials">
+                <a href="#"><i data-lucide="github"></i></a>
+                <a href="#"><i data-lucide="twitter"></i></a>
+                <a href="#"><i data-lucide="message-circle"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/events-api.js"></script>
+    <script src="js/advanced-calculators.js"></script>
+    <script src="js/global-search.js"></script>
+    <script src="js/pwa-init.js"></script>
+    <script src="js/heroes-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

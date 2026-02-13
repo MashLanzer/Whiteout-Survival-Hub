@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alliance Wars Tracker - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .wars-grid {
+            display: grid;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .war-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .war-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .vs-section {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .alliance-side {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .alliance-side.winner {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 210, 255, 0.2));
+            border: 2px solid #00ff88;
+        }
+
+        .vs-icon {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--fire);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .war-status {
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 900;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+
+        .status-ongoing {
+            background: linear-gradient(135deg, #ff8c00, #ffaa00);
+        }
+
+        .status-finished {
+            background: linear-gradient(135deg, #00ff88, #00d2ff);
+        }
+
+        .status-upcoming {
+            background: linear-gradient(135deg, #9370db, #ba55d3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                ⚔️ Alliance Wars Tracker
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Seguimiento de guerras entre alianzas y resultados
+            </p>
+        </header>
+
+        <!-- Add New War Button -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <button class="btn primary" onclick="showAddWarForm()">
+                + Registrar Nueva Guerra
+            </button>
+        </div>
+
+        <!-- Add War Form (Hidden by default) -->
+        <div id="add-war-form"
+            style="display: none; background: var(--bg-card); border-radius: 20px; padding: 3rem; margin: 2rem 0; border: 2px solid var(--primary);">
+            <h3 style="color: var(--primary); margin-bottom: 2rem;">📝 Registrar Nueva Guerra</h3>
+
+            <div class="calc-inputs-row">
+                <div class="calc-input">
+                    <label>Alianza 1</label>
+                    <input type="text" id="alliance1" placeholder="Nombre">
+                </div>
+                <div class="calc-input">
+                    <label>Alianza 2</label>
+                    <input type="text" id="alliance2" placeholder="Nombre">
+                </div>
+            </div>
+
+            <div class="calc-inputs-row">
+                <div class="calc-input">
+                    <label>Kills Alliance 1</label>
+                    <input type="number" id="kills1" placeholder="0" min="0">
+                </div>
+                <div class="calc-input">
+                    <label>Kills Alliance 2</label>
+                    <input type="number" id="kills2" placeholder="0" min="0">
+                </div>
+            </div>
+
+            <div class="calc-input">
+                <label>Estado</label>
+                <select id="war-status">
+                    <option value="ongoing">⏳ En Curso</option>
+                    <option value="finished">✅ Finalizada</option>
+                    <option value="upcoming">📅 Próxima</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn primary" onclick="addWar()">Guardar Guerra</button>
+                <button class="btn secondary" onclick="hideAddWarForm()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Wars List -->
+        <div id="wars-container" class="wars-grid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Statistics Section -->
+        <section
+            style="background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(255, 140, 0, 0.1)); border-radius: 20px; padding: 3rem; margin: 3rem 0; border: 2px solid var(--primary);">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                📊 Estadísticas Generales
+            </h2>
+
+            <div id="stats-summary"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                <!-- Se llenará con JavaScript -->
+            </div>
+        </section>
+
+        <!-- War Tips -->
+        <section
+            style="background: var(--bg-card); border-radius: 20px; padding: 3rem; margin: 3rem 0; border: 2px solid var(--border);">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                💡 Guía de Alliance Wars
+            </h2>
+
+            <div style="display: grid; gap: 1.5rem;">
+                <div
+                    style="background: rgba(0, 210, 255, 0.1); padding: 2rem; border-radius: 15px; border-left: 4px solid var(--primary);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🎯 Preparación Pre-War</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8;">
+                        <li>Asegúrate que todos tengan hospital capacity completo</li>
+                        <li>Stack recursos en warehouse protected</li>
+                        <li>Coordina timing de shields para rotación eficiente</li>
+                        <li>Prepara rally leaders con mejores heroes/gear</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(255, 140, 0, 0.1); padding: 2rem; border-radius: 15px; border-left: 4px solid #ff8c00;">
+                    <h3 style="color: #ff8c00; margin-bottom: 1rem;">⚔️ Durante la Guerra</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8;">
+                        <li>Focus en targets de alto valor (resource gatherers, weak bases)</li>
+                        <li>Mantén comunicación constante en alliance chat</li>
+                        <li>Rotación de reinforcements para bases débiles</li>
+                        <li>Usa rally coordinados para bases fuertes (no solo attacks)</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(0, 255, 136, 0.1); padding: 2rem; border-radius: 15px; border-left: 4px solid #00ff88;">
+                    <h3 style="color: #00ff88; margin-bottom: 1rem;">🏆 Post-War Analysis</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8;">
+                        <li>Revisa battle reports para identificar mejoras</li>
+                        <li>Reconoce MVPs (most kills, best defense)</li>
+                        <li>Analiza estrategias enemigas exitosas</li>
+                        <li>Ajusta defense/attack composition para siguiente war</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/alliance-wars-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>

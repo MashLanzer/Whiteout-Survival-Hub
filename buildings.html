@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos de Edificios - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .building-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .building-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.3);
+        }
+
+        .building-header {
+            background: linear-gradient(135deg, var(--primary), var(--fire));
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .building-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .building-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .building-category {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .building-body {
+            padding: 2rem;
+        }
+
+        .building-description {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .building-stats {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-tab {
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-tab:hover {
+            border-color: var(--primary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
+        }
+
+        .upgrade-calculator {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid var(--border);
+        }
+
+        .level-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .level-table th {
+            background: var(--primary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .level-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .level-table tr:hover {
+            background: rgba(0, 210, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                🏗️ Base de Datos de Edificios
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                20+ edificios con niveles, requisitos y beneficios
+            </p>
+        </header>
+
+        <!-- Category Filter -->
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="filterBuildings('all')">🏛️ Todos</button>
+            <button class="category-tab" onclick="filterBuildings('core')">⭐ Core</button>
+            <button class="category-tab" onclick="filterBuildings('military')">⚔️ Militar</button>
+            <button class="category-tab" onclick="filterBuildings('economic')">💰 Económico</button>
+            <button class="category-tab" onclick="filterBuildings('defense')">🛡️ Defensa</button>
+        </div>
+
+        <!-- Buildings Grid -->
+        <div id="buildings-container" class="buildings-grid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Upgrade Path Calculator -->
+        <section class="upgrade-calculator">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🧮 Calculadora de Upgrade Path
+            </h2>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                Calcula recursos y tiempo para subir de nivel X a nivel Y
+            </p>
+
+            <div class="calc-input-group"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div class="calc-input">
+                    <label>Edificio</label>
+                    <select id="building-select">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+
+                <div class="calc-input">
+                    <label>Nivel Actual</label>
+                    <input type="number" id="current-building-level" placeholder="Ej: 25" min="1" max="39">
+                </div>
+
+                <div class="calc-input">
+                    <label>Nivel Objetivo</label>
+                    <input type="number" id="target-building-level" placeholder="Ej: 30" min="2" max="40">
+                </div>
+            </div>
+
+            <button class="btn primary full-width" style="margin-top: 2rem;" onclick="calculateUpgradePath()">
+                Calcular Recursos Necesarios
+            </button>
+
+            <div id="upgrade-result" class="result" style="margin-top: 2rem; display: none;"></div>
+        </section>
+
+        <!-- Level Details Table -->
+        <section id="level-details" style="display: none; margin: 3rem 0;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                📊 Detalles por Nivel
+            </h2>
+            <div id="level-table-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/buildings-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>

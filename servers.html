@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Tracker - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .servers-grid {
+            display: grid;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .server-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .server-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+        }
+
+        .server-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .server-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .server-status {
+            padding: 0.6rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        .status-new {
+            background: linear-gradient(135deg, #00ff88, #00d2ff);
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, #00d2ff, #0099ff);
+        }
+
+        .status-old {
+            background: linear-gradient(135deg, #ff8c00, #ffaa00);
+        }
+
+        .status-merged {
+            background: linear-gradient(135deg, #9370db, #ba55d3);
+        }
+
+        .alliances-table {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .alliances-table th {
+            text-align: left;
+            padding: 1rem;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .alliances-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-gray);
+        }
+
+        .alliances-table tr:hover {
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .rank-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        .rank-1 {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #000;
+        }
+
+        .rank-2 {
+            background: linear-gradient(135deg, #c0c0c0, #999);
+            color: #000;
+        }
+
+        .rank-3 {
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            color: #fff;
+        }
+
+        .rank-other {
+            background: rgba(128, 128, 128, 0.3);
+            color: #fff;
+        }
+
+        .filter-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--border);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--primary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                🌍 Server Tracker
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Estado de servidores y Top 10 alianzas por server
+            </p>
+            <p style="color: var(--fire); margin-top: 1rem; font-style: italic;">
+                Nota: Info actualizada manualmente. Última actualización: Febrero 2026
+            </p>
+        </header>
+
+        <!-- Filter -->
+        <div class="filter-section">
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterServers('all')">🌐 Todos</button>
+                <button class="filter-tab" onclick="filterServers('new')">🆕 Nuevos</button>
+                <button class="filter-tab" onclick="filterServers('active')">✅ Activos</button>
+                <button class="filter-tab" onclick="filterServers('old')">⏳ Viejos</button>
+                <button class="filter-tab" onclick="filterServers('merged')">🔗 Merged</button>
+            </div>
+        </div>
+
+        <!-- Servers Grid -->
+        <div id="servers-container" class="servers-grid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Server Info Guide -->
+        <section
+            style="background: var(--bg-card); border-radius: 20px; padding: 3rem; margin: 3rem 0; border: 2px solid var(--border);">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                📋 Guía de Estados de Servidores
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div
+                    style="background: rgba(0, 255, 136, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid #00ff88;">
+                    <h3 style="color: #00ff88; margin-bottom: 1rem;">🆕 Nuevo (0-2 meses)</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8; list-style: none;">
+                        <li>✓ Más fácil para nuevos jugadores</li>
+                        <li>✓ Economía balanceada</li>
+                        <li>✓ Acceso a eventos recientes</li>
+                        <li>✗ Menos alianzas establecidas</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(0, 210, 255, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✅ Activo (2-6 meses)</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8; list-style: none;">
+                        <li>✓ Comunidad establecida</li>
+                        <li>✓ Alianzas competitivas formadas</li>
+                        <li>✓ Meta game desarrollado</li>
+                        <li>✗ Más difícil competir como nuevo</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(255, 140, 0, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid #ff8c00;">
+                    <h3 style="color: #ff8c00; margin-bottom: 1rem;">⏳ Viejo (6+ meses)</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8; list-style: none;">
+                        <li>✓ Economía madura</li>
+                        <li>✓ Alliance wars establecidas</li>
+                        <li>✗ Power gap muy grande</li>
+                        <li>✗ Difícil para F2P nuevos</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: rgba(147, 112, 219, 0.1); padding: 2rem; border-radius: 15px; border-left: 5px solid #9370db;">
+                    <h3 style="color: #9370db; margin-bottom: 1rem;">🔗 Merged</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8; list-style: none;">
+                        <li>✓ Más jugadores activos</li>
+                        <li>✓ Competencia renovada</li>
+                        <li>✗ Chaos inicial post-merge</li>
+                        <li>✗ Dos metas diferentes combinadas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Choose a Server -->
+        <section
+            style="background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(255, 140, 0, 0.1)); border-radius: 20px; padding: 3rem; margin: 3rem 0; border: 2px solid var(--primary);">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🎯 ¿Cómo Elegir un Servidor?
+            </h2>
+
+            <div style="display: grid; gap: 1.5rem;">
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 2rem; border-radius: 15px;">
+                    <h3 style="color: #00ff88; margin-bottom: 1rem;">Para Nuevos Jugadores (F2P):</h3>
+                    <p style="color: var(--text-gray); line-height: 1.8;">
+                        Elige un servidor <strong style="color: #00ff88;">NUEVO (0-1 mes)</strong>. Tendrás más chances
+                        de competir,
+                        formar parte de una alliance top, y disfrutar eventos sin power gap masivo.
+                    </p>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 2rem; border-radius: 15px;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Para Spenders:</h3>
+                    <p style="color: var(--text-gray); line-height: 1.8;">
+                        Puedes unirte a servidores <strong style="color: var(--primary);">ACTIVOS (2-4 meses)</strong>.
+                        Con investment, puedes alcanzar top ranks rápidamente y unirte a alliances competitivas.
+                    </p>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 2rem; border-radius: 15px;">
+                    <h3 style="color: #ff8c00; margin-bottom: 1rem;">Para Jugadores Returning:</h3>
+                    <p style="color: var(--text-gray); line-height: 1.8;">
+                        Considera un servidor <strong style="color: #ff8c00;">MERGED</strong> donde puedas encontrar
+                        alianza activa
+                        y hay renovado interés post-merge. O empieza fresh en servidor nuevo.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/servers-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>

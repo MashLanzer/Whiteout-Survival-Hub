@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Héroes Database | Whiteout Survival Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/heroes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#guias">Guías</a></li>
+            <li><a href="heroes.html" class="active">Héroes</a></li>
+            <li><a href="gear.html">Equipo</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <header class="heroes-hero">
+        <div class="container">
+            <h1 class="glaze-text">Academia de <span>Héroes</span></h1>
+            <p>Database completa de Generaciones 1 a 10 con stats máximos y sinergias</p>
+        </div>
+    </header>
+
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group">
+                <i data-lucide="filter" style="width: 18px; color: var(--primary);"></i>
+                <select id="gen-filter" class="filter-select" onchange="filterHeroes()">
+                    <option value="all">Todas las Generaciones</option>
+                    <option value="1">Generación 1</option>
+                    <option value="2">Generación 2</option>
+                    <option value="3">Generación 3</option>
+                    <option value="4">Generación 4</option>
+                    <option value="5">Generación 5</option>
+                    <option value="6">Generación 6</option>
+                    <option value="7">Generación 7</option>
+                    <option value="8">Generación 8</option>
+                    <option value="9">Generación 9</option>
+                    <option value="10">Generación 10</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="tier-filter" class="filter-select" onchange="filterHeroes()">
+                    <option value="all">Todos los Tiers</option>
+                    <option value="S+">Tier S+ (Meta)</option>
+                    <option value="S">Tier S (Muy Fuerte)</option>
+                    <option value="A">Tier A (Sólido)</option>
+                    <option value="B">Tier B (Situacional)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="type-filter" class="filter-select" onchange="filterHeroes()">
+                    <option value="all">Todos los Tipos</option>
+                    <option value="Infantería">Infantería</option>
+                    <option value="Lanceros">Lanceros</option>
+                    <option value="Tiradores">Tiradores</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div id="heroes-grid" class="heroes-grid">
+            <!-- Cargado por JS -->
+        </div>
+    </main>
+
+    <!-- Modal Premium -->
+    <div id="hero-modal-v2" class="hero-modal-v2" onclick="closeHeroModal(event)">
+        <div class="modal-container-v2" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeHeroModal(event)"
+                style="position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; border: none; color: white; cursor: pointer;">
+                <i data-lucide="x"></i>
+            </button>
+            <div id="modal-image-pane" style="background-size: cover; background-position: center; position: relative;">
+                <div
+                    style="position: absolute; bottom: 0; left: 0; padding: 2rem; background: linear-gradient(transparent, #0a0e17); width: 100%;">
+                    <h2 id="modal-name" style="font-size: 3rem; margin-bottom: 0.5rem;"></h2>
+                    <div id="modal-badges-row" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                </div>
+            </div>
+            <div style="padding: 3rem; overflow-y: auto;">
+                <div class="modal-section-v2">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="info"></i> Perfil</h3>
+                    <p id="modal-desc" style="font-size: 1.1rem; line-height: 1.6; color: #ddd;"></p>
+                </div>
+                <div class="modal-section-v2" style="margin-top: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="zap"></i> Sinergias &
+                        Habilidades</h3>
+                    <p id="modal-skills" style="color: #fff; font-weight: 600;"></p>
+                </div>
+                <div class="modal-section-v2" style="margin-top: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;"><i data-lucide="award"></i> Uso Óptimo</h3>
+                    <p id="modal-best" style="color: #ddd;"></p>
+                </div>
+                <div id="modal-modes" style="margin-top: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Whiteout Survival Hub Español. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/heroes-data.js"></script>
+    <script>
+        function renderHeroes(filteredHeroes) {
+            const grid = document.getElementById('heroes-grid');
+            grid.innerHTML = '';
+
+            filteredHeroes.forEach(hero => {
+                const tierClass = hero.tier.toLowerCase().replace('+', '-plus');
+                const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+                const localImage = `images/${imageName}.webp`;
+                const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=300&background=1a2233&color=ffffff&bold=true`;
+
+                const card = document.createElement('div');
+                card.className = 'hero-card-v2';
+                card.onclick = () => openHeroModal(hero);
+                card.innerHTML = `
+                    <div class="hero-image-container">
+                        <img src="${localImage}" alt="${hero.name}" onerror="this.src='${placeholder}'">
+                        <div class="hero-badges-v2">
+                            <span class="badge-v2 tier-${tierClass}">${hero.tier}</span>
+                            <span class="badge-v2 gen-badge">Gen ${hero.gen}</span>
+                        </div>
+                    </div>
+                    <div class="hero-content-v2">
+                        <div class="hero-type-v2">${hero.type}</div>
+                        <div class="hero-name-v2">${hero.name}</div>
+                        <div class="hero-stats-mini">
+                            <div class="stat-item">
+                                <span class="stat-value">Top</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                            <div class="stat-item">
+                                <i data-lucide="chevron-right" style="width: 14px; opacity: 0.3;"></i>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">${hero.gen > 1 ? 'Meta' : 'Core'}</span>
+                                <span class="stat-label">Tipo</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterHeroes() {
+            const gen = document.getElementById('gen-filter').value;
+            const tier = document.getElementById('tier-filter').value;
+            const type = document.getElementById('type-filter').value;
+
+            let filtered = heroesData;
+
+            if (gen !== 'all') filtered = filtered.filter(h => h.gen === parseInt(gen));
+            if (tier !== 'all') filtered = filtered.filter(h => h.tier === tier);
+            if (type !== 'all') filtered = filtered.filter(h => h.type === type);
+
+            renderHeroes(filtered);
+        }
+
+        function openHeroModal(hero) {
+            const modal = document.getElementById('hero-modal-v2');
+            const imageName = hero.name.toLowerCase().replace(/-/g, '-');
+            const localImage = `images/${imageName}.webp`;
+
+            document.getElementById('modal-image-pane').style.backgroundImage = `url(${localImage})`;
+            document.getElementById('modal-name').textContent = hero.name;
+            document.getElementById('modal-desc').textContent = hero.desc;
+            document.getElementById('modal-skills').textContent = hero.skills;
+            document.getElementById('modal-best').textContent = hero.bestFor;
+
+            const badgesRow = document.getElementById('modal-badges-row');
+            badgesRow.innerHTML = `
+                <span class="badge" style="background: var(--primary);">${hero.type}</span>
+                <span class="badge" style="background: #333;">Generación ${hero.gen}</span>
+                <span class="badge" style="background: #ff8c00;">Tier ${hero.tier}</span>
+            `;
+
+            const modesBox = document.getElementById('modal-modes');
+            modesBox.innerHTML = hero.mode.map(m => `<span class="badge-v2 gen-badge">${m.toUpperCase()}</span>`).join('');
+
+            modal.style.display = 'flex';
+            lucide.createIcons();
+        }
+
+        function closeHeroModal(e) {
+            const modal = document.getElementById('hero-modal-v2');
+            modal.style.display = 'none';
+        }
+
+        function navSlide() {
+            const burger = document.querySelector('.burger');
+            const nav = document.querySelector('.nav-links');
+            const navLinks = document.querySelectorAll('.nav-links li');
+
+            if (!burger || !nav) return;
+
+            burger.onclick = () => {
+                nav.classList.toggle('nav-active');
+                navLinks.forEach((link, index) => {
+                    if (link.style.animation) {
+                        link.style.animation = '';
+                    } else {
+                        link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                    }
+                });
+                burger.classList.toggle('toggle');
+            };
+        }
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHeroes(heroesData);
+            navSlide();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>

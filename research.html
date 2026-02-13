@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Investigación - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link rel="stylesheet" href="css/research-tree.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Existing styles kept for fallback/calculator */
+        .research-category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .research-tab {
+            padding: 1.2rem 2.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .research-tab:hover {
+            border-color: var(--primary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .research-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--fire));
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
+        }
+
+        .calculator-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid var(--border);
+        }
+
+        .tree-mode-toggle {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                🔬 Árbol de Investigación
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Visualiza el progreso y dependencias de Military, Economic y Defense
+            </p>
+        </header>
+
+        <!-- Category Tabs -->
+        <div class="research-category-tabs">
+            <button class="research-tab active" onclick="filterTree('military')">⚔️ Military</button>
+            <button class="research-tab" onclick="filterTree('economic')">💰 Economic</button>
+            <button class="research-tab" onclick="filterTree('defense')">🛡️ Defense</button>
+        </div>
+
+        <!-- Visual Tree Container -->
+        <div class="research-tree-container" id="tree-viewport">
+            <svg class="connector-svg" id="tree-connectors"></svg>
+            <div id="tree-content" class="tree-v-track">
+                <!-- Tiers will be added here -->
+            </div>
+        </div>
+
+        <!-- Research Details Modal -->
+        <div id="details-overlay" class="research-details-overlay" onclick="closeResearchDetails()">
+            <div class="research-details-card" onclick="event.stopPropagation()">
+                <div class="close-details" onclick="closeResearchDetails()">✕</div>
+                <div id="details-content"></div>
+            </div>
+        </div>
+
+        <!-- Research Path Calculator -->
+        <section class="calculator-section">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🧮 Calculadora de Research Path
+            </h2>
+            <div class="calc-input-group"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div class="calc-input">
+                    <label>Research</label>
+                    <select id="research-select" onchange="updateCalcDefaults()">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+                <div class="calc-input">
+                    <label>Nivel Actual</label>
+                    <input type="number" id="current-research-level" placeholder="Ej: 0" min="0" max="9">
+                </div>
+                <div class="calc-input">
+                    <label>Nivel Objetivo</label>
+                    <input type="number" id="target-research-level" placeholder="Ej: 10" min="1" max="10">
+                </div>
+            </div>
+            <button class="btn primary full-width" style="margin-top: 2rem;" onclick="calculateResearchPath()">
+                Calcular Costos y Tiempo
+            </button>
+            <div id="research-result" class="result" style="margin-top: 2rem; display: none;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/research-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        let currentCategory = 'military';
+
+        function initTree() {
+            renderTree(currentCategory);
+            populateResearchSelector();
+            window.addEventListener('resize', () => renderTree(currentCategory));
+        }
+
+        function filterTree(category) {
+            currentCategory = category;
+            document.querySelectorAll('.research-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(category));
+            });
+            renderTree(category);
+        }
+
+        function renderTree(category) {
+            const content = document.getElementById('tree-content');
+            const svg = document.getElementById('tree-connectors');
+            content.innerHTML = '';
+            svg.innerHTML = '';
+
+            const filteredData = researchData.filter(r => r.category === category);
+            const tiers = [...new Set(filteredData.map(r => r.visualTier))].sort((a, b) => a - b);
+
+            // Create Tiers
+            tiers.forEach(tierNum => {
+                const tierDiv = document.createElement('div');
+                tierDiv.className = 'tree-tier';
+                tierDiv.id = `tier-${tierNum}`;
+
+                const tierItems = filteredData.filter(r => r.visualTier === tierNum);
+                tierItems.forEach(item => {
+                    const node = document.createElement('div');
+                    node.className = `tree-node priority-${item.priority}`;
+                    node.id = `node-${item.id}`;
+                    node.onclick = () => showResearchDetails(item.id);
+                    node.innerHTML = `
+                        <div class="node-icon">${item.icon}</div>
+                        <div class="node-name">${item.name}</div>
+                    `;
+                    tierDiv.appendChild(node);
+                });
+
+                content.appendChild(tierDiv);
+            });
+
+            // Draw Lines (after a short delay to ensure DOM is ready)
+            setTimeout(() => drawConnections(filteredData), 50);
+        }
+
+        function drawConnections(data) {
+            const svg = document.getElementById('tree-connectors');
+            const viewport = document.getElementById('tree-viewport').getBoundingClientRect();
+
+            data.forEach(item => {
+                if (item.parentIds && item.parentIds.length > 0) {
+                    const child = document.getElementById(`node-${item.id}`);
+                    if (!child) return;
+                    const childRect = child.getBoundingClientRect();
+                    const childX = (childRect.left + childRect.width / 2) - viewport.left;
+                    const childY = childRect.top - viewport.top;
+
+                    item.parentIds.forEach(parentId => {
+                        const parent = document.getElementById(`node-${parentId}`);
+                        if (!parent) return;
+                        const parentRect = parent.getBoundingClientRect();
+                        const parentX = (parentRect.left + parentRect.width / 2) - viewport.left;
+                        const parentY = (parentRect.top + parentRect.height) - viewport.top;
+
+                        const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        const d = `M ${parentX} ${parentY} C ${parentX} ${parentY + 30}, ${childX} ${childY - 30}, ${childX} ${childY}`;
+                        line.setAttribute("d", d);
+                        line.setAttribute("class", "connector-line");
+                        svg.appendChild(line);
+                    });
+                }
+            });
+        }
+
+        function showResearchDetails(id) {
+            const item = researchData.find(r => r.id === id);
+            const overlay = document.getElementById('details-overlay');
+            const content = document.getElementById('details-content');
+
+            const costFood = calculateResourceCost(item.baseFormula.food, 5);
+            const costWood = calculateResourceCost(item.baseFormula.wood, 5);
+            const costIron = calculateResourceCost(item.baseFormula.iron, 5);
+            const costTime = calculateResourceCost(item.baseFormula.time, 5);
+
+            content.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem;">${item.icon}</div>
+                    <div>
+                        <h2 style="font-size: 2.5rem; color: var(--primary);">${item.name}</h2>
+                        <div class="priority-badge priority-${item.priority}" style="margin-top: 5px;">
+                            PRIORIDAD: ${item.priority.toUpperCase()}
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2rem; line-height: 1.6; color: var(--text-gray); margin-bottom: 2rem;">
+                    ${item.description}
+                </p>
+
+                <div style="background: rgba(0, 210, 255, 0.1); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--primary); margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✨ Beneficios por Nivel</h3>
+                    <p style="font-size: 1.1rem; color: white;">${item.benefits}</p>
+                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 10px;">
+                        Max nivel: ${item.maxLevel}
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 15px;">
+                        <h4 style="color: var(--fire); margin-bottom: 1rem;">📦 Requisitos</h4>
+                        <p style="color: white; font-size: 0.9rem;">${item.prerequisites}</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 15px;">
+                        <h4 style="color: var(--fire); margin-bottom: 1rem;">⏱️ Costo Estimado (Lv 5)</h4>
+                        <div style="font-size: 0.85rem; color: var(--text-gray);">
+                            🥩 ${formatNumber(costFood)} | 🪵 ${formatNumber(costWood)}<br>
+                            ⛓️ ${formatNumber(costIron)} | ⏱️ ${formatTime(costTime)}
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn primary full-width" onclick="goToCalculator('${item.id}')">
+                    Calcular Path Completo
+                </button>
+            `;
+
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResearchDetails() {
+            document.getElementById('details-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function goToCalculator(id) {
+            closeResearchDetails();
+            const select = document.getElementById('research-select');
+            select.value = id;
+            document.getElementById('current-research-level').focus();
+            select.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+
+        window.onload = () => {
+            initTree();
+            createSnow();
+        };
+    </script>
+</body>
+
+</html>

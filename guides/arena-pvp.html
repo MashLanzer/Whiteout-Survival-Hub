@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Arena y PvP - Whiteout Survival</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="../index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="../index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <article class="guide-article">
+        <header class="guide-header">
+            <h1>🏟️ Domina la Arena y PvP</h1>
+            <p class="guide-subtitle">Formaciones, counters y estrategia competitiva</p>
+            <div class="meta-info">
+                <span>📅 Actualizado: Febrero 2026</span>
+                <span>⏱️ Lectura: 10 min</span>
+                <span>🎯 Nivel: Todos</span>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <h3>📑 Tabla de Contenidos</h3>
+            <ul>
+                <li><a href="#basics">Fundamentos de Arena</a></li>
+                <li><a href="#formaciones">Formaciones Meta</a></li>
+                <li><a href="#heroes">Mejores Héroes PvP</a></li>
+                <li><a href="#counters">Counters y Matchups</a></li>
+                <li><a href="#gear">Chief Gear Óptimo</a></li>
+                <li><a href="#estrategia">Estrategia de Ranking</a></li>
+            </ul>
+        </nav>
+
+        <section id="basics">
+            <h2>🎯 Fundamentos de la Arena</h2>
+            <p>La Arena es el modo PvP diario donde luchas 5v5 contra formaciones enemigas. Cada victoria sube tu
+                ranking y desbloquea mejores recompensas.</p>
+
+            <div class="highlight-box ice">
+                <h4>💎 Recompensas Diarias por Ranking</h4>
+                <table class="priority-table">
+                    <thead>
+                        <tr>
+                            <th>Ranking</th>
+                            <th>Gemas Diarias</th>
+                            <th>Frags de Héroe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Top 1-10</td>
+                            <td>1,000</td>
+                            <td>15 Legendary</td>
+                        </tr>
+                        <tr>
+                            <td>Top 11-50</td>
+                            <td>600</td>
+                            <td>10 Legendary</td>
+                        </tr>
+                        <tr>
+                            <td>Top 51-100</td>
+                            <td>350</td>
+                            <td>8 Epic</td>
+                        </tr>
+                        <tr>
+                            <td>Top 101-500</td>
+                            <td>180</td>
+                            <td>5 Epic</td>
+                        </tr>
+                        <tr>
+                            <td>Top 501-1000</td>
+                            <td>100</td>
+                            <td>3 Rare</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Sistema de Acciones (Action Points)</h3>
+            <ul>
+                <li><strong>5 acciones gratuitas</strong> cada 24 horas (reset a las 00:00 UTC)</li>
+                <li>Puedes comprar +5 acciones con gemas (NO recomendado F2P)</li>
+                <li>Usar acciones estratégicamente: ataca solo cuando puedas ganar</li>
+            </ul>
+        </section>
+
+        <section id="formaciones">
+            <h2>⚔️ Formaciones Meta 2026</h2>
+
+            <h3>Formación Estándar (Más Usada)</h3>
+            <div style="text-align: center; margin: 2rem 0;">
+                <pre
+                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #00d2ff;">
+    [MARKSMAN 1]        [LANCER]        [MARKSMAN 2]
+                                                      
+    [INFANTRY 1]                        [INFANTRY 2]
+                </pre>
+            </div>
+            <p><strong>Por qué funciona:</strong> Infantería en frente tanquea daño. Lancer en centro da burst. Marksmen
+                en esquinas hacen DPS sostenido sin ser focuseados.</p>
+
+            <h3>Formación Anti-Burst (vs Teams High DPS)</h3>
+            <div style="text-align: center; margin: 2rem 0;">
+                <pre
+                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #ff8c00;">
+    [LANCER 1]          [INFANTRY]      [LANCER 2]
+                                                      
+    [MARKSMAN 1]                        [MARKSMAN 2]
+                </pre>
+            </div>
+            <p><strong>Cuándo usar:</strong> Contra equipos con Sonya + Gwen + Lynn (alta burst). Lancers absorben el
+                burst, marksmen limpian después.</p>
+
+            <h3>Formación Full Aggro (Cheese Strat)</h3>
+            <div style="text-align: center; margin: 2rem 0;">
+                <pre
+                    style="background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 15px; display: inline-block; font-family: monospace; color: #00ff00;">
+    [MARKSMAN 1]      [MARKSMAN 2]      [MARKSMAN 3]
+                                                      
+    [LANCER 1]                          [LANCER 2]
+                </pre>
+            </div>
+            <p><strong>High Risk/Reward:</strong> 3 marksmen Gen 7+ (Sonya, Gregory, Fred). Si tus heroes superan en
+                Generation al rival, puedes eliminarlos antes de que actúen. Solo funciona con 50M+ power advantage.</p>
+        </section>
+
+        <section id="heroes">
+            <h2>🦸 Mejores Héroes para PvP</h2>
+
+            <h3>Tier S+ (Meta Definidora)</h3>
+            <table class="priority-table">
+                <thead>
+                    <tr>
+                        <th>Héroe</th>
+                        <th>Gen</th>
+                        <th>Rol</th>
+                        <th>Por Qué es OP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Lynn</strong></td>
+                        <td>9</td>
+                        <td>Lancer</td>
+                        <td>AOE masivo + stun. Mejor lancer del juego actual. Skill "Spear of Destiny" ignora 40%
+                            defense.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sonya</strong></td>
+                        <td>6</td>
+                        <td>Marksman</td>
+                        <td>Shield pierce = counter perfecto vs tanks. Critical letal en late game.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gwen</strong></td>
+                        <td>6</td>
+                        <td>Lancer</td>
+                        <td>Versatilidad insane. Adaptive combat se ajusta al enemigo. Never bad pick.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Xura</strong></td>
+                        <td>7</td>
+                        <td>Infantry</td>
+                        <td>Berserker mode = +80% ATK cuando HP &lt;50%. Unstoppable en 1v1.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Charlie</strong></td>
+                        <td>2</td>
+                        <td>Infantry</td>
+                        <td>Buff +25% ATK a TODO el equipo. Hace que tus otros 4 heroes sean mejores.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box fire">
+                <h4>🔥 Combo Letal: "The Trinity"</h4>
+                <p><strong>Lynn (Lancer) + Sonya (Marksman) + Xura (Infantry)</strong></p>
+                <p>Esta combinación domina top 100 en todos los servidores. Lynn stuns, Sonya pierce shields, Xura
+                    cleanup. Requiere Gen 6+ mínimo en los 3.</p>
+            </div>
+
+            <h3>Budget Options (F2P Friendly)</h3>
+            <ul>
+                <li><strong>Jeronimo (Gen 1):</strong> Todavía viable como tank. Shield wall OP. F2P puede maxear fácil.
+                </li>
+                <li><strong>Charlie (Gen 2):</strong> Accesible en Lucky Wheel. El buff universal justifica slot
+                    siempre.</li>
+                <li><strong>Philly (Gen 2):</strong> Counter caballería + healing. Barato de upgradeary útil largo
+                    plazo.</li>
+                <li><strong>Gregory (Gen 5):</strong> Mejor sniper mid-game. Precision letal vs squishies.</li>
+            </ul>
+        </section>
+
+        <section id="counters">
+            <h2>🎯 Counters y Matchups</h2>
+
+            <h3>Rock-Paper-Scissors de Tipos</h3>
+            <table class="priority-table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Fuerte Contra</th>
+                        <th>Débil Contra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Infantería</strong></td>
+                        <td>Lanceros (+30% dmg)</td>
+                        <td>Tiradores (-25% DEF)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lanceros</strong></td>
+                        <td>Tiradores (+30% dmg)</td>
+                        <td>Infantería (-25% DEF)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiradores</strong></td>
+                        <td>Infantería (+30% dmg)</td>
+                        <td>Lanceros (-25% DEF)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Counters Específicos por Héroe</h3>
+            <div class="highlight-box ice">
+                <ul>
+                    <li><strong>Si ves Lynn:</strong> Usa Magnus/Bradley (tanques HP masivo). Lynn hace dmg%, no burst
+                        puro.</li>
+                    <li><strong>Si ves Sonya:</strong> Evita tanks puros. Usa DPS burst (Gregory, Fred) para eliminarla
+                        first.</li>
+                    <li><strong>Si ves Charlie:</strong> Focus matarlo primero (su buff es pasivo, si muere se pierde).
+                    </li>
+                    <li><strong>Si ves healing comp (Freya/Molly):</strong> Necesitas burst alto o ignora heal (Xura).
+                    </li>
+                    <li><strong>Si ves 3+ marksmen:</strong> Formación tanque pesada. Sobrevive el burst initial y
+                        counter-attack.</li>
+                </ul>
+            </div>
+
+            <h3>Scouting Pre-Battle</h3>
+            <p>SIEMPRE revisa la formación enemiga antes de atacar:</p>
+            <ol>
+                <li>Click en perfil rival → "Formation" tab</li>
+                <li>Identifica sus héroes más fuertes (Generation + Level)</li>
+                <li>Nota su formación (estándar vs anti-burst)</li>
+                <li>Ajusta TU formación en base a esto</li>
+                <li>Si no puedes counter adecuadamente, skip ese target</li>
+            </ol>
+        </section>
+
+        <section id="gear">
+            <h2>⚙️ Chief Gear Óptimo para PvP</h2>
+
+            <h3>Stats Prioritarios</h3>
+            <table class="priority-table">
+                <thead>
+                    <tr>
+                        <th>Stat</th>
+                        <th>Prioridad</th>
+                        <th>Explicación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hero Attack %</strong></td>
+                        <td>🔥 Máxima</td>
+                        <td>Incrementa daño de TODOS tus héroes. Best stat overall.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hero HP %</strong></td>
+                        <td>🔥 Alta</td>
+                        <td>Survivability. Permite que tus héroes lancen skills antes de morir.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hero Defense %</strong></td>
+                        <td>⚠️ Media</td>
+                        <td>Menos efectivo que HP% pero útil vs burst teams.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Troop Attack/HP/DEF</strong></td>
+                        <td>⚠️ Baja</td>
+                        <td>En Arena solo importan HEROES, no tropas. Ignorar.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>March Speed</strong></td>
+                        <td>❌ Ignorar</td>
+                        <td>No aplica en Arena (solo world map).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Build Recomendado (F2P)</h3>
+            <div class="highlight-box fire">
+                <p><strong>Set de Epic Gear (Púrpura):</strong></p>
+                <ul>
+                    <li>Helmet: Hero ATK% + Hero HP%</li>
+                    <li>Armor: Hero HP% + Hero DEF%</li>
+                    <li>Weapon: Hero ATK% + Hero Critical%</li>
+                    <li>Accessory: Hero Skill Damage% + Hero ATK%</li>
+                </ul>
+                <p><strong>Total Target:</strong> +50% Hero ATK, +40% Hero HP mínimo (achieveable F2P en 3-4 meses
+                    farm).</p>
+            </div>
+
+            <h3>Gear Legendario (P2W)</h3>
+            <p>Si inviertes dinero, prioriza crafting Legendary gear con:</p>
+            <ul>
+                <li><strong>God Roll:</strong> Hero ATK% + Hero HP% + Hero Skill DMG%</li>
+                <li><strong>Cost:</strong> ~500-1000 USD para set completo optimizado</li>
+                <li><strong>Impact:</strong> +30-40% power vs Epic gear = diferencia entre Top 50 y Top 500</li>
+            </ul>
+        </section>
+
+        <section id="estrategia">
+            <h2>📈 Estrategia de Ranking</h2>
+
+            <h3>Subir del 1000 al Top 100</h3>
+            <ol>
+                <li><strong>Early Game (Ranking 1000-500):</strong> Ataca CUALQUIERA que puedas vencer. No importa el
+                    ranking relativo. Objetivo: experiencia y familiarizarse con counters.</li>
+                <li><strong>Mid Game (Ranking 500-100):</strong> Sé selectivo. Ataca solo players 30-50 posiciones
+                    arriba tuyo. Cada victoria = +15 ranks aprox.</li>
+                <li><strong>Late Game (Ranking 100-10):</strong> Hyper selectivo. Necesitas revisar top 50 completo,
+                    identificar matchups favorables. Posiblemente necesites refresh list (cuesta 50 gemas).</li>
+                <li><strong>Endgame (Top 10):</strong> Timing crítico. Atacar en últimas 2 horas del día (menos chance
+                    de ser counter-attacked). Requiere heroes Gen 7+ maxed.</li>
+            </ol>
+
+            <h3>Timing Óptimo</h3>
+            <div class="highlight-box ice">
+                <h4>⏰ Cuándo Usar Tus 5 Acciones</h4>
+                <ul>
+                    <li><strong>22:00-23:59 (Server Time):</strong> Mejor ventana. Haces push y te duermes. Menos chance
+                        de ser atacado de vuelta.</li>
+                    <li><strong>Evitar 12:00-15:00:</strong> Peak activity. Todo el mundo online. Te van a atacar
+                        inmediatamente después.</li>
+                    <li><strong>Refresh de Lista:</strong> Si ves solo matchups malos, espera 1h (la lista se actualiza
+                        gratis). No gastes gemas en refresh a menos que estés en push final Top 10.</li>
+                </ul>
+            </div>
+
+            <h3>Defensa: Disuasión</h3>
+            <p>Tu formación defensiva (la que ven cuando te atacan) es clave:</p>
+            <ul>
+                <li><strong>Formation Trick:</strong> Pon tu MEJOR formación en defense. Mucha gente ataca sin revisar,
+                    si ven heroes Gen altos se lo piensan.</li>
+                <li><strong>Fake Weakness:</strong> (Avanzado) Pon formation débil early en el día para "invitar"
+                    ataques. Luego cambias a formation fuerte y los que te atacaron pierden.</li>
+                <li><strong>Trophy Pushing:</strong> Últimas 2h del día, cambia a formación ultra defensiva (3 tanks).
+                    Slow down a attackers.</li>
+            </ul>
+        </section>
+
+        <div class="cta-box">
+            <h3>🏆 Conclusión: Consistencia > Suerte</h3>
+            <p>Top players en Arena no tienen "suerte" — tienen formaciones optimizadas, timing estratégico y nunca
+                desperdician acciones en peleas 50/50. Cada acción cuenta.</p>
+            <p><strong>Action Plan:</strong> Experimenta con formaciones esta semana. Nota qué counters funcionan. En 30
+                días deberías estar Top 500 fácilmente siendo F2P.</p>
+            <a href="../index.html#guias" class="btn primary">← Volver a Guías</a>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

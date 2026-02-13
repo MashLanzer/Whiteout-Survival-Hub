@@ -1,0 +1,137 @@
+{
+  "name": "Whiteout Survival Hub",
+  "short_name": "WOS Hub",
+  "description": "Hub completo de herramientas, guías y calculadoras para Whiteout Survival en español",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#00d2ff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": [
+    "games",
+    "utilities",
+    "education"
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Hub principal con todas las herramientas"
+    },
+    {
+      "src": "/images/screenshot2.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tier List de héroes"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/images/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tier List de Héroes",
+      "short_name": "Tier List",
+      "description": "Ver ranking de héroes 2026",
+      "url": "/heroes.html",
+      "icons": [
+        {
+          "src": "/images/shortcut-heroes.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Calculadoras",
+      "short_name": "Calculadoras",
+      "description": "Acceso rápido a calculadoras",
+      "url": "/index.html#calculadoras",
+      "icons": [
+        {
+          "src": "/images/shortcut-calc.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Guías",
+      "short_name": "Guías",
+      "description": "Guías estratégicas completas",
+      "url": "/index.html#guias",
+      "icons": [
+        {
+          "src": "/images/shortcut-guides.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Event Calendar",
+      "short_name": "Eventos",
+      "description": "Calendario de eventos",
+      "url": "/event-calendar.html",
+      "icons": [
+        {
+          "src": "/images/shortcut-events.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}

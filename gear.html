@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chief Gear Database - Whiteout Survival Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/gear.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 5%;">
+        <header style="text-align: center; margin: 6rem 0;">
+            <h1
+                style="font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1.5rem; background: var(--ice-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                ⚙️ Chief Gear Encyclopedia
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+                Toda la información sobre evolución, materiales y optimización para dominar el campo de batalla.
+            </p>
+        </header>
+
+        <div class="view-toggle" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 4rem;">
+            <button class="btn primary active-toggle" id="btn-evolution" onclick="switchView('evolution')">🗺️ Evolution
+                Map</button>
+            <button class="btn secondary" id="btn-grid" onclick="switchView('grid')">📱 Grid View</button>
+        </div>
+
+        <!-- NEW: Evolution Map View -->
+        <div id="evolution-view" class="gear-evolution-map">
+            <div class="evolution-path">
+                <div class="path-label">⚔️ Combat</div>
+                <div id="path-combat" style="display: flex; gap: 4rem;"></div>
+            </div>
+
+            <div class="evolution-path">
+                <div class="path-label">🛡️ Defense</div>
+                <div id="path-defense" style="display: flex; gap: 4rem;"></div>
+            </div>
+
+            <div class="evolution-path">
+                <div class="path-label">📦 Eco</div>
+                <div id="path-gathering" style="display: flex; gap: 4rem;"></div>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div id="grid-view" style="display: none;">
+            <div class="filter-tabs" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;">
+                <button class="btn secondary active" onclick="filterGear('all', this)">Todos</button>
+                <button class="btn secondary" onclick="filterGear('combat', this)">Combat</button>
+                <button class="btn secondary" onclick="filterGear('defense', this)">Defense</button>
+                <button class="btn secondary" onclick="filterGear('gathering', this)">Eco</button>
+            </div>
+            <div id="gear-container" class="gear-grid"></div>
+        </div>
+
+        <!-- Optimizer V2 - Redesigned Dashboard -->
+        <section class="optimizer-section">
+            <div class="optimizer-grid">
+                <div class="optimizer-controls">
+                    <h2 style="color: var(--primary); font-size: 2.5rem; margin-bottom: 1rem;">🎯 Optimizer V2</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 2rem;">Ingresa tus objetivos y deja que el sistema
+                        lo calcule por ti.</p>
+
+                    <div class="calc-input">
+                        <label>Tu Objetivo de Juego</label>
+                        <select id="primary-goal">
+                            <option value="pvp">⚔️ PvP / Dominación Total</option>
+                            <option value="defense">🛡️ Defensa de Muro / SvS</option>
+                            <option value="gathering">📦 Farmeo / Desarrollo Económico</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-input">
+                        <label>Perfil de Inversión</label>
+                        <select id="budget">
+                            <option value="f2p">💎 F2P / Low Spender</option>
+                            <option value="spender">🐋 Spender / Whale Elite</option>
+                        </select>
+                    </div>
+
+                    <button class="btn primary full-width" style="padding: 1.5rem; font-size: 1.1rem;"
+                        onclick="optimizeGear()">
+                        Analizar Equipamiento Recomendado
+                    </button>
+                </div>
+
+                <div class="optimizer-result-box" id="optimizer-result-container">
+                    <div class="scan-line"></div>
+                    <div id="optimizer-result" style="text-align: center; width: 100%;">
+                        <div style="opacity: 0.5;">Esperando datos de entrada...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section style="margin: 8rem 0;">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2rem;">⚖️ Comparador Maestro</h2>
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem; align-items: center;">
+                <div class="calc-input">
+                    <select id="compare-set-1" onchange="compareSets()"></select>
+                </div>
+                <div style="font-weight: 900; color: var(--text-gray);">VS</div>
+                <div class="calc-input">
+                    <select id="compare-set-2" onchange="compareSets()"></select>
+                </div>
+            </div>
+            <div id="comparison-result"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem;"></div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 10rem; padding: 4rem 0; border-top: 1px solid var(--border); text-align: center;">
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/gear-data.js"></script>
+    <script src="js/gear.js"></script>
+    <script>
+        window.onload = () => {
+            renderEvolutionMap();
+            populateComparisonSelects();
+            lucide.createIcons();
+
+            // Snow effect
+            const container = document.querySelector('.snow-container');
+            if (container) {
+                for (let i = 0; i < 50; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.innerHTML = '❄';
+                    snowflake.style.left = Math.random() * 100 + '%';
+                    snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    snowflake.style.opacity = Math.random();
+                    snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                    container.appendChild(snowflake);
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>

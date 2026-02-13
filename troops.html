@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tropas T1-T10 - Whiteout Survival</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guides.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .troops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .troop-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .troop-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--fire));
+        }
+
+        .troop-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.3);
+        }
+
+        .troop-tier {
+            display: inline-block;
+            background: var(--fire-gradient);
+            padding: 0.5rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .troop-type {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .training-cost {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .resource-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            color: var(--text-gray);
+        }
+
+        .resource-row strong {
+            color: white;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .type-tab {
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .type-tab:hover {
+            border-color: var(--primary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .type-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
+        }
+
+        .calculator-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid var(--border);
+        }
+
+        .calc-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="snow-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="ice">WHITE</span>OUT <span class="fire">HUB</span>
+            </a>
+        </div>
+        <a href="index.html" class="btn secondary">← Volver al Hub</a>
+    </nav>
+
+    <main style="padding: 2rem; max-width: 1400px; margin: 0 auto;">
+        <header style="text-align: center; margin: 4rem 0;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">
+                💪 Sistema de Tropas T1-T10
+            </h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem;">
+                Database completa con stats, costos y calculadoras
+            </p>
+        </header>
+
+        <!-- Type Filter Tabs -->
+        <div class="tabs-container">
+            <button class="type-tab active" onclick="filterTroops('all')">📋 Todas</button>
+            <button class="type-tab" onclick="filterTroops('infantry')">🛡️ Infantería</button>
+            <button class="type-tab" onclick="filterTroops('lancer')">🗡️ Lanceros</button>
+            <button class="type-tab" onclick="filterTroops('marksman')">🏹 Tiradores</button>
+        </div>
+
+        <!-- Troops Grid -->
+        <div id="troops-container" class="troops-grid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Training Calculator -->
+        <section class="calculator-section">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                🧮 Calculadora de Entrenamiento
+            </h2>
+
+            <div class="calc-input-group">
+                <div class="calc-input">
+                    <label>Tipo de Tropa</label>
+                    <select id="troop-tier-select">
+                        <option value="T10">T10 (Máximo)</option>
+                        <option value="T9">T9</option>
+                        <option value="T8">T8</option>
+                        <option value="T7">T7</option>
+                        <option value="T6">T6</option>
+                        <option value="T5">T5</option>
+                    </select>
+                </div>
+
+                <div class="calc-input">
+                    <label>Clase</label>
+                    <select id="troop-class-select">
+                        <option value="infantry">Infantería</option>
+                        <option value="lancer">Lanceros</option>
+                        <option value="marksman">Tiradores</option>
+                    </select>
+                </div>
+
+                <div class="calc-input">
+                    <label>Cantidad a Entrenar</label>
+                    <input type="number" id="train-amount" placeholder="Ej: 100000" min="1">
+                </div>
+            </div>
+
+            <button class="btn primary full-width" onclick="calculateTraining()">
+                Calcular Costos y Tiempo
+            </button>
+
+            <div id="training-result" class="result" style="margin-top: 2rem; display: none;"></div>
+        </section>
+
+        <!-- Composition Optimizer -->
+        <section class="calculator-section">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 2rem;">
+                ⚖️ Optimizador de Composición
+            </h2>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                Ingresa tus recursos disponibles y te diremos cuántas tropas puedes entrenar
+            </p>
+
+            <div class="calc-input-group">
+                <div class="calc-input">
+                    <label>🪵 Madera Disponible</label>
+                    <input type="number" id="available-wood" placeholder="Ej: 50000000" min="0">
+                </div>
+
+                <div class="calc-input">
+                    <label>🥩 Carne Disponible</label>
+                    <input type="number" id="available-meat" placeholder="Ej: 50000000" min="0">
+                </div>
+
+                <div class="calc-input">
+                    <label>⛓️ Hierro Disponible</label>
+                    <input type="number" id="available-iron" placeholder="Ej: 30000000" min="0">
+                </div>
+
+                <div class="calc-input">
+                    <label>Tier de Tropa</label>
+                    <select id="comp-tier-select">
+                        <option value="T10">T10</option>
+                        <option value="T9">T9</option>
+                        <option value="T8">T8</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn primary full-width" onclick="calculateComposition()">
+                Calcular Tropas Posibles
+            </button>
+
+            <div id="composition-result" class="result" style="margin-top: 2rem; display: none;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Whiteout Survival Hub Español</p>
+    </footer>
+
+    <script src="js/troops-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function createSnow() {
+            const container = document.querySelector('.snow-container');
+            if (!container) return;
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+        }
+        createSnow();
+    </script>
+</body>
+
+</html>
